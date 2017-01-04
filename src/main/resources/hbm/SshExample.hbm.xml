@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.SshExampleEntity" table="example">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <!-- 如果不配置属性，则属性将不被插入 -->
+        <property name="name" column="name" />
+        <property name="description" column="description" />
+    </class>
+
+
+</hibernate-mapping>

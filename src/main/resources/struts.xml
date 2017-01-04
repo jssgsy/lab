@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+
+<package name="default" namespace="/example" extends="struts-default">
+
+	<!-- sshExample -->
+	<action name="sshExampleAction" class="com.univ.action.SshExampleAction">
+		<result name="toList">/WEB-INF/sshExample/toList.jsp</result>
+
+		<result name="toSave">/WEB-INF/sshExample/toSave.jsp</result>
+		<result name="toUpdate">/WEB-INF/sshExample/toUpdate.jsp</result>
+	</action>
+
+
+	
+</package>
+
+
+</struts>
