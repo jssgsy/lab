@@ -11,6 +11,11 @@
 <body style="text-align: center">
 <h1>这是登录页面</h1>
 
+<%--开发阶段使用用来跳过登录页面，正式阶段需要删去--%>
+<%--todo:需要复习页面上使用jsp的方式--%>
+<%
+    response.sendRedirect(path+"/json/userAction!login");
+%>
 
 <div class="easyui-panel" style="width:350px;padding: 10px;position: absolute;margin: 100px 450px;">
     <form id="loginForm" method="post" action=" <%=path%>/json/userAction!login" onsubmit="return checkBeforeLogin()">

@@ -46,13 +46,15 @@ public class UserAction {
     用户名和密码非空由页面控制
      */
     public String login() {
-        //todo:开发阶段跳过登录
-        if (userService.verified(user)) {
+        //todo:开发阶段跳过登录,需要时放开下面的注释即可
+       /* if (userService.verified(user)) {
             //加入session
             ActionContext.getContext().getSession().put(user.getUsername(), user);
             return "home";
         }
-        return "login";
+        return "login";*/
+
+        return "home";
     }
 
     public UserEntity getUser() {

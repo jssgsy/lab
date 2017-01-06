@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.Menu" table="menu">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name" />
+        <property name="url" column="url" />
+        <property name="px" column="px"/>
+
+        <!--配置自身多对一单向关联-->
+        <many-to-one name="parent" column="pId" class="com.univ.entity.Menu"/>
+
+        <!--配置自身一对多单向关联-->
+       <!-- <set name="children" >
+            <key column="pId"></key>
+            <one-to-many class="com.univ.entity.Menu" />
+        </set>-->
+
+    </class>
+
+
+</hibernate-mapping>

@@ -4,7 +4,7 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-    <package name="default" namespace="/example" extends="struts-default">
+    <package name="example" namespace="/example" extends="struts-default">
         <global-results>
             <result name="login" type="redirect">/login.jsp</result>
         </global-results>
@@ -29,6 +29,19 @@
         <action name="userAction" class="com.univ.action.UserAction">
             <result name="home">/WEB-INF/home/home.jsp</result>
             <result name="regist">/regist.jsp</result>
+        </action>
+
+        <action name="menuAction" class="com.univ.action.MenuAction">
+            <result type="json" name="easyUiTree">
+                <param name="root">tree</param>
+            </result>
+            <result name="list">/WEB-INF/jsp/menu/list.jsp</result>
+            <result type="json" name="update">
+                <param name="root">jsonMsg</param>
+            </result>
+            <result type="json" name="getAll">
+                <param name="root">menuList</param>
+            </result>
         </action>
     </package>
 
