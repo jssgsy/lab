@@ -18,7 +18,6 @@
             <form id="updateMenu_form" method="post">
                 <table style="text-align: right;padding: 5px 5px;">
                     <tr>
-                        <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                         <td>名称:</td>
                         <td>
                             <input id="name_update" name="menu.name" class="easyui-textbox" data-options="required:true" style="width:172px;">

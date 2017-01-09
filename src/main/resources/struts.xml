@@ -50,6 +50,19 @@
                 <param name="root">menuList</param>
             </result>
         </action>
+
+        <action name="dictionaryAction" class="com.univ.action.DictionaryAction">
+            <result type="json" name="easyUiTree">
+                <param name="root">tree</param>
+            </result>
+            <result name="list">/WEB-INF/jsp/dictionary/list.jsp</result>
+            <result type="json" name="dml">
+                <param name="root">jsonMsg</param>
+            </result>
+            <result type="json" name="dictionaryList">
+                <param name="root">dictionaryList</param>
+            </result>
+        </action>
     </package>
 
 
