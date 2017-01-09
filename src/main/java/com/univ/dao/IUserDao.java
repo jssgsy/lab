@@ -26,7 +26,11 @@ public interface IUserDao {
      */
     boolean contains(User user);
 
-    List<User> getAll(int whichPage, int pageSize);
+    List<User> getAll(User user, int whichPage, int pageSize);
 
-    int totalSize();
+    long totalSize();
+
+    void update(User user);
+
+    void delete(User user);
 }

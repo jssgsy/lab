@@ -15,11 +15,15 @@ public interface IUserService {
 
     void save(User user);
 
-    List<User> getAll(int whichPage, int pageSize);
+    List<User> getPaginationWithQuery(User user, int whichPage, int pageSize);
 
     /**
      * 总记录数
      * @return
      */
-    int totalSize();
+    long totalSize();
+
+    void update(User user);
+
+    void delete(User user);
 }

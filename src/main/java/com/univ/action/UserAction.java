@@ -17,18 +17,47 @@ public class UserAction {
 
     private User user;
 
-    private Map dataGridMap;//easyui 的datagrid需要的json数据
+    private Map jsonMap = new HashMap();
+
 
     @Autowired
     private IUserService userService;
 
-    public String toUpdate() {
-        return null;
+
+
+    public String save(){
+        //todo:这里需要优化一下try、catch等模板代码
+        try{
+            userService.save(user);
+            jsonMap.put("result", "success");
+        }catch (Exception exception){
+            exception.printStackTrace();
+            jsonMap.put("result", "fail");
+        }
+        return "dml";
     }
 
     public String update() {
-        return null;
+        try{
+            userService.update(user);
+            jsonMap.put("result", "success");
+        }catch (Exception exception){
+            exception.printStackTrace();
+            jsonMap.put("result", "fail");
+        }
+        return "dml";
 
+    }
+
+    public String delete() {
+        try{
+            userService.delete(user);
+            jsonMap.put("result", "success");
+        }catch (Exception exception){
+            exception.printStackTrace();
+            jsonMap.put("result", "fail");
+        }
+        return "dml";
     }
 
 
@@ -55,13 +84,13 @@ public class UserAction {
         int pageSize = rows;
 
 
-        List<User> userList = userService.getAll(whichPage, pageSize);
+        List<User> userList = userService.getPaginationWithQuery(user, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
         //todo:这里需要优化一下获得所有记录的hql
-        int total = userService.totalSize();
-        dataGridMap = new HashMap();
-        dataGridMap.put("total", total);
-        dataGridMap.put("rows", userList);
+        long total = userService.totalSize();
+        jsonMap = new HashMap();
+        jsonMap.put("total", total);
+        jsonMap.put("rows", userList);
 
         return "dataGrid";
     }
@@ -91,11 +120,11 @@ public class UserAction {
         this.user = user;
     }
 
-    public Map getDataGridMap() {
-        return dataGridMap;
+    public Map getJsonMap() {
+        return jsonMap;
     }
 
-    public void setDataGridMap(Map dataGridMap) {
-        this.dataGridMap = dataGridMap;
+    public void setJsonMap(Map jsonMap) {
+        this.jsonMap = jsonMap;
     }
 }

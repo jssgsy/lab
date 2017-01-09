@@ -43,15 +43,29 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
         return true;
     }
 
-    public List<User> getAll(int whichPage, int pageSize) {
-        Query query = getCurrentSession().createQuery("from com.univ.entity.User");
+    public List<User> getAll(User user, int whichPage, int pageSize) {
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username");
+        query.setString("username", "%" + user.getUsername() + "%");
         query.setFirstResult(whichPage);
         query.setMaxResults(pageSize);
         return query.list();
     }
 
-    public int totalSize() {
-        return getCurrentSession().createQuery("from com.univ.entity.User").list().size();
+    /**
+     * 重点：经验证，下面的hql语句返回的类型为Long，可能因为id是Long类型的原因(即使将这里的id改成*也是Long型)
+     * @return
+     */
+    public long totalSize() {
+        Long count =  (Long) getCurrentSession().createQuery("select count(id) from com.univ.entity.User").uniqueResult();
+        return count.intValue();
+    }
+
+    public void update(User user) {
+        getCurrentSession().update(user);
+    }
+
+    public void delete(User user) {
+        getCurrentSession().delete(user);
     }
 
 }

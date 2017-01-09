@@ -30,11 +30,19 @@ public class UserService implements IUserService {
         userDao.save(user);
     }
 
-    public List<User> getAll(int whichPage, int pageSize) {
-        return userDao.getAll(whichPage, pageSize);
+    public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
+        return userDao.getAll(user, whichPage, pageSize);
     }
 
-    public int totalSize() {
+    public long totalSize() {
         return userDao.totalSize();
+    }
+
+    public void update(User user) {
+        userDao.update(user);
+    }
+
+    public void delete(User user) {
+        userDao.delete(user);
     }
 }

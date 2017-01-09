@@ -31,7 +31,10 @@
             <result name="regist">/regist.jsp</result>
             <result name="toList">/WEB-INF/jsp/user/list.jsp</result>
             <result type="json" name="dataGrid">
-                <param name="root">dataGridMap</param>
+                <param name="root">jsonMap</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
             </result>
         </action>
 
