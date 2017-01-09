@@ -26,27 +26,10 @@ public class DictionaryAction extends ActionSupport{
 
     private Dictionary dictionary;
 
-    //使用异步加载
+    //一次性全部加载,todo:这里只能处理两级层级关系，需要改善
     public String getDictionaryTree(){
         tree = new ArrayList<EasyUITreeNode>();
-        //获取前台树节点的id值
-        String id = ServletActionContext.getRequest().getParameter("id");
-
-        if(id == null){//说明树是初次加载
-            dictionaryList = dictionaryService.getTopDictionarys();//1.获取根节点
-            toEasyUiTree();
-           
-        }else {
-            dictionaryList = dictionaryService.getChildrenById(Long.parseLong(id));
-            toEasyUiTree();
-        }
-        return "easyUiTree";
-    }
-
-    /**
-     * 将dictionaryList转换成EasyUI tree所需要的数据格式
-     */
-    private void toEasyUiTree(){
+        dictionaryList = dictionaryService.getTopDictionarys();
         for (Dictionary dictionary : dictionaryList) {
             EasyUITreeNode node = new EasyUITreeNode();
             //2.映射根节点
@@ -56,12 +39,24 @@ public class DictionaryAction extends ActionSupport{
             attributes.put("description", dictionary.getDescription());
             attributes.put("parent", dictionary.getParent());
             node.setAttributes(attributes);
-            ////有子结点则设置为关闭
+
             if (dictionaryService.hasChildren(dictionary.getId())) {
-                node.setState("closed");
+                List<Dictionary> children = dictionaryService.getChildrenById(dictionary.getId());
+                for (Dictionary child : children) {
+                    EasyUITreeNode childNode = new EasyUITreeNode();
+                    //2.映射子节点
+                    childNode.setId(child.getId());
+                    childNode.setText(child.getName());
+                    Map<String, Object> attributes1 = childNode.getAttributes();
+                    attributes1.put("description", child.getDescription());
+                    attributes1.put("parent", child.getParent());
+                    childNode.setAttributes(attributes1);
+                    node.getChildren().add(childNode);
+                }
             }
             tree.add(node);
         }
+        return "easyUiTree";
     }
 
     public String getAll(){
