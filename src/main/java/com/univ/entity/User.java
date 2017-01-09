@@ -11,7 +11,7 @@ package com.univ.entity;
  * todo:实验室用户应该和实验室关联
  * todo:考虑只能使用邮箱登录，用户名只用于显示
  */
-public class UserEntity {
+public class User {
 
     private Long id;
     private String username;

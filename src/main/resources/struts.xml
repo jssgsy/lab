@@ -29,6 +29,10 @@
         <action name="userAction" class="com.univ.action.UserAction">
             <result name="home">/WEB-INF/home/home.jsp</result>
             <result name="regist">/regist.jsp</result>
+            <result name="toList">/WEB-INF/jsp/user/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">dataGridMap</param>
+            </result>
         </action>
 
         <action name="menuAction" class="com.univ.action.MenuAction">

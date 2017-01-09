@@ -1,7 +1,7 @@
 package com.univ.dao.impl;
 
 import com.univ.dao.IUserDao;
-import com.univ.entity.UserEntity;
+import com.univ.entity.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
 
     public boolean registered(String username) {
         //重要：:=后不能有空格。
-        Query query = getCurrentSession().createQuery("from com.univ.entity.UserEntity as u where u.username =:username");
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User as u where u.username =:username");
         query.setString("username", username);
         List list = query.list();
 
@@ -27,12 +27,12 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
         return true;
     }
 
-    public void save(UserEntity user) {
+    public void save(User user) {
         getCurrentSession().save(user);
     }
 
-    public boolean contains(UserEntity user) {
-        Query query = getCurrentSession().createQuery("from com.univ.entity.UserEntity as u where u.username =:username " +
+    public boolean contains(User user) {
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User as u where u.username =:username " +
                 " and u.password =:password");
         query.setString("username", user.getUsername());
         query.setString("password", user.getPassword());
@@ -41,6 +41,17 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
             return false;
         }
         return true;
+    }
+
+    public List<User> getAll(int whichPage, int pageSize) {
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User");
+        query.setFirstResult(whichPage);
+        query.setMaxResults(pageSize);
+        return query.list();
+    }
+
+    public int totalSize() {
+        return getCurrentSession().createQuery("from com.univ.entity.User").list().size();
     }
 
 }

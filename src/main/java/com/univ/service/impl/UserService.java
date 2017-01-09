@@ -1,10 +1,12 @@
 package com.univ.service.impl;
 
 import com.univ.dao.IUserDao;
-import com.univ.entity.UserEntity;
+import com.univ.entity.User;
 import com.univ.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Univ
@@ -16,7 +18,7 @@ public class UserService implements IUserService {
     @Autowired
     private IUserDao userDao;
 
-    public boolean verified(UserEntity user) {
+    public boolean verified(User user) {
         return userDao.contains(user);
     }
 
@@ -24,7 +26,15 @@ public class UserService implements IUserService {
         return userDao.registered(username);
     }
 
-    public void save(UserEntity user) {
+    public void save(User user) {
         userDao.save(user);
+    }
+
+    public List<User> getAll(int whichPage, int pageSize) {
+        return userDao.getAll(whichPage, pageSize);
+    }
+
+    public int totalSize() {
+        return userDao.totalSize();
     }
 }

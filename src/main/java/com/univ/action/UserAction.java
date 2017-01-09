@@ -1,10 +1,13 @@
 package com.univ.action;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.univ.entity.UserEntity;
+import com.univ.entity.User;
 import com.univ.service.IUserService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Univ
@@ -12,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UserAction {
 
-    private UserEntity user;
+    private User user;
 
+    private Map dataGridMap;//easyui 的datagrid需要的json数据
 
     @Autowired
     private IUserService userService;
@@ -39,6 +43,28 @@ public class UserAction {
 
     }
 
+    public String toList(){
+        return "toList";
+    }
+
+    //todo:需要将分布完成的更优雅
+    public String list(){
+        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
+        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
+        int whichPage = (page-1)*rows;
+        int pageSize = rows;
+
+
+        List<User> userList = userService.getAll(whichPage, pageSize);
+        //将数据转换成带有分页功能的datagrid所需的格式
+        //todo:这里需要优化一下获得所有记录的hql
+        int total = userService.totalSize();
+        dataGridMap = new HashMap();
+        dataGridMap.put("total", total);
+        dataGridMap.put("rows", userList);
+
+        return "dataGrid";
+    }
 
     /*
     todo:可考虑在此使用shiro
@@ -57,13 +83,19 @@ public class UserAction {
         return "home";
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
+    public Map getDataGridMap() {
+        return dataGridMap;
+    }
 
+    public void setDataGridMap(Map dataGridMap) {
+        this.dataGridMap = dataGridMap;
+    }
 }
