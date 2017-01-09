@@ -5,9 +5,6 @@ package com.univ.entity;
  * 2017/1/5 21:26
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 导航栏的菜单实体类
  */

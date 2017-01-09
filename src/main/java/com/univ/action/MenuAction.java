@@ -35,42 +35,35 @@ public class MenuAction extends ActionSupport{
 
         if(id == null){//说明树是初次加载
             menuList = menuService.getTopMenus();//1.获取根节点
-            for (Menu menu : menuList) {
-                EasyUITreeNode node = new EasyUITreeNode();
-                //2.映射根节点
-                node.setId(menu.getId());
-                node.setText(menu.getName());
-                Map<String, Object> attributes = node.getAttributes();
-                attributes.put("url", menu.getUrl());
-                attributes.put("px", menu.getPx());
-                attributes.put("parent", menu.getParent());
-
-                //根结点需要关闭，不论是否有子结点(一般都会有)
-                node.setState("closed");
-
-                tree.add(node);
-            }
+            toEasyUiTree();
            
         }else {
             menuList = menuService.getChildrenById(Long.parseLong(id));
-            for (Menu menu : menuList) {
-                EasyUITreeNode childNode = new EasyUITreeNode();//位置很重要
-                //2.映射节点
-                childNode.setId(menu.getId());
-                childNode.setText(menu.getName());
-                Map<String, Object> attributes = childNode.getAttributes();
-                attributes.put("url", menu.getUrl());
-                attributes.put("px", menu.getPx());
-                attributes.put("parent", menu.getParent());
-
-                if (menuService.hasChildren(Long.parseLong(id))) {//有子结点则设置为关闭
-                    childNode.setState("closed");
-                }
-
-                tree.add(childNode);
-            }
+            toEasyUiTree();
         }
         return "easyUiTree";
+    }
+
+    /**
+     * 将menuList转换成EasyUI tree所需要的数据格式
+     */
+    private void toEasyUiTree(){
+        for (Menu menu : menuList) {
+            EasyUITreeNode node = new EasyUITreeNode();
+            //2.映射根节点
+            node.setId(menu.getId());
+            node.setText(menu.getName());
+            Map<String, Object> attributes = node.getAttributes();
+            attributes.put("url", menu.getUrl());
+            attributes.put("px", menu.getPx());
+            attributes.put("parent", menu.getParent());
+
+            ////有子结点则设置为关闭
+            if (menuService.hasChildren(menu.getId())) {
+                node.setState("closed");
+            }
+            tree.add(node);
+        }
     }
 
     public String getAll(){
@@ -90,7 +83,37 @@ public class MenuAction extends ActionSupport{
             exception.printStackTrace();
             jsonMsg.put("result", "fail");
         }
-        return "update";
+        return "dml";//DML,对应insert,update和delete,具体的显示信息由前台控制。
+    }
+
+    public String save(){
+        //不可少，见update()方法
+        if (menu.getParent().getId() == null) {
+            menu.setParent(null);
+        }
+        try{
+            menuService.save(menu);
+            jsonMsg.put("result", "success");
+        }catch (Exception exception){
+            exception.printStackTrace();
+            jsonMsg.put("result", "fail");
+        }
+        return "dml";
+    }
+
+    public String deleteById(){
+        try{
+            //todo:研究$.ajax能否传menu.id形式的参数到后台
+            Menu m = new Menu();
+            //注意，这里不能直接使用属性menu，因为此时menu仍然null
+            m.setId(Long.parseLong(ServletActionContext.getRequest().getParameter("id")));
+            menuService.delete(m);
+            jsonMsg.put("result", "success");
+        }catch (Exception exception){
+            exception.printStackTrace();
+            jsonMsg.put("result", "fail");
+        }
+        return "dml";
     }
 
     /**

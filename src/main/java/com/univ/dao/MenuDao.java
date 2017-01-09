@@ -18,4 +18,8 @@ public interface MenuDao {
     List<Menu> getAll();
 
     void update(Menu menu);
+
+    void save(Menu menu);
+
+    void delete(Menu menu);
 }

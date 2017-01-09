@@ -36,7 +36,7 @@
                 <param name="root">tree</param>
             </result>
             <result name="list">/WEB-INF/jsp/menu/list.jsp</result>
-            <result type="json" name="update">
+            <result type="json" name="dml">
                 <param name="root">jsonMsg</param>
             </result>
             <result type="json" name="getAll">

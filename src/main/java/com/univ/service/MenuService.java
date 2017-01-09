@@ -40,4 +40,16 @@ public interface MenuService {
      * @param menu
      */
     void update(Menu menu);
+
+    /**
+     * 保存menu到数据库中
+     * @param menu
+     */
+    void save(Menu menu);
+
+    /**
+     * 删除menu
+     * @param menu
+     */
+    void delete(Menu menu);
 }

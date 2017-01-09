@@ -38,4 +38,12 @@ public class MenuServiceImpl implements MenuService {
     public void update(Menu menu) {
         menuDao.update(menu);
     }
+
+    public void save(Menu menu) {
+        menuDao.save(menu);
+    }
+
+    public void delete(Menu menu) {
+        menuDao.delete(menu);
+    }
 }
