@@ -18,4 +18,6 @@ public interface UniversityDao {
     List<University> getPaginationWithQuery(University university, int whichPage, int pageSize);
 
     long totalSize();
+
+    List<University> getAll();
 }

@@ -37,4 +37,8 @@ public class UniversityServiceImpl implements UniversityService {
     public long totalSize() {
         return universityDao.totalSize();
     }
+
+    public List<University> getAll() {
+        return universityDao.getAll();
+    }
 }

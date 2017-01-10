@@ -40,4 +40,8 @@ public class UniversityDaoImpl extends AbstractBaseDao implements UniversityDao 
         return ((Number)query.uniqueResult()).intValue();
     }
 
+    public List<University> getAll() {
+        return getCurrentSession().createQuery("from com.univ.entity.University").list();
+    }
+
 }

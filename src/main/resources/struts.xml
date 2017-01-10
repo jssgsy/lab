@@ -89,6 +89,24 @@
             </result>
         </action>
 
+        <action name="collegeAction" class="com.univ.action.CollegeAction">
+            <result name="toList">/WEB-INF/jsp/college/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+            <result type="json" name="getUser">
+                <param name="root">deanList</param>
+            </result>
+
+            <result type="json" name="getUniversity">
+                <param name="root">universityList</param>
+            </result>
+        </action>
+
 
     </package>
 

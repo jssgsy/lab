@@ -25,4 +25,5 @@ public interface UniversityService {
      */
     long totalSize();
 
+    List<University> getAll();
 }

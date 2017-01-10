@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.College" table="college">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name" />
+
+
+        <!--配置与院长的单向一对一关系-->
+        <many-to-one name="dean" column="userId" class="com.univ.entity.User" unique="true"/>
+
+        <!--配置与大学的的多对一关系-->
+        <many-to-one name="university" column="universityID" class="com.univ.entity.University"/>
+
+
+    </class>
+
+
+</hibernate-mapping>
