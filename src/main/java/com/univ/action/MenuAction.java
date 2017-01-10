@@ -68,33 +68,24 @@ public class MenuAction extends ActionSupport{
         return "getAll";
     }
 
+    //todo:当后台操作错误时，此时前台收不到任何信息，需要利用struts2进行异常处理
     public String update(){
         //不可少，仔细体会，当前台没有传parent.id时menu的parent.id为null，此时保存时报瞬时对象的错误
-        if (menu.getParent().getId() == null) {
+        if (null == menu.getParent().getId()) {
             menu.setParent(null);
         }
-        try{
-            menuService.update(menu);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        menuService.update(menu);
+        jsonMsg.put("result", "success");
         return "dml";//DML,对应insert,update和delete,具体的显示信息由前台控制。
     }
 
     public String save(){
         //不可少，见update()方法
-        if (menu.getParent().getId() == null) {
+        if (null == menu.getParent().getId()) {
             menu.setParent(null);
         }
-        try{
-            menuService.save(menu);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        menuService.save(menu);
+        jsonMsg.put("result", "success");
         return "dml";
     }
 

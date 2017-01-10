@@ -52,11 +52,11 @@ public class CollegeAction extends ActionSupport {
     }
 
     public String save() {
-        if (null == college.getDean() || null == college.getDean().getId()) {
+        if (null == college.getDean().getId()) {
             college.setDean(null);
         }
 
-        if (null == college.getUniversity() || null == college.getUniversity().getId()) {
+        if (null == college.getUniversity().getId()) {
             college.setUniversity(null);
         }
         collegeService.save(college);
@@ -65,11 +65,11 @@ public class CollegeAction extends ActionSupport {
     }
 
     public String update() {
-        if (null == college.getDean() || null == college.getDean().getId()) {
+        if (null == college.getDean().getId()) {
             college.setDean(null);
         }
 
-        if (null == college.getUniversity() || null == college.getUniversity().getId()) {
+        if (null == college.getUniversity().getId()) {
             college.setUniversity(null);
         }
         collegeService.update(college);

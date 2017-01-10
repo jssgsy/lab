@@ -68,28 +68,17 @@ public class DictionaryAction extends ActionSupport{
         if (dictionary.getParent().getId() == null) {
             dictionary.setParent(null);
         }
-        try{
-            dictionaryService.update(dictionary);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        dictionaryService.update(dictionary);
+        jsonMsg.put("result", "success");
         return "dml";//DML,对应insert,update和delete,具体的显示信息由前台控制。
     }
 
     public String save(){
-        //不可少，见update()方法
         if (dictionary.getParent().getId() == null) {
             dictionary.setParent(null);
         }
-        try{
-            dictionaryService.save(dictionary);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        dictionaryService.save(dictionary);
+        jsonMsg.put("result", "success");
         return "dml";
     }
 

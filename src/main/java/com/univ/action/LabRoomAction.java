@@ -48,7 +48,7 @@ public class LabRoomAction extends ActionSupport {
      * @return
      */
     public String save() {
-        if (null == labRoom.getDirector()) {
+        if (null == labRoom.getDirector().getId()) {
             labRoom.setDirector(null);
         }
         labRoomService.save(labRoom);
@@ -56,7 +56,14 @@ public class LabRoomAction extends ActionSupport {
         return "dml";
     }
 
+    /**
+     * 注意，前台处理成labRoom的Director永远不会为null
+     * @return
+     */
     public String update() {
+        if (null == labRoom.getDirector().getId()) {
+            labRoom.setDirector(null);
+        }
         labRoomService.update(labRoom);
         jsonMap.put("result", "success");
         return "dml";

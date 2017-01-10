@@ -38,25 +38,15 @@ public class UserAction {
     }
 
     public String update() {
-        try{
-            userService.update(user);
-            jsonMap.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMap.put("result", "fail");
-        }
+        userService.update(user);
+        jsonMap.put("result", "success");
         return "dml";
 
     }
 
     public String delete() {
-        try{
-            userService.delete(user);
-            jsonMap.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMap.put("result", "fail");
-        }
+        userService.delete(user);
+        jsonMap.put("result", "success");
         return "dml";
     }
 
