@@ -26,4 +26,10 @@ public interface IUserService {
     void update(User user);
 
     void delete(User user);
+
+    /**
+     * 获取所有记录，不分页，不查询，如供实验室选择负责人
+     * @return
+     */
+    List<User> getAll();
 }

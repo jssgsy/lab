@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.LabRoom" table="labRoom">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name" />
+        <property name="address" column="address" />
+
+        <!--配置与User的多对一关系-->
+        <many-to-one name="director" column="userId" class="com.univ.entity.User"/>
+
+    </class>
+
+
+</hibernate-mapping>

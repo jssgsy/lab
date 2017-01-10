@@ -26,11 +26,13 @@ public interface IUserDao {
      */
     boolean contains(User user);
 
-    List<User> getAll(User user, int whichPage, int pageSize);
+    List<User> getPaginationWithQuery(User user, int whichPage, int pageSize);
 
     long totalSize();
 
     void update(User user);
 
     void delete(User user);
+
+    List<User> getAll();
 }

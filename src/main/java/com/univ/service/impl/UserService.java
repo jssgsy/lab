@@ -31,7 +31,7 @@ public class UserService implements IUserService {
     }
 
     public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
-        return userDao.getAll(user, whichPage, pageSize);
+        return userDao.getPaginationWithQuery(user, whichPage, pageSize);
     }
 
     public long totalSize() {
@@ -44,5 +44,9 @@ public class UserService implements IUserService {
 
     public void delete(User user) {
         userDao.delete(user);
+    }
+
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 }

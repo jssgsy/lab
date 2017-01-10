@@ -43,7 +43,7 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
         return true;
     }
 
-    public List<User> getAll(User user, int whichPage, int pageSize) {
+    public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
         Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username");
         query.setString("username", "%" + user.getUsername() + "%");
         query.setFirstResult(whichPage);
@@ -66,6 +66,10 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
 
     public void delete(User user) {
         getCurrentSession().delete(user);
+    }
+
+    public List<User> getAll() {
+        return getCurrentSession().createQuery("from com.univ.entity.User").list();
     }
 
 }
