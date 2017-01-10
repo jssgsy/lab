@@ -12,3 +12,8 @@
 * datagrid见user/list.jsp
 
 
+* 单个实体：University;
+* 单向多对一：LabRoom-User;
+* 自身多对一：Menu、Parent;
+
+

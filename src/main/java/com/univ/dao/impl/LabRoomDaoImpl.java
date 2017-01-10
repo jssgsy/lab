@@ -2,7 +2,6 @@ package com.univ.dao.impl;
 
 import com.univ.dao.LabRoomDao;
 import com.univ.entity.LabRoom;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 

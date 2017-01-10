@@ -78,6 +78,18 @@
             </result>
         </action>
 
+        <action name="universityAction" class="com.univ.action.UniversityAction">
+            <result name="toList">/WEB-INF/jsp/university/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+        </action>
+
+
     </package>
 
 
