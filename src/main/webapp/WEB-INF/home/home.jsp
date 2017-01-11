@@ -15,7 +15,7 @@
 <div data-options="region:'west', title:'导航' " style="width: 20%;">
     <ul id="menu_nav_tree"></ul>
 </div>
-<div  data-options="region:'center', title:'内容区' " style="width: 80%;">
+<div  data-options="region:'center', showHeader:false " style="width: 80%;">
     <div id="globle_tabs" class="easyui-tabs" data-options="fit:true"><!-- 在最外层设置fit属性 -->
         <div data-options="title:'欢迎页',border:false,closable:true" style="padding:10px;">
             welcome。

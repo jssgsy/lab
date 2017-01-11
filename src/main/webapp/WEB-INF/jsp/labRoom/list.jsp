@@ -22,7 +22,7 @@
 <!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当实验室点击的时候才生成dialog),减少负荷-->
 <div id="addLabRoom_dialog" style="display: none;">
     <form id="addLabRoom_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>名称:</td>
@@ -38,22 +38,15 @@
                 <td>负责人:</td>
                 <td><input id="labRoom_director_add" name="labRoom.director.id" style="width:172px;"></td>
             </tr>
-
-
-
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="addLabRoom()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#addLabRoom_dialog').dialog('close');}">取消</a>
-        </div>
+
     </form>
 </div>
 
 <!-- 修改数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当实验室点击的时候才生成dialog),减少负荷-->
 <div id="updateLabRoom_dialog" style="display: none;">
     <form id="updateLabRoom_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>实验室名称:</td>
@@ -71,14 +64,8 @@
                 <td>负责人:</td>
                 <td><input id="labRoom_director_update" name="labRoom.director.id" style="width:172px;"></td>
             </tr>
-
-
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="updateLabRoom()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#updateLabRoom_dialog').dialog('close');}">取消</a>
-        </div>
+
     </form>
 </div>
 
@@ -152,9 +139,20 @@
 
         $("#addLabRoom_dialog").dialog({
             title:'新增实验室项',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    addLabRoom();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#addLabRoom_dialog').dialog('close');
+                }
+            }],
         });
     }
 
@@ -166,7 +164,11 @@
                 var data = eval('(' + data + ')');
                 //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if(data.result == 'success'){
-                    $.messager.alert('新增实验室','新增成功。');
+                    $.messager.show({
+                        title : '新增实验室',
+                        msg : '新增成功!',
+                        timeout : 2000,
+                    });
                     $("#labRoomGrid").datagrid('reload');
                 }else{
                     $.messager.alert('新增实验室','新增失败。');
@@ -206,9 +208,20 @@
 
         $("#updateLabRoom_dialog").dialog({
             title:'修改实验室信息',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    updateLabRoom();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#updateLabRoom_dialog').dialog('close');
+                }
+            }],
         });
         //给各字段赋值
         $("#labRoom_name_update").textbox('setValue',row.name);
@@ -225,7 +238,11 @@
                 var data = eval('(' + data + ')');
                 //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if (data.result == 'success') {
-                    $.messager.alert('修改实验室','修改成功。');
+                    $.messager.show({
+                        title : '修改实验室',
+                        msg : '修改成功!',
+                        timeout : 2000,
+                    });
                     $("#labRoomGrid").datagrid('reload');
                 } else {
                     $.messager.alert('修改实验室','修改失败。');
@@ -256,7 +273,11 @@
                     },
                     success:function(data){
                         if(data.result == 'success'){
-                            $.messager.alert('删除实验室','删除成功。');
+                            $.messager.show({
+                                title : '删除实验室',
+                                msg : '删除成功!',
+                                timeout : 2000,
+                            });
                             $("#labRoomGrid").datagrid('reload');
                         }else{
                             $.messager.alert('删除实验室','删除失败。');

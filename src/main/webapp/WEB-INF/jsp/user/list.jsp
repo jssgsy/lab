@@ -22,7 +22,7 @@
 <!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当用户点击的时候才生成dialog),减少负荷-->
 <div id="addUser_dialog" style="display: none;">
     <form id="addUser_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>用户名:</td>
@@ -49,18 +49,14 @@
 
 
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="addUser()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#addUser_dialog').dialog('close');}">取消</a>
-        </div>
+
     </form>
 </div>
 
 <!-- 修改数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当用户点击的时候才生成dialog),减少负荷-->
 <div id="updateUser_dialog" style="display: none;">
     <form id="updateUser_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>用户名:</td>
@@ -83,13 +79,8 @@
                 <td>手机号码:</td>
                 <td><textarea id="telephone_update" name="user.telephone"  class="easyui-textbox"  style="width:172px;"></textarea></td>
             </tr>
-
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="updateUser()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#updateUser_dialog').dialog('close');}">取消</a>
-        </div>
+
     </form>
 </div>
 
@@ -101,7 +92,7 @@
         pagination:true,
         singleSelect:true,
         rownumbers:true,
-        fit:true,//此时当点击最外围的layout时整个表格可以自动适应大小
+        fit:true,
         toolbar:'#search',
         url:'<%=path%>/json/userAction!list',
         columns: [[
@@ -143,7 +134,11 @@
                 var data = eval('(' + data + ')');
                 //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if(data.result == 'success'){
-                    $.messager.alert('新增用户','新增成功。');
+                    $.messager.show({
+                        title : '新增用户',
+                        msg : '新增成功!',
+                        timeout : 2000
+                    });
                     $("#User_datagrid").datagrid('reload');
                 }else{
                     $.messager.alert('新增用户','新增失败。');
@@ -160,9 +155,20 @@
 
         $("#addUser_dialog").dialog({
             title:'新增用户项',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    addUser();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#addUser_dialog').dialog('close');
+                }
+            }],
         });
     }
 
@@ -174,7 +180,11 @@
                 var data = eval('(' + data + ')');
                 //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if (data.result == 'success') {
-                    $.messager.alert('修改用户','修改成功。');
+                    $.messager.show({
+                        title : '修改用户',
+                        msg : '修改成功!',
+                        timeout : 2000
+                    });
                     $("#userGrid").datagrid('reload');
                 } else {
                     $.messager.alert('修改用户','修改失败。');
@@ -199,9 +209,19 @@
 
         $("#updateUser_dialog").dialog({
             title:'修改用户信息',
-            width:400,
-            height:300,
-            modal:true
+            modal:true, buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    updateUser();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#updateUser_dialog').dialog('close');
+                }
+            }],
         });
         //给各字段赋值
         $("#name_update").textbox('setValue',row.username);
@@ -229,7 +249,11 @@
                     },
                     success:function(data){
                         if(data.result == 'success'){
-                            $.messager.alert('删除用户','删除成功。');
+                            $.messager.show({
+                                title : '删除用户',
+                                msg : '删除成功!',
+                                timeout : 2000
+                            });
                             $("#userGrid").datagrid('reload');
                         }else{
                             $.messager.alert('删除用户','删除失败。');

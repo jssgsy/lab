@@ -8,7 +8,9 @@ package com.univ.entity;
 /**
  * 大学实体
  *
- * todo:新增字段 ： 建立时间，简称，简介，
+ * todo:新增字段 ： 学校编号(作为唯一字段),建立时间，简称，简介，
+ *
+ * todo：后期插入数据时需要判断是否重复插入，大致思路：利用property属性的unique，然后明确此种异常类型并在struts2中进行配置
  */
 public class University {
 

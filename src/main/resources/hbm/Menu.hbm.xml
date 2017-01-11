@@ -10,7 +10,7 @@
             <generator class="increment"/>
         </id>
 
-        <property name="name" column="name" />
+        <property name="name" column="name"/>
         <property name="url" column="url" />
         <property name="px" column="px"/>
 

@@ -13,16 +13,16 @@
 <!-- 查询工具条 -->
 <div id="college_search">
     学院名: <input id="college_search_name" name="labRoom.name" style="width:100px;">
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchLabRoom()" style="width:60px">搜索</a><br/>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add_dialog()" style="width:60px">新增</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="update_dialog()" style="width:60px">修改</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="del_dialog()" style="width:60px">删除</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchLabRoom()" style="width:60px;">搜索</a><br/>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add_dialog()" style="width:60px;">新增</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="update_dialog()" style="width:60px;">修改</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="del_dialog()" style="width:60px;">删除</a>
 </div>
 
 <!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当学院点击的时候才生成dialog),减少负荷-->
 <div id="addCollege_dialog" style="display: none;">
     <form id="addCollge_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>名称:</td>
@@ -38,21 +38,13 @@
                 <td>所属学校:</td>
                 <td><input id="college_university_add" name="college.university.id" style="width:172px;"></td>
             </tr>
-
-
-
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="addCollege()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#addCollege_dialog').dialog('close');}">取消</a>
-        </div>
     </form>
 </div>
 
 <div id="updateCollege_dialog" style="display: none;">
     <form id="updateCollege_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <td>学院名称:</td>
                 <td>
@@ -70,14 +62,8 @@
                 <td>所属学校:</td>
                 <td><input id="college_university_update" name="college.university.id" style="width:172px;"></td>
             </tr>
-
-
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="updateLabRoom()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#updateCollege_dialog').dialog('close');}">取消</a>
-        </div>
+
     </form>
 </div>
 
@@ -173,9 +159,20 @@
 
         $("#addCollege_dialog").dialog({
             title:'新增学院项',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    addCollege();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#addCollege_dialog').dialog('close');
+                }
+            }],
         });
     }
 
@@ -187,7 +184,11 @@
                 var data = eval('(' + data + ')');
                 //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if(data.result == 'success'){
-                    $.messager.alert('新增学院','新增成功。');
+                    $.messager.show({
+                        title : '新增学院',
+                        msg : '新增成功!',
+                        timeout : 2000,
+                    });
                     $("#collegeGrid").datagrid('reload');
                 }else{
                     $.messager.alert('新增学院','新增失败。');
@@ -240,9 +241,20 @@
 
         $("#updateCollege_dialog").dialog({
             title:'修改学院信息',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    updateCollege();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#updateCollege_dialog').dialog('close');
+                }
+            }],
         });
         //给各字段赋值
         $("#college_name_update").textbox('setValue',row.name);
@@ -252,14 +264,18 @@
 
 
     //真正执行更新操作
-    function updateLabRoom(){
+    function updateCollege(){
         $("#updateCollege_form").form('submit',{
             url:'<%=path%>/json/collegeAction!update',
             success:function(data){
                 var data = eval('(' + data + ')');
                 //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if (data.result == 'success') {
-                    $.messager.alert('修改学院','修改成功。');
+                    $.messager.show({
+                        title : '修改学院',
+                        msg : '修改成功!',
+                        timeout : 2000,
+                    });
                     $("#collegeGrid").datagrid('reload');
                 } else {
                     $.messager.alert('修改学院','修改失败。');
@@ -288,7 +304,11 @@
                     },
                     success:function(data){
                         if(data.result == 'success'){
-                            $.messager.alert('删除学院','删除成功。');
+                            $.messager.show({
+                                title : '删除学院',
+                                msg : '删除成功!',
+                                timeout : 2000,
+                            });
                             $("#collegeGrid").datagrid('reload');
                         }else{
                             $.messager.alert('删除学院','删除失败。');

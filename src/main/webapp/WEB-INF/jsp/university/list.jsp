@@ -22,7 +22,7 @@
 <!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当学校点击的时候才生成dialog),减少负荷-->
 <div id="addUniversity_dialog" style="display: none;">
     <form id="addUniversity_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <td>学校名称:</td>
                 <td><input id="university_name_add" name="university.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
@@ -33,19 +33,14 @@
                     <textarea id="university_address_add" name="university.address" data-options="required:true" class="easyui-textbox" style="width:172px;"></textarea>
                 </td>
             </tr>
-
         </table>
-        <div style="text-align: center;margin-top: 20px;">
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="adduniversity()">保存</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#addUniversity_dialog').dialog('close');}">取消</a>
-        </div>
     </form>
 </div>
 
 <!-- 修改数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当学校点击的时候才生成dialog),减少负荷-->
 <div id="updateUniversity_dialog" style="display: none;">
     <form id="updateUniversity_form" method="post">
-        <table style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>学校名称:</td>
@@ -60,11 +55,11 @@
             </tr>
 
         </table>
-        <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
+       <%-- <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
         <div style="text-align: center;margin-top: 20px;">
             <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="updateUniversity()">保存</a>
             <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#updateUniversity_dialog').dialog('close');}">取消</a>
-        </div>
+        </div>--%>
     </form>
 </div>
 
@@ -128,21 +123,36 @@
 
         $("#addUniversity_dialog").dialog({
             title:'新增学校项',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    addUniversity();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#addUniversity_dialog').dialog('close');
+                }
+            }],
         });
     }
 
     //真正执行保存操作
-    function adduniversity(){
+    function addUniversity(){
         $("#addUniversity_form").form('submit',{
             url:'<%=path%>/json/universityAction!save',
             success:function(data){
                 var data = eval('(' + data + ')');
                 //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if(data.result == 'success'){
-                    $.messager.alert('新增学校','新增成功。');
+                    $.messager.show({
+                        title : '新增学校',
+                        msg : '新增成功!',
+                        timeout : 2000
+                    });
                     $("#universityGrid").datagrid('reload');
                 }else{
                     $.messager.alert('新增学校','新增失败。');
@@ -169,9 +179,20 @@
 
         $("#updateUniversity_dialog").dialog({
             title:'修改学校信息',
-            width:400,
-            height:300,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    updateUniversity();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#updateUniversity_dialog').dialog('close');
+                }
+            }],
         });
         //给各字段赋值
         $("#university_name_update").textbox('setValue',row.name);
@@ -187,7 +208,11 @@
                 var data = eval('(' + data + ')');
                 //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if (data.result == 'success') {
-                    $.messager.alert('修改学校','修改成功。');
+                    $.messager.show({
+                        title : '修改学校',
+                        msg : '修改成功!',
+                        timeout : 2000,//停留2秒，默认为4秒
+                    });
                     $("#universityGrid").datagrid('reload');
                 } else {
                     $.messager.alert('修改学校','修改失败。');
@@ -216,7 +241,11 @@
                     },
                     success:function(data){
                         if(data.result == 'success'){
-                            $.messager.alert('删除学校','删除成功。');
+                            $.messager.show({
+                                title : '删除学校',
+                                msg : '删除成功!',
+                                timeout : 2000,//停留2秒，默认为4秒
+                            });
                             $("#universityGrid").datagrid('reload');
                         }else{
                             $.messager.alert('删除学校','删除失败。');

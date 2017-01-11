@@ -16,31 +16,31 @@
     <div data-options="region:'center',title:'详情',tools:'#menu_tool'" style="padding:5px 5px;">
         <div style="width:400px;height:300px;">
             <form id="updateMenu_form" method="post">
-                <table style="text-align: right;padding: 5px 5px;">
+                <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
                     <tr>
                         <td>名称:</td>
                         <td>
-                            <input id="name_update" name="menu.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
-                            <input type="hidden" id="id_update" name="menu.id">
+                            <input id="menu_name_update" name="menu.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                            <input type="hidden" id="menu_id_update" name="menu.id">
                         </td>
                     </tr>
                     <tr>
                         <td>url:</td>
-                        <td><input id="url_update" name="menu.url" class="easyui-textbox" style="width:172px;"></td>
+                        <td><input id="menu_url_update" name="menu.url" class="easyui-textbox" style="width:172px;"></td>
                     </tr>
                     <tr>
                         <td>排序:</td>
-                        <td><input id="px_update" name="px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
+                        <td><input id="menu_px_update" name="px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
                     </tr>
                     <tr>
                         <td>所属菜单:</td>
                         <%--将被做成combobox--%>
-                        <td><input id="parent_update" name="menu.parent.id" style="width:172px;"></td>
+                        <td><input id="menu_parent_update" name="menu.parent.id" style="width:172px;"></td>
                     </tr>
                 </table>
 
-                <div style="text-align: center;margin-top: 20px;">
-                    <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="updateMenu()">修改</a>
+                <div style="margin-top: 20px;margin-left: 90px;">
+                    <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" style="margin: 10px" onclick="updateMenu()">修改</a>
                     <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="delMenu_dialog()">删除</a>
                 </div>
             </form>
@@ -54,30 +54,26 @@
     <!-- 新增菜单项窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当用户点击的时候才生成dialog),减少负荷-->
     <div id="addMenu_dialog" style="display: none;">
         <form id="addMenu_form" method="post">
-            <table style="text-align: right;padding: 5px 5px;">
+            <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
                 <tr>
                     <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                     <td>名称:</td>
-                    <td><input id="name_add" name="menu.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                    <td><input id="menu_name_add" name="menu.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
                 </tr>
                 <tr>
                     <td>url:</td>
-                    <td><input id="url_add" name="menu.url" class="easyui-textbox" style="width:172px;"></td>
+                    <td><input id="menu_url_add" name="menu.url" class="easyui-textbox" style="width:172px;"></td>
                 </tr>
                 <tr>
                     <td>排序:</td>
-                    <td><input id="px_add" name="menu.px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
+                    <td><input id="menu_px_add" name="menu.px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
                 </tr>
                 <tr>
                     <td>所属菜单:</td>
-                    <td><input id="parent_add" name="menu.parent.id" style="width:172px;"></td>
+                    <td><input id="menu_parent_add" name="menu.parent.id" style="width:172px;"></td>
                 </tr>
             </table>
-            <!-- 下面是保存和取消操作（取消操作直接写在这里） -->
-            <div style="text-align: center;margin-top: 20px;">
-                <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="addMenu()">保存</a>
-                <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',onClick:function(){$('#addMenu_dialog').dialog('close');}">取消</a>
-            </div>
+
         </form>
     </div>
 </div>
@@ -87,22 +83,29 @@
         $("#menu_tree").tree({
             url:'<%=path%>/json/menuAction!getMenuTree',
             onClick:function(node){
-                $("#name_update").textbox('setValue',node.text);
-                $("#id_update").val(node.id);//便于传递到后台作为更新的id
-                $("#url_update").textbox('setValue',node.attributes.url);
-                $("#px_update").textbox('setValue',node.attributes.px);
-                //todo:这里需要处理好当点击的是顶层结点时显示其父菜单为空
-                $("#parent_update").combobox('setValue',node.attributes.parent.id);
+                $("#menu_name_update").textbox('setValue',node.text);
+                $("#menu_id_update").val(node.id);//便于传递到后台作为更新的id
+                $("#menu_url_update").textbox('setValue',node.attributes.url);
+                $("#menu_px_update").textbox('setValue',node.attributes.px);
+
+                if( node.attributes.parent){//点击的是非顶结点
+                    $("#menu_parent_update").combotree('enable');//非顶层结点的父结点可修改
+                    $("#menu_parent_update").combotree('setValue',node.attributes.parent.id);
+                }else {//点击顶结点时清空
+                    $("#menu_parent_update").combotree('clear');
+                    $("#menu_parent_update").combotree('disable');//不能修改顶层结点的父结点
+                }
             }
         });
 
         //todo:这里可以考虑使用combotree
         //所属菜单
-        $("#parent_update").combobox({
-            url:'<%=path%>/json/menuAction!getAll',
-            valueField:'id',
-            textField:'name',
+        $("#menu_parent_update").combotree({
+            url:'<%=path%>/json/menuAction!getMenuTree',
+            valueField:'id',//默认为value
+            textField:'name',//默认为text
             editable:false,
+            panelHeight:'auto',
             icons:[{
                 iconCls:'icon-clear',
                 handler:function(e){
@@ -117,8 +120,8 @@
         $("#addMenu_dialog").css("display","block");
 
         //所属菜单
-        $("#parent_add").combobox({
-            url:'<%=path%>/json/menuAction!getAll',
+        $("#menu_parent_add").combotree({
+            url:'<%=path%>/json/menuAction!getMenuTree',
             valueField:'id',
             textField:'name',
             editable:false,
@@ -135,7 +138,20 @@
             title:'新增菜单项',
             width:350,
             height:250,
-            modal:true
+            modal:true,
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    addMenu();
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#addMenu_dialog').dialog('close');
+                }
+            }],
         });
     }
 
@@ -146,7 +162,11 @@
             success:function(data){
                 var data = eval('(' + data + ')');
                 if (data.result == 'success') {
-                    $.messager.alert('新增菜单项','新增成功。');
+                    $.messager.show({
+                        title : '新增菜单项',
+                        msg : '新增成功!',
+                        timeout : 2000
+                    });
                     $("#menu_tree").tree('reload');
                     $("#addMenu_dialog").dialog('close');
                 } else {
@@ -161,7 +181,7 @@
     function updateMenu(){
         var node = $("#menu_tree").tree('getSelected');
         if (node == null) {
-            $.messager.alert("修改菜单项",'请先从树种选中需要更新的菜单项。','info');
+            $.messager.alert("修改菜单项",'请先从树中选中需要更新的菜单项。','info');
             return false;
         }
 
@@ -170,7 +190,11 @@
             success:function(data){
                 var data = eval('(' + data + ')');
                 if (data.result == 'success') {
-                    $.messager.alert('修改菜单项','修改成功。');
+                    $.messager.show({
+                        title : '修改菜单项',
+                        msg : '修改成功!',
+                        timeout : 2000
+                    });
                     $("#menu_tree").tree('reload');
                 } else {
                     $.messager.alert('修改菜单项','修改失败。');
@@ -183,7 +207,7 @@
     function delMenu_dialog(){
         var node = $("#menu_tree").tree('getSelected');
         if (node == null) {
-            $.messager.alert("删除菜单项",'请先从树种选中需要删除的菜单项。','info');
+            $.messager.alert("删除菜单项",'请先从树中选中需要删除的菜单项。','info');
             return false;
         }
         if(!$("#menu_tree").tree('isLeaf',node.target)){
@@ -202,7 +226,11 @@
                     },
                     success:function(data){
                         if(data.result == 'success'){
-                            $.messager.alert('删除菜单项','删除成功。');
+                            $.messager.show({
+                                title : '删除菜单项',
+                                msg : '删除成功!',
+                                timeout : 2000
+                            });
                             $("#menu_tree").tree('reload');
                         }else{
                             $.messager.alert('删除菜单项','删除失败。');
