@@ -7,6 +7,8 @@ package com.univ.entity;
 
 /**
  * 大学实体
+ *
+ * todo:新增字段 ： 建立时间，简称，简介，
  */
 public class University {
 
