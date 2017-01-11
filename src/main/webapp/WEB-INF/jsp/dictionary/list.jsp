@@ -185,7 +185,9 @@
                     url:'<%=path%>/json/dictionaryAction!deleteById',
                     type:'post',
                     dataType:'json',
-                    data:{id:node.id},
+                    data:{
+                        'dictionary.id' : node.id
+                    },
                     success:function(data){
                         if(data.result == 'success'){
                             $.messager.alert('删除数据字典','删除成功。');

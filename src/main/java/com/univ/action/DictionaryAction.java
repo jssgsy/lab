@@ -4,7 +4,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.Dictionary;
 import com.univ.entity.EasyUITreeNode;
 import com.univ.service.DictionaryService;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -83,16 +82,8 @@ public class DictionaryAction extends ActionSupport{
     }
 
     public String deleteById(){
-        try{
-            Dictionary dictionary = new Dictionary();
-            //注意，这里不能直接使用属性dictionary，因为此时dictionary仍然null
-            dictionary.setId(Long.parseLong(ServletActionContext.getRequest().getParameter("id")));
-            dictionaryService.delete(dictionary);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        dictionaryService.delete(dictionary);
+        jsonMsg.put("result", "success");
         return "dml";
     }
 

@@ -90,17 +90,8 @@ public class MenuAction extends ActionSupport{
     }
 
     public String deleteById(){
-        try{
-            //todo:研究$.ajax能否传menu.id形式的参数到后台
-            Menu m = new Menu();
-            //注意，这里不能直接使用属性menu，因为此时menu仍然null
-            m.setId(Long.parseLong(ServletActionContext.getRequest().getParameter("id")));
-            menuService.delete(m);
-            jsonMsg.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMsg.put("result", "fail");
-        }
+        menuService.delete(menu);
+        jsonMsg.put("result", "success");
         return "dml";
     }
 

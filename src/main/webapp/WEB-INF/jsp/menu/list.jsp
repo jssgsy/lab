@@ -197,7 +197,9 @@
                     url:'<%=path%>/json/menuAction!deleteById',
                     type:'post',
                     dataType:'json',
-                    data:{id:node.id},
+                    data:{
+                        'menu.id' : node.id
+                    },
                     success:function(data){
                         if(data.result == 'success'){
                             $.messager.alert('删除菜单项','删除成功。');
