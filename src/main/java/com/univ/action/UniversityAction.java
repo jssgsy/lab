@@ -65,6 +65,11 @@ public class UniversityAction extends ActionSupport {
         return "dataGrid";
     }
 
+    public String getAll(){
+        universityList = universityService.getAll();
+        return "getAll";
+    }
+
     public University getUniversity() {
         return university;
     }

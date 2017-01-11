@@ -56,8 +56,7 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
      * @return
      */
     public long totalSize() {
-        Long count =  (Long) getCurrentSession().createQuery("select count(id) from com.univ.entity.User").uniqueResult();
-        return count.intValue();
+        return ((Number) getCurrentSession().createQuery("select count(id) from com.univ.entity.User").uniqueResult()).intValue();
     }
 
     public void update(User user) {

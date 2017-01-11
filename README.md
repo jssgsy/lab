@@ -14,7 +14,7 @@
 * datagrid见user/list.jsp
 
 
-* 单个实体：University;
+* 单个实体：University,User;
 * 单向多对一：LabRoom-User、College-University
 * 自身多对一：Menu、Parent;
 * 单向一对一：College-User(一个学院只能有一个院长)

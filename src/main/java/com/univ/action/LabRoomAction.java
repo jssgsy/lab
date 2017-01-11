@@ -3,7 +3,6 @@ package com.univ.action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.LabRoom;
 import com.univ.entity.User;
-import com.univ.service.IUserService;
 import com.univ.service.LabRoomService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +23,11 @@ public class LabRoomAction extends ActionSupport {
 
     private Map jsonMap = new HashMap();
 
+    private List<LabRoom> labRoomList;
 
     @Autowired
     private LabRoomService labRoomService;
 
-    @Autowired
-    private IUserService userService;
-
-    /**
-     * 返回用户列表供下拉框选择实验室的负责人
-     * @return
-     */
-    public String getUser(){
-        directorList = userService.getAll();
-        return "getUser";
-    }
 
     /**
      * 重点：这里切不可在labRoom与user之间使casacade=save-update,
@@ -86,7 +75,7 @@ public class LabRoomAction extends ActionSupport {
         int pageSize = rows;
 
 
-        List<LabRoom> labRoomList = labRoomService.getPaginationWithQuery(labRoom, whichPage, pageSize);
+        labRoomList = labRoomService.getPaginationWithQuery(labRoom, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
 
         long total = labRoomService.totalSize();
@@ -119,5 +108,13 @@ public class LabRoomAction extends ActionSupport {
 
     public void setJsonMap(Map jsonMap) {
         this.jsonMap = jsonMap;
+    }
+
+    public List<LabRoom> getLabRoomList() {
+        return labRoomList;
+    }
+
+    public void setLabRoomList(List<LabRoom> labRoomList) {
+        this.labRoomList = labRoomList;
     }
 }

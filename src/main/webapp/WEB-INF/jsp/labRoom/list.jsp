@@ -138,7 +138,7 @@
         $("#addLabRoom_dialog").css("display","block");
 
         $("#labRoom_director_add").combobox({
-            url:'<%=path%>/json/labRoomAction!getUser',
+            url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
             editable:false,
@@ -181,7 +181,7 @@
     function update_dialog(){
 
         $("#labRoom_director_update").combobox({
-            url:'<%=path%>/json/labRoomAction!getUser',
+            url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
             editable:false,

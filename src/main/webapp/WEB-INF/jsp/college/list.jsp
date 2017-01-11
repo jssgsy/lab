@@ -144,9 +144,9 @@
     //打开新增窗口
     function add_dialog(){
         $("#addCollege_dialog").css("display","block");
-
+        //院长
         $("#college_dean_add").combobox({
-            url:'<%=path%>/json/collegeAction!getUser',
+            url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
             editable:false,
@@ -157,9 +157,9 @@
                 }
             }]
         });
-
+        //所属大学
         $("#college_university_add").combobox({
-            url:'<%=path%>/json/collegeAction!getUniversity',
+            url:'<%=path%>/json/universityAction!getAll',
             valueField:'id',
             textField:'name',
             editable:false,
@@ -198,11 +198,11 @@
     }
 
 
-    //打开修改数据字典
+    //打开修改窗口
     function update_dialog(){
 
         $("#college_dean_update").combobox({
-            url:'<%=path%>/json/collegeAction!getUser',
+            url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
             editable:false,
@@ -215,7 +215,7 @@
         });
 
         $("#college_university_update").combobox({
-            url:'<%=path%>/json/collegeAction!getUniversity',
+            url:'<%=path%>/json/universityAction!getAll',
             valueField:'id',
             textField:'name',
             editable:false,

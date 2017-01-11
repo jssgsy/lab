@@ -19,21 +19,14 @@ public class UserAction {
 
     private Map jsonMap = new HashMap();
 
+    private List<User> userList;
 
     @Autowired
     private IUserService userService;
 
-
-
     public String save(){
-        //todo:这里需要优化一下try、catch等模板代码
-        try{
-            userService.save(user);
-            jsonMap.put("result", "success");
-        }catch (Exception exception){
-            exception.printStackTrace();
-            jsonMap.put("result", "fail");
-        }
+        userService.save(user);
+        jsonMap.put("result", "success");
         return "dml";
     }
 
@@ -66,23 +59,34 @@ public class UserAction {
         return "toList";
     }
 
-    //todo:需要将分布完成的更优雅
+    //todo:需要将分页完成的更优雅
+    /**
+     * 带分页的链表
+     * @return
+     */
     public String list(){
         int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
         int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
         int whichPage = (page-1)*rows;
         int pageSize = rows;
 
-
-        List<User> userList = userService.getPaginationWithQuery(user, whichPage, pageSize);
+        userList = userService.getPaginationWithQuery(user, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
-        //todo:这里需要优化一下获得所有记录的hql
         long total = userService.totalSize();
         jsonMap = new HashMap();
         jsonMap.put("total", total);
         jsonMap.put("rows", userList);
 
         return "dataGrid";
+    }
+
+    /**
+     * 不带分页的链表
+     * @return
+     */
+    public String getAll(){
+        userList = userService.getAll();
+        return "getAll";
     }
 
     /*
@@ -116,5 +120,13 @@ public class UserAction {
 
     public void setJsonMap(Map jsonMap) {
         this.jsonMap = jsonMap;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }

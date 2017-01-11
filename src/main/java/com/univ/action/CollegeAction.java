@@ -2,11 +2,7 @@ package com.univ.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.College;
-import com.univ.entity.University;
-import com.univ.entity.User;
 import com.univ.service.CollegeService;
-import com.univ.service.IUserService;
-import com.univ.service.UniversityService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,33 +19,11 @@ public class CollegeAction extends ActionSupport {
     @Autowired
     private CollegeService collegeService;
 
-    @Autowired
-    private IUserService userService;
-
-    //todo:不用导入，可以直接请求对应的action
-    @Autowired
-    private UniversityService universityService;
-    
-    private List<User> deanList;//院长
-    
-    private List<University> universityList;//所属学校
-    
     private College college;
     
     private List<College> collegeList;
 
     private Map jsonMap = new HashMap();
-
-
-    public String getUser(){
-        deanList = userService.getAll();
-        return "getUser";
-    }
-
-    public String getUniversity(){
-        universityList = universityService.getAll();
-        return "getUniversity";
-    }
 
     public String save() {
         if (null == college.getDean().getId()) {
@@ -94,7 +68,6 @@ public class CollegeAction extends ActionSupport {
         int whichPage = (page-1)*rows;
         int pageSize = rows;
 
-
         collegeList = collegeService.getPaginationWithQuery(college, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
 
@@ -104,30 +77,6 @@ public class CollegeAction extends ActionSupport {
         jsonMap.put("rows", collegeList);
 
         return "dataGrid";
-    }
-
-    public UniversityService getUniversityService() {
-        return universityService;
-    }
-
-    public void setUniversityService(UniversityService universityService) {
-        this.universityService = universityService;
-    }
-
-    public List<User> getDeanList() {
-        return deanList;
-    }
-
-    public void setDeanList(List<User> deanList) {
-        this.deanList = deanList;
-    }
-
-    public List<University> getUniversityList() {
-        return universityList;
-    }
-
-    public void setUniversityList(List<University> universityList) {
-        this.universityList = universityList;
     }
 
     public College getCollege() {
