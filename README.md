@@ -35,6 +35,7 @@
 * 单向多对一：LabRoom-User、College-University
 * 自身多对一：Menu、Parent;
 * 单向一对一：College-User(一个学院只能有一个院长)
+* 单向多对多：AcademicPaper-User(一篇论文可以有多个作者)
 
 
 # hibernate常见异常

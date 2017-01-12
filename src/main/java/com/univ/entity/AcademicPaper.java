@@ -5,12 +5,12 @@ package com.univ.entity;
  * 2017/1/11 20:15
  */
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * 实验室人员发表论文实体
  *
- * 和User是双向一对多关系
+ * 和User是单向多对多关系
  */
 public class AcademicPaper {
 
@@ -35,7 +35,8 @@ public class AcademicPaper {
 
     private String remark;//备注
 
-    private User author;//论文第一作者，todo:这里需要改成有好几个作者,页面上需要增加按作者名查询
+    //论文的作者，允许多个
+    private Set<User> authorList = new HashSet<User>();
 
     public Long getId() {
         return id;
@@ -93,11 +94,11 @@ public class AcademicPaper {
         this.remark = remark;
     }
 
-    public User getAuthor() {
-        return author;
+    public Set<User> getAuthorList() {
+        return authorList;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorList(Set<User> authorList) {
+        this.authorList = authorList;
     }
 }

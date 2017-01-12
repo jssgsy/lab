@@ -17,7 +17,15 @@
         <property name="wasSCI" column="wasSCI" />
         <property name="remark" column="remark" />
 
-        <many-to-one name="author" column="authorId" />
+        <!--
+            配置和User(作者)的单向多对多关联.
+            这里千万不要配置cascade="save-update",因为前台的User只有id值，这与多对一是类似的。
+        -->
+        <set name="authorList" table="academicPaper_user">
+            <key column="paperId"></key>
+            <many-to-many column="authorIds" class="com.univ.entity.User"/>
+        </set>
+
     </class>
 
 </hibernate-mapping>

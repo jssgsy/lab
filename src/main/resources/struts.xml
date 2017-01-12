@@ -99,6 +99,7 @@
         <action name="collegeAction" class="com.univ.action.CollegeAction">
             <result name="toList">/WEB-INF/jsp/college/list.jsp</result>
             <result type="json" name="dataGrid">
+                <!--todo：可以去掉页面上不需要的属性-->
                 <param name="root">jsonMap</param>
                 <param name="excludeNullProperties">true</param>
             </result>

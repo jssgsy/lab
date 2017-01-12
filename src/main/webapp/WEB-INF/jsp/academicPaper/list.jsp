@@ -28,8 +28,11 @@
             </tr>
 
             <tr>
-                <td>第一作者:</td>
-                <td><input id="paper_author_add" name="paper.author.id" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td>论文作者:</td>
+                <td>
+                    <input id="paper_author_add" name="authorIds" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                </td>
+                <td>可以多选</td>
             </tr>
 
             <tr>
@@ -78,8 +81,11 @@
                 </td>
             </tr>
             <tr>
-                <td>第一作者:</td>
-                <td><input id="paper_author_update" name="paper.author.id" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td>论文作者:</td>
+                <td>
+                    <input id="paper_author_update" name="authorIds" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                </td>
+                <td>可以多选</td>
             </tr>
 
             <tr>
@@ -156,6 +162,7 @@
                     valueField:'id',
                     textField:'username',
                     editable:false,
+                    multiple : true,
                     icons:[{
                         iconCls:'icon-clear',
                         handler:function(e){

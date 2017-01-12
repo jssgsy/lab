@@ -2,6 +2,7 @@ package com.univ.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.User;
 import com.univ.service.AcademicPaperService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,11 @@ public class AcademicPaperAciton extends ActionSupport {
 
 
     public String save() {
-        if (null == paper.getAuthor().getId()) {
-            paper.setAuthor(null);
+        String[] ids = ServletActionContext.getRequest().getParameterValues("authorIds");
+        for (int i = 0; i < ids.length;i++) {
+            User author = new User();
+            author.setId(Long.parseLong(ids[i]));
+            paper.getAuthorList().add(author);
         }
         academicPaperService.save(paper);
         jsonMap.put("result", "success");
@@ -37,8 +41,11 @@ public class AcademicPaperAciton extends ActionSupport {
 
 
     public String update() {
-        if (null == paper.getAuthor().getId()) {
-            paper.setAuthor(null);
+        String[] ids = ServletActionContext.getRequest().getParameterValues("authorIds");
+        for (int i = 0; i < ids.length;i++) {
+            User author = new User();
+            author.setId(Long.parseLong(ids[i]));
+            paper.getAuthorList().add(author);
         }
         academicPaperService.update(paper);
         jsonMap.put("result", "success");

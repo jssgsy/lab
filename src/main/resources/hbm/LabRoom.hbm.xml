@@ -13,7 +13,11 @@
         <property name="name" column="name" />
         <property name="address" column="address" />
 
-        <!--配置与User的多对一关系-->
+        <!--
+            配置与User的多对一关系.
+            这里不要配置cascade="save-update",因为前台传来的user只有id，
+            若设置了cascade="save-update"，则与之关联的所有user的非id字段都将被错误的设为null.
+        -->
         <many-to-one name="director" column="userId" class="com.univ.entity.User"/>
 
     </class>
