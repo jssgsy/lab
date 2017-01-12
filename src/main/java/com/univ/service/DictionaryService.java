@@ -13,7 +13,7 @@ public interface DictionaryService {
      * 返回数据类型
      * @return
      */
-    List<Dictionary> getTopDictionarys();
+    List<Dictionary> getTopDictionaries(String name);
 
     /**
      * 获取直接具体的数据项

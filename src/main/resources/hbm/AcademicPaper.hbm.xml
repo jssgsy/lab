@@ -5,13 +5,19 @@
 
 <hibernate-mapping >
 
-    <class name="com.univ.entity.University" table="university">
+    <class name="com.univ.entity.AcademicPaper" table="academicPaper">
         <id name ="id" column="id">
             <generator class="increment"/>
         </id>
 
         <property name="name" column="name" />
-        <property name="address" column="address" />
+        <property name="publishDate" column="publishDate" />
+        <property name="hiredInstitution" column="hiredInstitution" />
+        <property name="level" column="level" />
+        <property name="wasSCI" column="wasSCI" />
+        <property name="remark" column="remark" />
+
+        <many-to-one name="author" column="authorId" />
     </class>
 
 </hibernate-mapping>

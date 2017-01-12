@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td>排序:</td>
-                        <td><input id="menu_px_update" name="px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
+                        <td><input id="menu_px_update" name="px" class="easyui-numberspinner" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
                     </tr>
                     <tr>
                         <td>所属菜单:</td>
@@ -66,7 +66,7 @@
                 </tr>
                 <tr>
                     <td>排序:</td>
-                    <td><input id="menu_px_add" name="menu.px" class="easyui-numberbox" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
+                    <td><input id="menu_px_add" name="menu.px" class="easyui-numberspinner" data-options="prompt:'数字越大,排序越靠后'" style="width:172px;"></td>
                 </tr>
                 <tr>
                     <td>所属菜单:</td>
@@ -86,7 +86,7 @@
                 $("#menu_name_update").textbox('setValue',node.text);
                 $("#menu_id_update").val(node.id);//便于传递到后台作为更新的id
                 $("#menu_url_update").textbox('setValue',node.attributes.url);
-                $("#menu_px_update").textbox('setValue',node.attributes.px);
+                $("#menu_px_update").numberspinner('setValue',node.attributes.px);
 
                 if( node.attributes.parent){//点击的是非顶结点
                     $("#menu_parent_update").combotree('enable');//非顶层结点的父结点可修改
@@ -115,9 +115,11 @@
         });
     });
 
-    //新增菜单项(打开新增窗口)
+    //打开新增窗口
     function addMenu_dialog(){
         $("#addMenu_dialog").css("display","block");
+
+        $("#addMenu_form").form('clear');
 
         //所属菜单
         $("#menu_parent_add").combotree({
@@ -137,7 +139,6 @@
         $("#addMenu_dialog").dialog({
             title:'新增菜单项',
             width:350,
-            height:250,
             modal:true,
             buttons: [{
                 text: '保存',
@@ -184,6 +185,8 @@
             $.messager.alert("修改菜单项",'请先从树中选中需要更新的菜单项。','info');
             return false;
         }
+
+        $("#menu_parent_update").combobox('enable');//重要，否则dictionary.parent.id将不被当作参数传递，后台报空指针
 
         $("#updateMenu_form").form('submit',{
             url:'<%=path%>/json/menuAction!update',

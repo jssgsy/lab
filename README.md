@@ -13,17 +13,17 @@
 
 * layout    home.jsp;
 * form  dictionary/list.jsp
-      
+* numberspinner     dictionary/list.jsp     使用默认值
 * tree  dictionary/list.jsp
 * textarea  dictionary/list.jsp
     备注之类的设置为不超过 120个字符，简介之类的可以适当增大；
     
 * combobox  menu/list.jsp
-* combobox  menu/list.jsp
 * datagrid  user/list.jsp
 * show  university/list.jsp
 * dialog    university/list.jsp
 * layout    home.jsp
+* datebox   academicPaper/list  使用默认值
 
 ## 实体关系
 * 单个实体：University,User;
@@ -35,3 +35,8 @@
 # hibernate常见异常
 
 * org.hibernate.exception.ConstraintViolationException  —— 一对一关联中，多个对象关联一个一对
+
+# 设计
+
+AcademicPaper中的level字段虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
+重点在于将combobox中valueField设为字典项的code，而不是id！

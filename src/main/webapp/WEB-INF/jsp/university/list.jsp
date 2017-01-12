@@ -108,6 +108,8 @@
     function add_dialog(){
         $("#addUniversity_dialog").css("display","block");
 
+        $("#addUniversity_form").form('clear');
+
         $("#university_director_add").combobox({
             url:'<%=path%>/json/universityAction!getUser',
             valueField:'id',

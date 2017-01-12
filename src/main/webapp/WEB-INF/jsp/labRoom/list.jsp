@@ -123,6 +123,7 @@
     //打开新增窗口
     function add_dialog(){
         $("#addLabRoom_dialog").css("display","block");
+        $("#addLabRoom_form").form('clear');
 
         $("#labRoom_director_add").combobox({
             url:'<%=path%>/json/userAction!getAll',

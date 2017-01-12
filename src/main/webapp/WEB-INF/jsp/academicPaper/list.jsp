@@ -8,59 +8,108 @@
 
 <body>
 
-<table id="collegeGrid"></table>
+<table id="paperGrid"></table>
 
 <!-- 查询工具条 -->
-<div id="college_search">
-    学院名: <input id="college_search_name" name="labRoom.name" style="width:100px;">
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchLabRoom()" style="width:60px;">搜索</a><br/>
+<div id="paper_search">
+    论文名称: <input id="paper_search_name" name="labRoom.name" style="width:100px;">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchPaper()" style="width:60px;">搜索</a><br/>
     <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add_dialog()" style="width:60px;">新增</a>
     <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="update_dialog()" style="width:60px;">修改</a>
     <a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="del_dialog()" style="width:60px;">删除</a>
 </div>
 
-<!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当学院点击的时候才生成dialog),减少负荷-->
-<div id="addCollege_dialog" style="display: none;">
-    <form id="addCollge_form" method="post">
-        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
+<div id="addPaper_dialog" style="display: none;">
+    <form id="addPaper_form" method="post">
+        <table cellspacing="10px" style="padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
-                <td>名称:</td>
-                <td><input id="college_name_add" name="college.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td>论文名称:</td>
+                <td><input id="paper_name_add" name="paper.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
 
             <tr>
-                <td>院长:</td>
-                <td><input id="college_dean_add" name="college.dean.id" style="width:172px;"></td>
+                <td>第一作者:</td>
+                <td><input id="paper_author_add" name="paper.author.id" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
 
             <tr>
-                <td>所属学校:</td>
-                <td><input id="college_university_add" name="college.university.id" style="width:172px;"></td>
+                <td>录用机构:</td>
+                <td><input id="paper_hiredInstitution_add" name="paper.hiredInstitution" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
-        </table>
-    </form>
-</div>
 
-<div id="updateCollege_dialog" style="display: none;">
-    <form id="updateCollege_form" method="post">
-        <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
-                <td>学院名称:</td>
+                <td>论文级别:</td>
+                <td><input id="paper_level_add" name="paper.level" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>是否SCI:</td>
                 <td>
-                    <input id="college_name_update" name="college.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
-                    <input type="hidden" id="college_id_update" name="college.id">
+                    <input type="radio" name="paper.wasSCI" value="true">是
+                    <input type="radio" name="paper.wasSCI" value="false">否
                 </td>
             </tr>
 
             <tr>
-                <td>院长:</td>
-                <td><input id="college_dean_update" name="college.dean.id" style="width:172px;"></td>
+                <td>发表日期:</td><!--这里使用datebox的默认值即可-->
+                <td><input id="paper_publishDate_add" class="easyui-datebox" name="paper.publishDate" style="width:172px;"></td>
             </tr>
 
             <tr>
-                <td>所属学校:</td>
-                <td><input id="college_university_update" name="college.university.id" style="width:172px;"></td>
+                <td>备注:</td>
+                <td>
+                    <textarea id="paper_remark_add" name="paper.remark" placeholder="不超过120个字符" rows="5" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
+            </tr>
+
+
+        </table>
+    </form>
+</div>
+
+<div id="updatepaper_dialog" style="display: none;">
+    <form id="updatepaper_form" method="post">
+        <table cellspacing="10px" style="padding: 5px 5px;">
+            <tr>
+                <td>科研论文名称:</td>
+                <td>
+                    <input id="paper_name_update" name="paper.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                    <input type="hidden" id="paper_id_update" name="paper.id">
+                </td>
+            </tr>
+            <tr>
+                <td>第一作者:</td>
+                <td><input id="paper_author_update" name="paper.author.id" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>录用机构:</td>
+                <td><input id="paper_hiredInstitution_update" name="paper.hiredInstitution" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>论文级别:</td>
+                <td><input id="paper_level_update" name="paper.level" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>是否SCI:</td>
+                <td>
+                    <input type="radio" id="paper_wasSCI_update_Yes" name="paper.wasSCI" value="true">是
+                    <input type="radio" id="paper_wasSCI_update_No" name="paper.wasSCI" value="false">否
+                </td>
+            </tr>
+
+            <tr>
+                <td>发表日期:</td><!--这里使用datebox的默认值即可-->
+                <td><input id="paper_publishDate_update" class="easyui-datebox" name="paper.publishDate" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>备注:</td>
+                <td>
+                    <textarea id="paper_remark_update" name="paper.remark" placeholder="不超过120个字符" rows="5" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
             </tr>
         </table>
 
@@ -70,46 +119,72 @@
 
 <script type="text/javascript">
 
-    $("#collegeGrid").datagrid({
-        title:'学院管理',
+    $("#paperGrid").datagrid({
+        title:'科研论文管理',
         pagination:true,
         singleSelect:true,
         rownumbers:true,
-        fit:true,//此时当点击最外围的layout时整个表格可以自动适应大小
-        toolbar:'#college_search',
-        url:'<%=path%>/json/collegeAction!list',
+        fit:true,
+        toolbar:'#paper_search',
+        url:'<%=path%>/json/paperAction!list',
         columns: [[
-            {field: 'name', title: '学院名称'},
+            {field: 'name', title: '论文名称'},
             {
-                field: 'dean', title: '院长',
+                field: 'author', title: '第一作者',
                 formatter: function (value, row, index) {
-                    if (row.dean) {
-                        return row.dean.username;
+                    if (row.author) {
+                        return row.author.username;
                     } else {
                         return value;
                     }
                 }
             },
+            {field: 'hiredInstitution', title: '录用机构'},
             {
-                field: 'university', title: '所属学校',
+                field: 'level', title: '论文级别',
                 formatter: function (value, row, index) {
-                    if (row.university) {
-                        return row.university.name;
-                    } else {
-                        return value;
+                   switch (value){
+                       case 0 :
+                           return "国际期刊"
+                       case 1 :
+                           return "国家期刊";
+                       case 2 :
+                           return "省级期刊";
+                       case 3 :
+                           return "校级期刊";
+                   }
+                }
+            },
+            {
+                field: 'wasSCI', title: '是否SCI',
+                formatter : function (value, row, index) {
+                    if (value){
+                        return "是";
+                    }else {
+                        return "否";
                     }
                 }
-            }
+            },
+            {
+                field: 'publishDate', title: '发表日期',
+                formatter : function (value, row, index) {
+                    if(value){
+                        var date = new Date(value);
+                        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                    }
+                }
+            },
+            {field: 'remark', title: '备注', width: '80px'},
         ]],
         queryParams: {//和查询时发送的请求保持一致
-            'college.name': '',
+            'paper.name': '',
         }
     });
 
 
 
-    //查询框中的学院名查询
-    $("#college_search_name").textbox({
+    //查询框中的科研论文名查询
+    $("#paper_search_name").textbox({
         icons: [{
             iconCls:'icon-clear',
             handler: function(e){
@@ -121,17 +196,21 @@
 
 
     //查询数据字典
-    function searchLabRoom(){
-        $("#collegeGrid").datagrid('load',{
-            'college.name':$("#college_search_name").textbox('getValue'),
+    function searchPaper(){
+        $("#paperGrid").datagrid('load',{
+            'paper.name':$("#paper_search_name").textbox('getValue'),
         });
     }
 
     //打开新增窗口
     function add_dialog(){
-        $("#addCollege_dialog").css("display","block");
-        //院长
-        $("#college_dean_add").combobox({
+        $("#addPaper_dialog").css("display","block");
+
+        $("#addPaper_form").form('clear');
+
+        //todo:看新增与更新能不能共用，似乎多发了无用的请求
+        //第一作者
+        $("#paper_author_add").combobox({
             url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
@@ -143,11 +222,16 @@
                 }
             }]
         });
-        //所属大学
-        $("#college_university_add").combobox({
-            url:'<%=path%>/json/universityAction!getAll',
-            valueField:'id',
+
+        //论文级别
+        $("#paper_level_add").combobox({
+            url:'<%=path%>/json/dictionaryAction!getTopX',
+            queryParams : {
+                topX : '论文级别',
+            },
+            valueField:'code',
             textField:'name',
+            panelHeight : true,
             editable:false,
             icons:[{
                 iconCls:'icon-clear',
@@ -157,43 +241,43 @@
             }]
         });
 
-        $("#addCollege_dialog").dialog({
-            title:'新增学院项',
+        $("#addPaper_dialog").dialog({
+            title:'新增科研论文项',
             modal:true,
             buttons: [{
                 text: '保存',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    addCollege();
+                    addpaper();
                 }
             }, {
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
-                    $('#addCollege_dialog').dialog('close');
+                    $('#addPaper_dialog').dialog('close');
                 }
             }],
         });
     }
 
     //真正执行保存操作
-    function addCollege(){
-        $("#addCollge_form").form('submit',{
-            url:'<%=path%>/json/collegeAction!save',
+    function addpaper(){
+        $("#addPaper_form").form('submit',{
+            url:'<%=path%>/json/paperAction!save',
             success:function(data){
                 var data = eval('(' + data + ')');
                 //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if(data.result == 'success'){
                     $.messager.show({
-                        title : '新增学院',
+                        title : '新增科研论文',
                         msg : '新增成功!',
                         timeout : 2000,
                     });
-                    $("#collegeGrid").datagrid('reload');
+                    $("#paperGrid").datagrid('reload');
                 }else{
-                    $.messager.alert('新增学院','新增失败。');
+                    $.messager.alert('新增科研论文','新增失败。');
                 }
-                $("#addCollege_dialog").dialog('close');
+                $("#addPaper_dialog").dialog('close');
             }
         });
     }
@@ -202,7 +286,7 @@
     //打开修改窗口
     function update_dialog(){
 
-        $("#college_dean_update").combobox({
+        $("#paper_author_update").combobox({
             url:'<%=path%>/json/userAction!getAll',
             valueField:'id',
             textField:'username',
@@ -215,10 +299,15 @@
             }]
         });
 
-        $("#college_university_update").combobox({
-            url:'<%=path%>/json/universityAction!getAll',
-            valueField:'id',
+        //论文级别
+        $("#paper_level_update").combobox({
+            url:'<%=path%>/json/dictionaryAction!getTopX',
+            queryParams : {
+                topX : '论文级别',
+            },
+            valueField:'code',
             textField:'name',
+            panelHeight : true,
             editable:false,
             icons:[{
                 iconCls:'icon-clear',
@@ -228,90 +317,103 @@
             }]
         });
 
-        var row = $("#collegeGrid").datagrid('getSelected');
+        var row = $("#paperGrid").datagrid('getSelected');
         if (row == null) {
-            $.messager.alert("修改数据字典项",'请先选中需要修改的项。','info');
+            $.messager.alert("修改论文",'请先选中需要修改的项。','info');
             return false;
         }
 
         //给id赋值便于传递到后台
-        $("#college_id_update").val(row.id);
+        $("#paper_id_update").val(row.id);
 
-        $("#updateCollege_dialog").css("display","block");
+        $("#updatepaper_dialog").css("display","block");
 
-        $("#updateCollege_dialog").dialog({
-            title:'修改学院信息',
+        $("#updatepaper_dialog").dialog({
+            title:'修改科研论文信息',
             modal:true,
             buttons: [{
                 text: '保存',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    updateCollege();
+                    updatepaper();
                 }
             }, {
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
-                    $('#updateCollege_dialog').dialog('close');
+                    $('#updatepaper_dialog').dialog('close');
                 }
             }],
         });
         //给各字段赋值
-        $("#college_name_update").textbox('setValue',row.name);
-        $("#college_dean_update").textbox('setValue', row.dean.id);
-        $("#college_university_update").combobox('setValue', row.university.id);
+        $("#paper_name_update").textbox('setValue',row.name);
+
+        $("#paper_author_update").combobox('setValue', row.author.id);
+
+        $("#paper_hiredInstitution_update").textbox('setValue', row.hiredInstitution);
+        $("#paper_level_update").combobox('setValue', row.level);
+
+        if(row.wasSCI){
+            $("#paper_wasSCI_update_Yes").attr("checked",true);
+        }else{
+            $("#paper_wasSCI_update_No").attr("checked",true);
+        }
+
+        $("#paper_publishDate_update").datebox('setValue', row.publishDate);
+        $("#paper_remark_update").val(row.remark);
+
     }
 
 
     //真正执行更新操作
-    function updateCollege(){
-        $("#updateCollege_form").form('submit',{
-            url:'<%=path%>/json/collegeAction!update',
+    function updatepaper(){
+        $("#updatepaper_form").form('submit',{
+            url:'<%=path%>/json/paperAction!update',
             success:function(data){
                 var data = eval('(' + data + ')');
                 //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
                 if (data.result == 'success') {
                     $.messager.show({
-                        title : '修改学院',
+                        title : '修改科研论文',
                         msg : '修改成功!',
                         timeout : 2000,
                     });
-                    $("#collegeGrid").datagrid('reload');
+                    $("#paperGrid").datagrid('reload');
                 } else {
-                    $.messager.alert('修改学院','修改失败。');
+                    $.messager.alert('修改科研论文','修改失败。');
                 }
-                $("#updateCollege_dialog").dialog('close');
+                $("#updatepaper_dialog").dialog('close');
             }
         });
     }
 
     //删除
     function del_dialog(){
-        var row = $("#collegeGrid").datagrid('getSelected');
+        var row = $("#paperGrid").datagrid('getSelected');
         if (row == null) {
-            $.messager.alert("删除学院",'请先选中需要删除的项。','info');
+            $.messager.alert("删除科研论文",'请先选中需要删除的项。','info');
             return false;
         }
-        $.messager.confirm('删除学院',"确定删除此条记录吗?",function(flag){
+        $.messager.confirm('删除科研论文',"确定删除此条记录吗?",function(flag){
             if(flag){
                 var id = row.id;
                 $.ajax({
-                    url:'<%=path%>/json/collegeAction!delete',
+                    url:'<%=path%>/json/paperAction!delete',
                     type:'post',
                     dataType:'json',
                     data:{
-                        'college.id':row.id
+                        'paper.id':row.id
                     },
                     success:function(data){
                         if(data.result == 'success'){
                             $.messager.show({
-                                title : '删除学院',
+                                title : '删除科研论文',
                                 msg : '删除成功!',
                                 timeout : 2000,
                             });
-                            $("#collegeGrid").datagrid('reload');
+                            $("#paperGrid").datagrid('reload');
                         }else{
-                            $.messager.alert('删除学院','删除失败。');
+                            $.messager.alert('删除科研论文','删除失败。');
                         }
                     }
                 });

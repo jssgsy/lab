@@ -67,6 +67,7 @@
             </result>
         </action>
 
+        <!--todo:检查一下这里是否需要getUser-->
         <action name="labRoomAction" class="com.univ.action.LabRoomAction">
             <result name="toList">/WEB-INF/jsp/labRoom/list.jsp</result>
             <result type="json" name="dataGrid">
@@ -105,6 +106,17 @@
                 <param name="root">jsonMap</param>
             </result>
 
+        </action>
+
+        <action name="paperAction" class="com.univ.action.AcademicPaperAciton">
+            <result name="toList">/WEB-INF/jsp/academicPaper/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
         </action>
 
 

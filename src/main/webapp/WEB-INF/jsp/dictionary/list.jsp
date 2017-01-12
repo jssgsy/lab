@@ -25,6 +25,12 @@
                     </tr>
 
                     <tr>
+                        <td>代码数字:</td>
+                        <td><input id="dic_code_update" name="dictionary.code" class="easyui-numberspinner" style="width:172px;"></td>
+                        <td>只能为数字</td>
+                    </tr>
+
+                    <tr>
                         <td>上级项:</td>
                         <td><input id="dic_parent_update" name="dictionary.parent.id" style="width:172px;"></td>
                     </tr>
@@ -38,10 +44,11 @@
 
                 </table>
 
-                <%--<div style="margin-top: 20px;margin-left: 90px;">
+                <div style="margin-top: 20px;margin-left: 90px;">
                     <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" style="margin: 10px" onclick="updateDictionary()">修改</a>
                     <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="delDictionary_dialog()">删除</a>
-                </div>--%>
+                </div>
+
             </form>
     </div>
     <div id="dictionary_tool">
@@ -56,6 +63,12 @@
                     <td>名称:</td>
                     <td><input id="name_add" name="dictionary.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
                 </tr>
+                <tr>
+                    <td>代码数字:</td>
+                    <td><input id="code_add" name="dictionary.code" class="easyui-numberspinner" style="width:172px;"></td>
+                    <td>只能为数字</td>
+                </tr>
+
                 <tr>
                     <td>上级项:</td>
                     <td><input id="parent_add" name="dictionary.parent.id" style="width:172px;"></td>
@@ -80,6 +93,7 @@
             url:'<%=path%>/json/dictionaryAction!getDictionaryTree',
             onClick:function(node){
                 $("#dic_name_update").textbox('setValue',node.text);
+                $("#dic_code_update").numberspinner('setValue',node.attributes.code);
                 $("#id_update").val(node.id);//便于传递到后台作为更新的id
                 $("#description_update").val(node.attributes.description);
                 if( node.attributes.parent){//点击的是非顶结点
@@ -108,9 +122,11 @@
         });
     });
 
-    //新增数据字典(打开新增窗口)
+    //打开新增窗口
     function addDictionary_dialog() {
         $("#addDictionary_dialog").css("display", "block");
+
+        $("#addDictionary_form").form('clear');//清空form表单数据
 
         //所属菜单
         $("#parent_add").combobox({
@@ -145,91 +161,96 @@
             }],
         });
 
-        //真正新增数据字典的场所
-        function addDictionary() {
-            $("#addDictionary_form").form('submit', {
-                url: '<%=path%>/json/dictionaryAction!save',
-                success: function (data) {
-                    var data = eval('(' + data + ')');
-                    if (data.result == 'success') {
-                        $.messager.show({
-                            title : '新增数据字典',
-                            msg : '新增成功!',
-                            timeout : 2000,
-                        });
-                        $("#dictionary_tree").tree('reload');
-                        $("#addDictionary_dialog").dialog('close');
-                    } else {
-                        $.messager.alert('新增数据字典', '新增失败。');
-                        $("#addDictionary_dialog").dialog('close');
-                    }
-                }
-            });
-        }
+    }
 
-        //修改数据字典
-        function updateDictionary() {
-            var node = $("#dictionary_tree").tree('getSelected');
-            if (node == null) {
-                $.messager.alert("修改数据字典", '请先从树中选中需要更新的数据字典。', 'info');
-                return false;
-            }
+    //真正新增数据字典的场所
+    function addDictionary() {
+        $("#addDictionary_form").form('validate');
 
-            $("#updateDictionary_form").form('submit', {
-                url: '<%=path%>/json/dictionaryAction!update',
-                success: function (data) {
-                    var data = eval('(' + data + ')');
-                    if (data.result == 'success') {
-                        $.messager.show({
-                            title : '修改数据字典',
-                            msg : '修改成功!',
-                            timeout : 2000,
-                        });
-                        $("#dictionary_tree").tree('reload');
-                    } else {
-                        $.messager.alert('修改数据字典', '修改失败。');
-                    }
-                }
-            });
-        }
-
-        //删除数据字典
-        function delDictionary_dialog() {
-            var node = $("#dictionary_tree").tree('getSelected');
-            if (node == null) {
-                $.messager.alert("删除数据字典", '请先从树中选中需要删除的数据字典。', 'info');
-                return false;
-            }
-            if (!$("#dictionary_tree").tree('isLeaf', node.target)) {
-                $.messager.alert('删除数据字典', '非叶子节点不能删除。', 'warning');
-                return false;
-            }
-            $.messager.confirm('删除数据字典', "确定删除此条记录吗?", function (flag) {
-                if (flag) {
-                    var id = node.id;
-                    $.ajax({
-                        url: '<%=path%>/json/dictionaryAction!deleteById',
-                        type: 'post',
-                        dataType: 'json',
-                        data: {
-                            'dictionary.id': node.id
-                        },
-                        success: function (data) {
-                            if (data.result == 'success') {
-                                $.messager.show({
-                                    title : '删除数据字典',
-                                    msg : '删除成功!',
-                                    timeout : 2000,
-                                });
-                                $("#dictionary_tree").tree('reload');
-                            } else {
-                                $.messager.alert('删除数据字典', '删除失败。');
-                            }
-                        }
+        $("#addDictionary_form").form('submit', {
+            url: '<%=path%>/json/dictionaryAction!save',
+            success: function (data) {
+                var data = eval('(' + data + ')');
+                if (data.result == 'success') {
+                    $.messager.show({
+                        title : '新增数据字典',
+                        msg : '新增成功!',
+                        timeout : 2000,
                     });
+                    $("#dictionary_tree").tree('reload');
+                    $("#addDictionary_dialog").dialog('close');
+                } else {
+                    $.messager.alert('新增数据字典', '新增失败。');
+                    $("#addDictionary_dialog").dialog('close');
                 }
-            });
+            }
+        });
+    }
+
+    //修改数据字典
+    function updateDictionary() {
+        var node = $("#dictionary_tree").tree('getSelected');
+        if (node == null) {
+            $.messager.alert("修改数据字典", '请先从树中选中需要更新的数据字典。', 'info');
+            return false;
         }
+
+        $("#dic_parent_update").combobox('enable');//重要，否则dictionary.parent.id将不被当作参数传递，后台报空指针
+
+        $("#updateDictionary_form").form('submit', {
+            url: '<%=path%>/json/dictionaryAction!update',
+            success: function (data) {
+                var data = eval('(' + data + ')');
+                if (data.result == 'success') {
+                    $.messager.show({
+                        title : '修改数据字典',
+                        msg : '修改成功!',
+                        timeout : 2000,
+                    });
+                    $("#dictionary_tree").tree('reload');
+                } else {
+                    $.messager.alert('修改数据字典', '修改失败。');
+                }
+            }
+        });
+    }
+
+    //删除数据字典
+    function delDictionary_dialog() {
+        var node = $("#dictionary_tree").tree('getSelected');
+        if (node == null) {
+            $.messager.alert("删除数据字典", '请先从树中选中需要删除的数据字典。', 'info');
+            return false;
+        }
+        if (!$("#dictionary_tree").tree('isLeaf', node.target)) {
+            $.messager.alert('删除数据字典', '非叶子节点不能删除。', 'warning');
+            return false;
+        }
+        $.messager.confirm('删除数据字典', "确定删除此条记录吗?", function (flag) {
+            if (flag) {
+                var id = node.id;
+                $.ajax({
+                    url: '<%=path%>/json/dictionaryAction!deleteById',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'dictionary.id': node.id
+                    },
+                    success: function (data) {
+                        if (data.result == 'success') {
+                            $.messager.show({
+                                title : '删除数据字典',
+                                msg : '删除成功!',
+                                timeout : 2000,
+                            });
+                            $("#dictionary_tree").tree('reload');
+                        } else {
+                            $.messager.alert('删除数据字典', '删除失败。');
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>
 

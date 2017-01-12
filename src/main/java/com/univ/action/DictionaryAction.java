@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.Dictionary;
 import com.univ.entity.EasyUITreeNode;
 import com.univ.service.DictionaryService;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class DictionaryAction extends ActionSupport{
     //一次性全部加载,todo:这里只能处理两级层级关系，需要改善
     public String getDictionaryTree(){
         tree = new ArrayList<EasyUITreeNode>();
-        dictionaryList = dictionaryService.getTopDictionarys();
+        dictionaryList = dictionaryService.getTopDictionaries(null);
         for (Dictionary dictionary : dictionaryList) {
             EasyUITreeNode node = new EasyUITreeNode();
             //2.映射根节点
@@ -36,6 +37,7 @@ public class DictionaryAction extends ActionSupport{
             node.setText(dictionary.getName());
             Map<String, Object> attributes = node.getAttributes();
             attributes.put("description", dictionary.getDescription());
+            attributes.put("code", dictionary.getCode());
             attributes.put("parent", dictionary.getParent());
             node.setAttributes(attributes);
 
@@ -48,6 +50,7 @@ public class DictionaryAction extends ActionSupport{
                     childNode.setText(child.getName());
                     Map<String, Object> attributes1 = childNode.getAttributes();
                     attributes1.put("description", child.getDescription());
+                    attributes1.put("code", child.getCode());
                     attributes1.put("parent", child.getParent());
                     childNode.setAttributes(attributes1);
                     node.getChildren().add(childNode);
@@ -88,7 +91,17 @@ public class DictionaryAction extends ActionSupport{
     }
 
     public String getTopDictionarys(){
-        dictionaryList = dictionaryService.getTopDictionarys();
+        dictionaryList = dictionaryService.getTopDictionaries(null);
+        return "dictionaryList";
+    }
+
+    /**
+     * 依据前台传的值获取字典中相应的顶层项其下的所有子项
+     * @return
+     */
+    public String getTopX(){
+        String topX = ServletActionContext.getRequest().getParameter("topX");
+        dictionaryList = dictionaryService.getTopDictionaries(topX);
         return "dictionaryList";
     }
 

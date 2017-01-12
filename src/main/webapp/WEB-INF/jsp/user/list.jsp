@@ -148,10 +148,11 @@
         });
     }
 
-    //新增数据字典(打开新增窗口)
+    //打开新增窗口
     function add_dialog(){
         $("#addUser_dialog").css("display","block");
-        //设置各字段对应的easyui插件
+
+        $("#addUser_form").form('clear');
 
         $("#addUser_dialog").dialog({
             title:'新增用户项',

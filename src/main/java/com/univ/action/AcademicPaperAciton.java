@@ -2,9 +2,7 @@ package com.univ.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.AcademicPaper;
-import com.univ.entity.User;
 import com.univ.service.AcademicPaperService;
-import com.univ.service.academicPaperService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,13 +14,11 @@ import java.util.Map;
  * Univ
  * 2017/1/11 21:02
  */
-public class AcademicAciton extends ActionSupport {
+public class AcademicPaperAciton extends ActionSupport {
     
     private AcademicPaper paper;
 
     private List<AcademicPaper> paperList;
-
-    private List<User> authorList;
 
     private Map jsonMap = new HashMap();
 
@@ -67,7 +63,6 @@ public class AcademicAciton extends ActionSupport {
 
 
         paperList = academicPaperService.getPaginationWithQuery(paper, whichPage, pageSize);
-        //将数据转换成带有分页功能的datagrid所需的格式
 
         long total = academicPaperService.totalSize();
         jsonMap = new HashMap();
@@ -77,4 +72,27 @@ public class AcademicAciton extends ActionSupport {
         return "dataGrid";
     }
 
+    public AcademicPaper getPaper() {
+        return paper;
+    }
+
+    public void setPaper(AcademicPaper paper) {
+        this.paper = paper;
+    }
+
+    public List<AcademicPaper> getPaperList() {
+        return paperList;
+    }
+
+    public void setPaperList(List<AcademicPaper> paperList) {
+        this.paperList = paperList;
+    }
+
+    public Map getJsonMap() {
+        return jsonMap;
+    }
+
+    public void setJsonMap(Map jsonMap) {
+        this.jsonMap = jsonMap;
+    }
 }

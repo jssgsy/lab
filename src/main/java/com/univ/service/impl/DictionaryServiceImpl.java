@@ -19,8 +19,8 @@ public class DictionaryServiceImpl implements DictionaryService {
     private DictionaryDao dictionaryDao;
 
 
-    public List<Dictionary> getTopDictionarys() {
-        return dictionaryDao.getTopDictionarys();
+    public List<Dictionary> getTopDictionaries(String name) {
+        return dictionaryDao.getTopDictionaries(name);
     }
 
     public List<Dictionary> getChildrenById(Long id) {

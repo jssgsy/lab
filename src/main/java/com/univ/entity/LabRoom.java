@@ -7,7 +7,7 @@ package com.univ.entity;
 
 /**
  * 实验室
- * //todo:新增字段：建立时间，实验室编号，简称
+ * //todo:新增字段：建立时间，实验室编号，简称，开放时间、
  */
 public class LabRoom {
 

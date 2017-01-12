@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface DictionaryDao {
 
-    List<Dictionary> getTopDictionarys();
+    List<Dictionary> getTopDictionaries(String name);
 
     List<Dictionary> getChildrenById(Long id);
 

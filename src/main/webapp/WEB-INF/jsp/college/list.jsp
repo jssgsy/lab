@@ -130,6 +130,9 @@
     //打开新增窗口
     function add_dialog(){
         $("#addCollege_dialog").css("display","block");
+
+        $("#addCollge_form").form('clear');
+
         //院长
         $("#college_dean_add").combobox({
             url:'<%=path%>/json/userAction!getAll',
