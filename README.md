@@ -45,3 +45,38 @@
 
 AcademicPaper中的level字段虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
 重点在于将combobox中valueField设为字典项的code，而不是id！
+
+
+# 代码复制模板
+## 表格功能区linkbutton
+ //查询按钮
+$("#").linkbutton({
+    iconCls : 'icon-search',
+    onClick : function(){
+
+    }
+})
+
+//新增按钮
+$("#").linkbutton({
+    iconCls : 'icon-add',
+    onClick : function(){
+
+    }
+})
+
+//更新按钮
+$("#").linkbutton({
+    iconCls : 'icon-edit',
+    onClick : function(){
+
+    }
+})
+
+//删除按钮
+$("#").linkbutton({
+    iconCls : 'icon-remove',
+    onClick : function(){
+
+    }
+})

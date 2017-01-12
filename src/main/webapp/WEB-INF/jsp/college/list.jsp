@@ -12,11 +12,11 @@
 
 <!-- 查询工具条 -->
 <div id="college_search">
-    学院名: <input id="college_search_name" name="labRoom.name" style="width:100px;">
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchLabRoom()" style="width:60px;">搜索</a><br/>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add_dialog()" style="width:60px;">新增</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="update_dialog()" style="width:60px;">修改</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="del_dialog()" style="width:60px;">删除</a>
+    学院名称: <input id="college_search_name" name="labRoom.name" style="width:100px;">
+    <a id="college_search_btn">搜索</a><br/>
+    <a id="college_add_btn">新增</a>
+    <a id="college_update_btn">修改</a>
+    <a id="college_remove_btn">删除</a>
 </div>
 
 <!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当学院点击的时候才生成dialog),减少负荷-->
@@ -70,257 +70,256 @@
 
 <script type="text/javascript">
 
-    $("#collegeGrid").datagrid({
-        title:'学院管理',
-        pagination:true,
-        singleSelect:true,
-        rownumbers:true,
-        fit:true,//此时当点击最外围的layout时整个表格可以自动适应大小
-        toolbar:'#college_search',
-        url:'<%=path%>/json/collegeAction!list',
-        columns: [[
-            {field: 'name', title: '学院名称'},
-            {
-                field: 'dean', title: '院长',
-                formatter: function (value, row, index) {
-                    if (row.dean) {
-                        return row.dean.username;
-                    } else {
-                        return value;
-                    }
-                }
-            },
-            {
-                field: 'university', title: '所属学校',
-                formatter: function (value, row, index) {
-                    if (row.university) {
-                        return row.university.name;
-                    } else {
-                        return value;
-                    }
-                }
-            }
-        ]],
-        queryParams: {//和查询时发送的请求保持一致
-            'college.name': '',
-        }
-    });
-
-
-
-    //查询框中的学院名查询
-    $("#college_search_name").textbox({
-        icons: [{
-            iconCls:'icon-clear',
-            handler: function(e){
-                $(e.data.target).textbox('clear');
-            }
-        }]
-    });
-
-
-
-    //查询数据字典
-    function searchLabRoom(){
-        $("#collegeGrid").datagrid('load',{
-            'college.name':$("#college_search_name").textbox('getValue'),
-        });
-    }
-
-    //打开新增窗口
-    function add_dialog(){
-        $("#addCollege_dialog").css("display","block");
-
-        $("#addCollge_form").form('clear');
-
-        //院长
-        $("#college_dean_add").combobox({
-            url:'<%=path%>/json/userAction!getAll',
-            valueField:'id',
-            textField:'username',
-            editable:false,
-            icons:[{
+    $(function () {
+        //根据学院名称查询
+        $("#college_search_name").textbox({
+            icons: [{
                 iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
-                }
-            }]
-        });
-        //所属大学
-        $("#college_university_add").combobox({
-            url:'<%=path%>/json/universityAction!getAll',
-            valueField:'id',
-            textField:'name',
-            editable:false,
-            icons:[{
-                iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
+                handler: function(e){
+                    $(e.data.target).textbox('clear');
                 }
             }]
         });
 
-        $("#addCollege_dialog").dialog({
-            title:'新增学院项',
-            modal:true,
-            buttons: [{
-                text: '保存',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    addCollege();
-                }
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#addCollege_dialog').dialog('close');
-                }
-            }],
-        });
-    }
-
-    //真正执行保存操作
-    function addCollege(){
-        $("#addCollge_form").form('submit',{
-            url:'<%=path%>/json/collegeAction!save',
-            success:function(data){
-                var data = eval('(' + data + ')');
-                //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                if(data.result == 'success'){
-                    $.messager.show({
-                        title : '新增学院',
-                        msg : '新增成功!',
-                        timeout : 2000,
-                    });
-                    $("#collegeGrid").datagrid('reload');
-                }else{
-                    $.messager.alert('新增学院','新增失败。');
-                }
-                $("#addCollege_dialog").dialog('close');
-            }
-        });
-    }
-
-
-    //打开修改窗口
-    function update_dialog(){
-
-        $("#college_dean_update").combobox({
-            url:'<%=path%>/json/userAction!getAll',
-            valueField:'id',
-            textField:'username',
-            editable:false,
-            icons:[{
-                iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
-                }
-            }]
-        });
-
-        $("#college_university_update").combobox({
-            url:'<%=path%>/json/universityAction!getAll',
-            valueField:'id',
-            textField:'name',
-            editable:false,
-            icons:[{
-                iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
-                }
-            }]
-        });
-
-        var row = $("#collegeGrid").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("修改数据字典项",'请先选中需要修改的项。','info');
-            return false;
-        }
-
-        //给id赋值便于传递到后台
-        $("#college_id_update").val(row.id);
-
-        $("#updateCollege_dialog").css("display","block");
-
-        $("#updateCollege_dialog").dialog({
-            title:'修改学院信息',
-            modal:true,
-            buttons: [{
-                text: '保存',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    updateCollege();
-                }
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#updateCollege_dialog').dialog('close');
-                }
-            }],
-        });
-        //给各字段赋值
-        $("#college_name_update").textbox('setValue',row.name);
-        $("#college_dean_update").textbox('setValue', row.dean.id);
-        $("#college_university_update").combobox('setValue', row.university.id);
-    }
-
-
-    //真正执行更新操作
-    function updateCollege(){
-        $("#updateCollege_form").form('submit',{
-            url:'<%=path%>/json/collegeAction!update',
-            success:function(data){
-                var data = eval('(' + data + ')');
-                //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                if (data.result == 'success') {
-                    $.messager.show({
-                        title : '修改学院',
-                        msg : '修改成功!',
-                        timeout : 2000,
-                    });
-                    $("#collegeGrid").datagrid('reload');
-                } else {
-                    $.messager.alert('修改学院','修改失败。');
-                }
-                $("#updateCollege_dialog").dialog('close');
-            }
-        });
-    }
-
-    //删除
-    function del_dialog(){
-        var row = $("#collegeGrid").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("删除学院",'请先选中需要删除的项。','info');
-            return false;
-        }
-        $.messager.confirm('删除学院',"确定删除此条记录吗?",function(flag){
-            if(flag){
-                var id = row.id;
-                $.ajax({
-                    url:'<%=path%>/json/collegeAction!delete',
-                    type:'post',
-                    dataType:'json',
-                    data:{
-                        'college.id':row.id
-                    },
-                    success:function(data){
-                        if(data.result == 'success'){
-                            $.messager.show({
-                                title : '删除学院',
-                                msg : '删除成功!',
-                                timeout : 2000,
-                            });
-                            $("#collegeGrid").datagrid('reload');
-                        }else{
-                            $.messager.alert('删除学院','删除失败。');
-                        }
-                    }
+        //查询按钮
+        $("#college_search_btn").linkbutton({
+            iconCls : 'icon-search',
+            onClick : function(){
+                $("#collegeGrid").datagrid('load',{
+                    'college.name':$("#college_search_name").textbox('getValue'),
                 });
             }
+        })
+
+        //新增按钮
+        $("#college_add_btn").linkbutton({
+            iconCls : 'icon-add',
+            onClick : function(){
+                $("#addCollege_dialog").css("display","block");
+
+                $("#addCollge_form").form('clear');
+
+                //院长
+                $("#college_dean_add").combobox({
+                    url:'<%=path%>/json/userAction!getAll',
+                    valueField:'id',
+                    textField:'username',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+                //所属大学
+                $("#college_university_add").combobox({
+                    url:'<%=path%>/json/universityAction!getAll',
+                    valueField:'id',
+                    textField:'name',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                $("#addCollege_dialog").dialog({
+                    title:'新增学院项',
+                    modal:true,
+                    buttons: [{
+                        text: '保存',
+                        iconCls: 'icon-ok',
+                        handler: function () {
+                            $("#addCollge_form").form('submit',{
+                                url:'<%=path%>/json/collegeAction!save',
+                                success:function(data){
+                                    var data = eval('(' + data + ')');
+                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                    if(data.result == 'success'){
+                                        $.messager.show({
+                                            title : '新增学院',
+                                            msg : '新增成功!',
+                                            timeout : 2000,
+                                        });
+                                        $("#collegeGrid").datagrid('reload');
+                                    }else{
+                                        $.messager.alert('新增学院','新增失败。');
+                                    }
+                                    $("#addCollege_dialog").dialog('close');
+                                }
+                            })
+                        }
+                    }, {
+                        text: '取消',
+                        iconCls: 'icon-cancel',
+                        handler: function () {
+                            $('#addCollege_dialog').dialog('close');
+                        }
+                    }],
+                });
+            }
+        })
+
+        //更新按钮
+        $("#college_update_btn").linkbutton({
+            iconCls : 'icon-edit',
+            onClick : function(){
+                $("#college_dean_update").combobox({
+                    url:'<%=path%>/json/userAction!getAll',
+                    valueField:'id',
+                    textField:'username',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                $("#college_university_update").combobox({
+                    url:'<%=path%>/json/universityAction!getAll',
+                    valueField:'id',
+                    textField:'name',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                var row = $("#collegeGrid").datagrid('getSelected');
+                if (row == null) {
+                    $.messager.alert("修改数据字典项",'请先选中需要修改的项。','info');
+                    return false;
+                }
+
+                //给id赋值便于传递到后台
+                $("#college_id_update").val(row.id);
+
+                $("#updateCollege_dialog").css("display","block");
+
+                $("#updateCollege_dialog").dialog({
+                    title:'修改学院信息',
+                    modal:true,
+                    buttons: [{
+                        text: '保存',
+                        iconCls: 'icon-ok',
+                        handler: function () {
+                            $("#updateCollege_form").form('submit',{
+                                url:'<%=path%>/json/collegeAction!update',
+                                success:function(data){
+                                    var data = eval('(' + data + ')');
+                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                    if (data.result == 'success') {
+                                        $.messager.show({
+                                            title : '修改学院',
+                                            msg : '修改成功!',
+                                            timeout : 2000,
+                                        });
+                                        $("#collegeGrid").datagrid('reload');
+                                    } else {
+                                        $.messager.alert('修改学院','修改失败。');
+                                    }
+                                    $("#updateCollege_dialog").dialog('close');
+                                }
+                            })
+                        }
+                    }, {
+                        text: '取消',
+                        iconCls: 'icon-cancel',
+                        handler: function () {
+                            $('#updateCollege_dialog').dialog('close');
+                        }
+                    }],
+                });
+                //给各字段赋值
+                $("#college_name_update").textbox('setValue',row.name);
+                $("#college_dean_update").textbox('setValue', row.dean.id);
+                $("#college_university_update").combobox('setValue', row.university.id);
+
+            }
+        })
+
+        //删除按钮
+        $("#college_remove_btn").linkbutton({
+            iconCls : 'icon-remove',
+            onClick : function(){
+                var row = $("#collegeGrid").datagrid('getSelected');
+                if (row == null) {
+                    $.messager.alert("删除学院",'请先选中需要删除的项。','info');
+                    return false;
+                }
+                $.messager.confirm('删除学院',"确定删除此条记录吗?",function(flag){
+                    if(flag){
+                        var id = row.id;
+                        $.ajax({
+                            url:'<%=path%>/json/collegeAction!delete',
+                            type:'post',
+                            dataType:'json',
+                            data:{
+                                'college.id':row.id
+                            },
+                            success:function(data){
+                                if(data.result == 'success'){
+                                    $.messager.show({
+                                        title : '删除学院',
+                                        msg : '删除成功!',
+                                        timeout : 2000,
+                                    });
+                                    $("#collegeGrid").datagrid('reload');
+                                }else{
+                                    $.messager.alert('删除学院','删除失败。');
+                                }
+                            }
+                        });
+                    }
+                });
+
+            }
+        })
+
+        $("#collegeGrid").datagrid({
+            title:'学院管理',
+            pagination:true,
+            singleSelect:true,
+            rownumbers:true,
+            fit:true,//此时当点击最外围的layout时整个表格可以自动适应大小
+            toolbar:'#college_search',
+            url:'<%=path%>/json/collegeAction!list',
+            columns: [[
+                {field: 'name', title: '学院名称'},
+                {
+                    field: 'dean', title: '院长',
+                    formatter: function (value, row, index) {
+                        if (row.dean) {
+                            return row.dean.username;
+                        } else {
+                            return value;
+                        }
+                    }
+                },
+                {
+                    field: 'university', title: '所属学校',
+                    formatter: function (value, row, index) {
+                        if (row.university) {
+                            return row.university.name;
+                        } else {
+                            return value;
+                        }
+                    }
+                }
+            ]],
+            queryParams: {//和查询时发送的请求保持一致
+                'college.name': '',
+            }
         });
-    }
+    });
 
 </script>
 

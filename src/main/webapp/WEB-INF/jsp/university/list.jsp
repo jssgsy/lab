@@ -61,7 +61,7 @@
 <script type="text/javascript">
 
     $(function () {
-        //查询框中
+        //根据学校名称查询
         $("#university_search_name").textbox({
             icons: [{
                 iconCls:'icon-clear',
