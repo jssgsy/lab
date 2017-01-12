@@ -22,8 +22,13 @@
 * datagrid  user/list.jsp
 * show  university/list.jsp
 * dialog    university/list.jsp
-* layout    home.jsp
+* linkbutton     university/list.jsp
 * datebox   academicPaper/list  使用默认值
+* tabs
+    使用tabs要注意，如果是利用href加载内容，则新增tab时只会导入body中的标签(html，head等都会被忽略)，
+    更重要的是，所有tab中的方法名不要一致，id不要一致，使用href形式的tabs对编码能力要求很大(多利用匿名函数)。
+
+
 
 ## 实体关系
 * 单个实体：University,User;

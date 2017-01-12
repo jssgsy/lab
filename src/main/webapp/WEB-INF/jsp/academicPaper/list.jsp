@@ -238,7 +238,13 @@
                 handler:function(e){
                     $(e.data.target).combobox('clear');
                 }
-            }]
+            }],
+            onLoadSuccess : function () {//默认选中第一项
+                var data = $("#paper_level_add").combobox('getData');
+                if(data.length > 0){
+                    $("#paper_level_add").combobox('setValue', data[0].code);
+                }
+            }
         });
 
         $("#addPaper_dialog").dialog({

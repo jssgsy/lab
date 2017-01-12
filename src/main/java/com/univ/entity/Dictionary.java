@@ -15,7 +15,7 @@ public class Dictionary {
 
     private Long id;
     private String name;
-    private Integer code;//此项对应的代码，一般是0，1，2，3等等,todo:这里或可以用上numberspinner控件
+    private Integer code;//此项对应的代码，一般是0，1，2，3等等
     private String description;
 
     private Dictionary parent;

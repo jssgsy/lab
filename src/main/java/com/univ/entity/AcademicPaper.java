@@ -35,7 +35,7 @@ public class AcademicPaper {
 
     private String remark;//备注
 
-    private User author;//论文第一作者，todo:这里需要改成有好几个作者
+    private User author;//论文第一作者，todo:这里需要改成有好几个作者,页面上需要增加按作者名查询
 
     public Long getId() {
         return id;
