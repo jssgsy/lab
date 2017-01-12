@@ -49,7 +49,13 @@ AcademicPaper中的level字段虽然取自数据字典，但并没有与这关�
 
 # 代码复制模板
 ## 表格功能区linkbutton
- //查询按钮
+
+<a id="university_search_btn">搜索</a><br/>
+<a id="university_add_btn">新增</a>
+<a id="university_update_btn">修改</a>
+<a id="university_remove_btn">删除</a>
+
+//查询按钮
 $("#").linkbutton({
     iconCls : 'icon-search',
     onClick : function(){
