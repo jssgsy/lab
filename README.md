@@ -55,34 +55,34 @@ AcademicPaper中的level字段虽然取自数据字典，但并没有与这关�
 <a id="university_update_btn">修改</a>
 <a id="university_remove_btn">删除</a>
 
-//查询按钮
-$("#").linkbutton({
-    iconCls : 'icon-search',
-    onClick : function(){
+ //查询按钮
+        $("#").linkbutton({
+            iconCls : 'icon-search',
+            onClick : function(){
 
-    }
-})
+            }
+        })
 
-//新增按钮
-$("#").linkbutton({
-    iconCls : 'icon-add',
-    onClick : function(){
+        //新增按钮
+        $("#").linkbutton({
+            iconCls : 'icon-add',
+            onClick : function(){
 
-    }
-})
+            }
+        })
 
-//更新按钮
-$("#").linkbutton({
-    iconCls : 'icon-edit',
-    onClick : function(){
+        //更新按钮
+        $("#").linkbutton({
+            iconCls : 'icon-edit',
+            onClick : function(){
 
-    }
-})
+            }
+        })
 
-//删除按钮
-$("#").linkbutton({
-    iconCls : 'icon-remove',
-    onClick : function(){
+        //删除按钮
+        $("#").linkbutton({
+            iconCls : 'icon-remove',
+            onClick : function(){
 
-    }
-})
+            }
+        })

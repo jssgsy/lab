@@ -13,13 +13,13 @@
 <!-- 查询工具条 -->
 <div id="labRoom_search">
     实验室名: <input id="labRoom_search_name" name="labRoom.name" style="width:100px;">
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchLabRoom()" style="width:60px">搜索</a><br/>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add_dialog()" style="width:60px">新增</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="update_dialog()" style="width:60px">修改</a>
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="del_dialog()" style="width:60px">删除</a>
+    <a id="labRoom_search_btn">搜索</a><br/>
+    <a id="labRoom_add_btn">新增</a>
+    <a id="labRoom_update_btn">修改</a>
+    <a id="labRoom_remove_btn">删除</a>
+
 </div>
 
-<!-- 新增数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当实验室点击的时候才生成dialog),减少负荷-->
 <div id="addLabRoom_dialog" style="display: none;">
     <form id="addLabRoom_form" method="post">
         <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
@@ -43,7 +43,6 @@
     </form>
 </div>
 
-<!-- 修改数据字典窗口,这里直接使用样式设置display=none(不初始化为easyui的dialog，当实验室点击的时候才生成dialog),减少负荷-->
 <div id="updateLabRoom_dialog" style="display: none;">
     <form id="updateLabRoom_form" method="post">
         <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
@@ -69,9 +68,198 @@
     </form>
 </div>
 
-
 <script type="text/javascript">
 
+    $(function () {
+
+        //根据实验室名查询
+        $("#labRoom_search_name").textbox({
+            icons: [{
+                iconCls:'icon-clear',
+                handler: function(e){
+                    $(e.data.target).textbox('clear');
+                }
+            }]
+        });
+
+        //查询按钮
+        $("#labRoom_search_btn").linkbutton({
+            iconCls : 'icon-search',
+            onClick : function(){
+                $("#labRoomGrid").datagrid('load',{
+                    'labRoom.name':$("#labRoom_search_name").textbox('getValue'),
+                });
+            }
+        })
+
+        //新增按钮
+        $("#labRoom_add_btn").linkbutton({
+            iconCls : 'icon-add',
+            onClick : function(){
+                $("#addLabRoom_dialog").css("display","block");
+                $("#addLabRoom_form").form('clear');
+
+                $("#labRoom_director_add").combobox({
+                    url:'<%=path%>/json/userAction!getAll',
+                    valueField:'id',
+                    textField:'username',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                $("#addLabRoom_dialog").dialog({
+                    title:'新增实验室项',
+                    modal:true,
+                    buttons: [{
+                        text: '保存',
+                        iconCls: 'icon-ok',
+                        handler: function () {
+                            $("#addLabRoom_form").form('submit',{
+                                url:'<%=path%>/json/labRoomAction!save',
+                                success:function(data){
+                                    var data = eval('(' + data + ')');
+                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                    if(data.result == 'success'){
+                                        $.messager.show({
+                                            title : '新增实验室',
+                                            msg : '新增成功!',
+                                            timeout : 2000,
+                                        });
+                                        $("#labRoomGrid").datagrid('reload');
+                                    }else{
+                                        $.messager.alert('新增实验室','新增失败。');
+                                    }
+                                    $("#addLabRoom_dialog").dialog('close');
+                                }
+                            });
+                        }
+                    }, {
+                        text: '取消',
+                        iconCls: 'icon-cancel',
+                        handler: function () {
+                            $('#addLabRoom_dialog').dialog('close');
+                        }
+                    }],
+                });
+
+            }
+        })
+
+        //更新按钮
+        $("#labRoom_update_btn").linkbutton({
+            iconCls : 'icon-edit',
+            onClick : function(){
+                $("#labRoom_director_update").combobox({
+                    url:'<%=path%>/json/userAction!getAll',
+                    valueField:'id',
+                    textField:'username',
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                var row = $("#labRoomGrid").datagrid('getSelected');
+                if (row == null) {
+                    $.messager.alert("修改数据字典项",'请先选中需要修改的项。','info');
+                    return false;
+                }
+
+                //给id赋值便于传递到后台
+                $("#labRoom_id_update").val(row.id);
+
+                $("#updateLabRoom_dialog").css("display","block");
+
+                $("#updateLabRoom_dialog").dialog({
+                    title:'修改实验室信息',
+                    modal:true,
+                    buttons: [{
+                        text: '保存',
+                        iconCls: 'icon-ok',
+                        handler: function () {
+                            $("#updateLabRoom_form").form('submit',{
+                                url:'<%=path%>/json/labRoomAction!update',
+                                success:function(data){
+                                    var data = eval('(' + data + ')');
+                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                    if (data.result == 'success') {
+                                        $.messager.show({
+                                            title : '修改实验室',
+                                            msg : '修改成功!',
+                                            timeout : 2000,
+                                        });
+                                        $("#labRoomGrid").datagrid('reload');
+                                    } else {
+                                        $.messager.alert('修改实验室','修改失败。');
+                                    }
+                                    $("#updateLabRoom_dialog").dialog('close');
+                                }
+                            })
+                        }
+                    }, {
+                        text: '取消',
+                        iconCls: 'icon-cancel',
+                        handler: function () {
+                            $('#updateLabRoom_dialog').dialog('close');
+                        }
+                    }],
+                });
+                //给各字段赋值
+                $("#labRoom_name_update").textbox('setValue',row.name);
+                $("#labRoom_address_update").textbox('setValue', row.address);
+                $("#labRoom_director_update").combobox('setValue', row.director.id);
+
+            }
+        })
+
+        //删除按钮
+        $("#labRoom_remove_btn").linkbutton({
+            iconCls : 'icon-remove',
+            onClick : function(){
+                var row = $("#labRoomGrid").datagrid('getSelected');
+                if (row == null) {
+                    $.messager.alert("删除实验室",'请先选中需要删除的项。','info');
+                    return false;
+                }
+                $.messager.confirm('删除实验室',"确定删除此条记录吗?",function(flag){
+                    if(flag){
+                        var id = row.id;
+                        $.ajax({
+                            url:'<%=path%>/json/labRoomAction!delete',
+                            type:'post',
+                            dataType:'json',
+                            data:{
+                                'labRoom.id':row.id
+                            },
+                            success:function(data){
+                                if(data.result == 'success'){
+                                    $.messager.show({
+                                        title : '删除实验室',
+                                        msg : '删除成功!',
+                                        timeout : 2000,
+                                    });
+                                    $("#labRoomGrid").datagrid('reload');
+                                }else{
+                                    $.messager.alert('删除实验室','删除失败。');
+                                }
+                            }
+                        });
+                    }
+                });
+
+            }
+        })
+    });
+
+    //主体表格
     $("#labRoomGrid").datagrid({
         title:'实验室管理',
         pagination:true,
@@ -101,202 +289,8 @@
 
 
 
-    //查询框中的实验室名查询
-    $("#labRoom_search_name").textbox({
-        icons: [{
-            iconCls:'icon-clear',
-            handler: function(e){
-                $(e.data.target).textbox('clear');
-            }
-        }]
-    });
-
-
-
-    //查询数据字典
-    function searchLabRoom(){
-        $("#labRoomGrid").datagrid('load',{
-            'labRoom.name':$("#labRoom_search_name").textbox('getValue'),
-        });
-    }
-
-    //打开新增窗口
-    function add_dialog(){
-        $("#addLabRoom_dialog").css("display","block");
-        $("#addLabRoom_form").form('clear');
-
-        $("#labRoom_director_add").combobox({
-            url:'<%=path%>/json/userAction!getAll',
-            valueField:'id',
-            textField:'username',
-            editable:false,
-            icons:[{
-                iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
-                }
-            }]
-        });
-
-        $("#addLabRoom_dialog").dialog({
-            title:'新增实验室项',
-            modal:true,
-            buttons: [{
-                text: '保存',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    addLabRoom();
-                }
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#addLabRoom_dialog').dialog('close');
-                }
-            }],
-        });
-    }
-
-    //真正执行保存操作
-    function addLabRoom(){
-        $("#addLabRoom_form").form('submit',{
-            url:'<%=path%>/json/labRoomAction!save',
-            success:function(data){
-                var data = eval('(' + data + ')');
-                //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                if(data.result == 'success'){
-                    $.messager.show({
-                        title : '新增实验室',
-                        msg : '新增成功!',
-                        timeout : 2000,
-                    });
-                    $("#labRoomGrid").datagrid('reload');
-                }else{
-                    $.messager.alert('新增实验室','新增失败。');
-                }
-                $("#addLabRoom_dialog").dialog('close');
-            }
-        });
-    }
-
-
-    //打开修改数据字典
-    function update_dialog(){
-
-        $("#labRoom_director_update").combobox({
-            url:'<%=path%>/json/userAction!getAll',
-            valueField:'id',
-            textField:'username',
-            editable:false,
-            icons:[{
-                iconCls:'icon-clear',
-                handler:function(e){
-                    $(e.data.target).combobox('clear');
-                }
-            }]
-        });
-
-        var row = $("#labRoomGrid").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("修改数据字典项",'请先选中需要修改的项。','info');
-            return false;
-        }
-
-        //给id赋值便于传递到后台
-        $("#labRoom_id_update").val(row.id);
-
-        $("#updateLabRoom_dialog").css("display","block");
-
-        $("#updateLabRoom_dialog").dialog({
-            title:'修改实验室信息',
-            modal:true,
-            buttons: [{
-                text: '保存',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    updateLabRoom();
-                }
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#updateLabRoom_dialog').dialog('close');
-                }
-            }],
-        });
-        //给各字段赋值
-        $("#labRoom_name_update").textbox('setValue',row.name);
-        $("#labRoom_address_update").textbox('setValue', row.address);
-        $("#labRoom_director_update").combobox('setValue', row.director.id);
-    }
-
-
-    //真正执行更新操作
-    function updateLabRoom(){
-        $("#updateLabRoom_form").form('submit',{
-            url:'<%=path%>/json/labRoomAction!update',
-            success:function(data){
-                var data = eval('(' + data + ')');
-                //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                if (data.result == 'success') {
-                    $.messager.show({
-                        title : '修改实验室',
-                        msg : '修改成功!',
-                        timeout : 2000,
-                    });
-                    $("#labRoomGrid").datagrid('reload');
-                } else {
-                    $.messager.alert('修改实验室','修改失败。');
-                }
-                $("#updateLabRoom_dialog").dialog('close');
-            }
-        });
-    }
-
-
-
-    //删除数据字典
-    function del_dialog(){
-        var row = $("#labRoomGrid").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("删除实验室",'请先选中需要删除的项。','info');
-            return false;
-        }
-        $.messager.confirm('删除实验室',"确定删除此条记录吗?",function(flag){
-            if(flag){
-                var id = row.id;
-                $.ajax({
-                    url:'<%=path%>/json/labRoomAction!delete',
-                    type:'post',
-                    dataType:'json',
-                    data:{
-                        'labRoom.id':row.id
-                    },
-                    success:function(data){
-                        if(data.result == 'success'){
-                            $.messager.show({
-                                title : '删除实验室',
-                                msg : '删除成功!',
-                                timeout : 2000,
-                            });
-                            $("#labRoomGrid").datagrid('reload');
-                        }else{
-                            $.messager.alert('删除实验室','删除失败。');
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-
-
 
 </script>
 
 </body>
-
-
-
-
 </html>
