@@ -11,7 +11,6 @@ import java.util.Date;
  * 学院实体
  *
  * todo:这里只考虑院长，没有考虑副院长，后期可以加上
- * todo:新增字段：建立时间、简介、简称、
  */
 public class College {
 

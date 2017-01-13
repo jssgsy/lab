@@ -49,6 +49,6 @@
 
 # 设计
 
-* 数据字典的使用：AcademicPaper中的level字段虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
+* 数据字典的使用：AcademicPaper中的level字段与User中的speciality和education虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
 重点在于将combobox中valueField设为字典项的code，而不是id！
 

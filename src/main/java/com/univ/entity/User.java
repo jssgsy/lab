@@ -5,12 +5,14 @@ package com.univ.entity;
  * 2017/1/4 19:44
  */
 
+import java.util.Date;
+
 /**
  * 实验室用户
  *
  * todo:实验室用户应该和实验室关联
  * todo:考虑只能使用邮箱登录，用户名只用于显示
- * todo: 新增字段 用户编号、性别、出生年月，入学年月、学制、所学专业、文化程序、、备注
+ * todo: 新增字段 、，、学制、所学专业、文化程序、、
  */
 public class User {
 
@@ -20,6 +22,13 @@ public class User {
 
     private String telephone;
     private String email;
+
+    private String sex;//性别
+    private Date birthday;//出生年月
+    private Date enrolDate;//入学年月
+    private Integer specialty;//专业，放入数据字典中；//todo：这里命名有误
+    private Integer education;//文化程度，放入数据字典中；
+    private String remark;//备注
 
     private LabRoom labRoom;//所属实验室,单向多对一
 
@@ -85,5 +94,53 @@ public class User {
 
     public void setLabRoom(LabRoom labRoom) {
         this.labRoom = labRoom;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Date getEnrolDate() {
+        return enrolDate;
+    }
+
+    public void setEnrolDate(Date enrolDate) {
+        this.enrolDate = enrolDate;
+    }
+
+    public Integer getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(Integer specialty) {
+        this.specialty = specialty;
+    }
+
+    public Integer getEducation() {
+        return education;
+    }
+
+    public void setEducation(Integer education) {
+        this.education = education;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

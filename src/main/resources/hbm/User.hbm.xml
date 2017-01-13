@@ -15,6 +15,13 @@
         <property name="telephone" column="telephone"/>
         <property name="email" column="email"/>
         <property name="role" column="role"/>
+        <property name="sex" column="sex"/>
+        <property name="birthday" column="birthday"/>
+        <property name="enrolDate" column="enrolDate"/>
+        <property name="specialty" column="specialty"/>
+        <property name="education" column="education"/>
+        <property name="remark" column="remark"/>
+
 
         <!--配置与LabRoom的多对一关系-->
         <many-to-one name="labRoom" column="labRoomId" class="com.univ.entity.LabRoom"/>

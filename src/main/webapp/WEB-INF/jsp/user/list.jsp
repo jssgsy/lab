@@ -21,28 +21,41 @@
 
 <div id="addUser_dialog" style="display: none;">
     <form id="addUser_form" method="post">
-        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>用户名:</td>
                 <td><input name="user.username" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
             <tr>
                 <td>密码:</td>
                 <td>
-                    <input  name="user.password" data-options="required:true" class="easyui-textbox" style="width:172px;">
+                    <input  name="user.password" class="easyui-textbox" style="width:172px;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>性别:</td>
+                <td>
+                    <input type="radio" name="user.sex" value="男">男
+                    <input type="radio" name="user.sex" value="女">女
+                </td>
+            </tr>
+
+            <tr>
+                <td>出生年月:</td>
+                <td><input class="easyui-datebox" name="user.birthday" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>所学专业:</td>
+                <td>
+                    <input id="user_speciality_add" name="user.specialty"  class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
             <tr>
-                <td>电子邮箱:</td>
+                <td>教育背景:</td>
                 <td>
-                    <input name="user.email" data-options="required:true" class="easyui-textbox" style="width:172px;">
-                </td>
-            </tr>
-            <tr>
-                <td>手机号码:</td>
-                <td>
-                    <input name="user.telephone" class="easyui-textbox" style="width:172px;">
+                    <input id="user_education_add" name="user.education" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
 
@@ -51,6 +64,29 @@
                 <td><input id="user_labRoom_add" name="user.labRoom.id" style="width:172px;"></td>
             </tr>
 
+            <tr>
+                <td>入学日期:</td>
+                <td><input class="easyui-datebox" name="user.enrolDate" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>电子邮箱:</td>
+                <td>
+                    <input name="user.email"  class="easyui-textbox" style="width:172px;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>手机号码:</td>
+                <td><input name="user.telephone"  class="easyui-textbox"  style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>备注:</td>
+                <td>
+                    <textarea name="user.remark" placeholder="不超过120个字符" rows="5" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
+            </tr>
         </table>
 
     </form>
@@ -58,34 +94,72 @@
 
 <div id="updateUser_dialog" style="display: none;">
     <form id="updateUser_form" method="post">
-        <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
+        <table cellspacing="15px" style="padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>用户名:</td>
                 <td>
-                    <input id="name_update" name="user.username" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                    <input id="user_name_update" name="user.username" class="easyui-textbox" style="width:172px;">
                     <input type="hidden" id="user_id_update" name="user.id">
                 </td>
             </tr>
             <tr>
                 <td>密码:</td>
-                <td><textarea id="password_update" name="user.password"  class="easyui-textbox" data-options="required:true" style="width:172px;"></textarea></td>
+                <td><input id="user_password_update" name="user.password"  class="easyui-textbox" style="width:172px;"></td>
             </tr>
 
             <tr>
-                <td>电子邮箱:</td>
-                <td><textarea id="email_update" name="user.email"  class="easyui-textbox" data-options="required:true" style="width:172px;"></textarea></td>
+                <td>性别:</td>
+                <td>
+                    <input id="user_sex_man" type="radio" name="user.sex" value="男">男
+                    <input id="user_sex_women" type="radio" name="user.sex" value="女">女
+                </td>
             </tr>
 
             <tr>
-                <td>手机号码:</td>
-                <td><textarea id="telephone_update" name="user.telephone"  class="easyui-textbox"  style="width:172px;"></textarea></td>
+                <td>出生年月:</td>
+                <td><input id="user_birthday_update" class="easyui-datebox" name="user.birthday" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>所学专业:</td>
+                <td>
+                    <input id="user_speciality_update" name="user.specialty"  class="easyui-textbox" style="width:172px;">
+                </td>
+            </tr>
+            <tr>
+                <td>教育背景:</td>
+                <td>
+                    <input id="user_education_update" name="user.education" class="easyui-textbox" style="width:172px;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>入学日期:</td>
+                <td><input id="user_enrolDate_update" name="user.enrolDate" class="easyui-datebox" style="width:172px;"></td>
             </tr>
 
             <tr>
                 <td>所属实验室:</td>
                 <td><input id="user_labRoom_update" name="user.labRoom.id" style="width:172px;"></td>
             </tr>
+
+            <tr>
+                <td>电子邮箱:</td>
+                <td><textarea id="user_email_update" name="user.email"  class="easyui-textbox" style="width:172px;"></textarea></td>
+            </tr>
+
+            <tr>
+                <td>手机号码:</td>
+                <td><input id="telephone_update" name="user.telephone"  class="easyui-textbox"  style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>备注:</td>
+                <td>
+                    <textarea id="user_remark_update" name="user.remark" placeholder="不超过120个字符" rows="5" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
+            </tr>
+
         </table>
 
     </form>
@@ -136,6 +210,54 @@
                             $(e.data.target).combobox('clear');
                         }
                     }]
+                });
+
+                //所学专业
+                $("#user_speciality_add").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '所学专业',
+                    },
+                    valueField:'code',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }],
+                    onLoadSuccess : function () {//默认选中第一项
+                        var data = $("#user_speciality_add").combobox('getData');
+                        if(data.length > 0){
+                            $("#user_speciality_add").combobox('setValue', data[0].code);
+                        }
+                    }
+                });
+
+                //教育背景
+                $("#user_education_add").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '教育背景',
+                    },
+                    valueField:'code',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }],
+                    onLoadSuccess : function () {//默认选中第一项
+                        var data = $("#user_education_add").combobox('getData');
+                        if(data.length > 0){
+                            $("#user_education_add").combobox('setValue', data[0].code);
+                        }
+                    }
                 });
 
                 $("#addUser_dialog").dialog({
@@ -191,13 +313,49 @@
 
                 $("#updateUser_dialog").css("display","block");
 
-                //所属实验室user_labRoom_add
+                //所属实验室
                 $("#user_labRoom_update").combobox({
                     url:'<%=path%>/json/labRoomAction!getAll',
                     valueField:'id',
                     textField:'name',
                     editable:false,
                     panelHeight:'auto',
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                //所学专业
+                $("#user_speciality_update").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '所学专业',
+                    },
+                    valueField:'code',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                //教育背景
+                $("#user_education_update").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '教育背景',
+                    },
+                    valueField:'code',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
                     icons:[{
                         iconCls:'icon-clear',
                         handler:function(e){
@@ -239,11 +397,40 @@
                         }
                     }],
                 });
+
                 //给各字段赋值
-                $("#name_update").textbox('setValue',row.username);
-                $("#password_update").textbox('setValue', row.password);
-                $("#email_update").textbox('setValue', row.email);
+                $("#user_name_update").textbox('setValue',row.username);
+                $("#user_password_update").textbox('setValue', row.password);
+                if(row.sex == '男'){
+                    $("#user_sex_man").attr("checked",true);
+                }else if(row.sex == '女'){
+                    $("#user_sex_woman").attr("checked",true);
+                }
+                //所学专业
+                if(row.specialty){//只有有值时才赋值，否则使用默认值
+                    $("#user_speciality_update").combobox('setValue', row.specialty);
+                }else {
+                    var data = $("#user_speciality_update").combobox('getData');
+                    if(data.length > 0){
+                        $("#user_speciality_update").combobox('setValue', data[0].code);
+                    }
+                }
+                //专业背景
+                if(row.education){//只有有值时才赋值，否则使用默认值
+                    $("#user_education_update").combobox('setValue', row.education);
+                }else {
+                    var data = $("#user_education_update").combobox('getData');
+                    if(data.length > 0){
+                        $("#user_education_update").combobox('setValue', data[0].code);
+                    }
+                }
+                //所属实验室
+                $("#user_labRoom_update").combobox('setValue', row.labRoom.id);
+                $("#user_enrolDate_update").datebox('setValue', row.enrolDate);
+                $("#user_birthday_update").datebox('setValue', row.birthday);
+                $("#user_email_update").textbox('setValue', row.email);
                 $("#telephone_update").textbox('setValue', row.telephone);
+                $("#user_remark_update").textbox('setValue', row.remark);
 
             }
         })
@@ -298,16 +485,62 @@
             columns: [[
                 {field: 'username', title: '用户名'},
                 {field: 'password', title: '密码'},
-                {field: 'telephone', title: '电话'},
-                {field: 'email', title: '邮箱'},
+                {field: 'sex', title: '性别'},
+                {
+                    field: 'birthday', title: '出生年月',
+                    formatter : function (value, row, index) {
+                        if(value){
+                            var date = new Date(value);
+                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                        }
+                    }
+                },
+                {
+                    field: 'specialty', title: '所学专业',
+                    formatter: function (value, row, index) {
+                        switch (value){//todo:这里好像有bug，万一在数据字典中做了更改？
+                            case 0 :
+                                return "数学"
+                            case 1 :
+                                return "英语";
+                            case 2 :
+                                return "物理";
+                        }
+                    }
+                },
+                {
+                    field: 'education', title: '教育背景',
+                    formatter: function (value, row, index) {
+                        switch (value){//todo:这里好像有bug，万一在数据字典中做了更改？
+                            case 0 :
+                                return "本科生"
+                            case 1 :
+                                return "研究生";
+                            case 2 :
+                                return "博士生";
+                        }
+                    }
+                },
+                {
+                    field: 'enrolDate', title: '入学日期',
+                    formatter : function (value, row, index) {
+                        if(value){
+                            var date = new Date(value);
+                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                        }
+                    }
+                },
                 {
                     field: 'labRoom', title: '所属实验室',
                     formatter : function (value, row, index) {
                         if (row.labRoom){
-                           return row.labRoom.name;
+                            return row.labRoom.name;
                         }
                     }
                 },
+                {field: 'telephone', title: '电话'},
+                {field: 'email', title: '邮箱'},
+                {field: 'remark', title: '备注'},
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'user.username': '',
