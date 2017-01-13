@@ -156,7 +156,7 @@
                 $("#addPaper_form").form('clear');
 
                 //todo:看新增与更新能不能共用，似乎多发了无用的请求
-                //第一作者
+                //论文作者
                 $("#paper_author_add").combobox({
                     url:'<%=path%>/json/userAction!getAll',
                     valueField:'id',
@@ -318,7 +318,6 @@
                 $("#paper_name_update").textbox('setValue',row.name);
 
                 var authorList = row.authorList;
-                console.log(authorList);
                 var authorIds = "";
                 for(var i = 0; i < authorList.length; i++){
                     if (authorIds == ""){
@@ -330,7 +329,16 @@
                 $("#paper_authorList_update").combobox('setValues', authorIds.split(","));
 
                 $("#paper_hiredInstitution_update").textbox('setValue', row.hiredInstitution);
-                $("#paper_level_update").combobox('setValue', row.level);
+
+                if(row.level){//只有有值时才赋值，否则使用默认值
+                    $("#paper_level_update").combobox('setValue', row.level);
+                }else {
+                    var data = $("#paper_level_update").combobox('getData');
+                    if(data.length > 0){
+                        $("#paper_level_update").combobox('setValue', data[0].code);
+                    }
+                }
+
 
                 if(row.wasSCI){
                     $("#paper_wasSCI_update_Yes").attr("checked",true);
