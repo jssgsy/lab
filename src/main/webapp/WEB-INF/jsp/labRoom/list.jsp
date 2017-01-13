@@ -52,7 +52,7 @@
             <tr>
                 <td>实验室简介:</td>
                 <td>
-                    <textarea name="labRoom.description" rows="10" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                    <textarea name="labRoom.description" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
                 </td>
             </tr>
         </table>

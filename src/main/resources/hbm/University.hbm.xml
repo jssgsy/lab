@@ -12,6 +12,10 @@
 
         <property name="name" column="name" />
         <property name="address" column="address" />
+        <property name="code" column="code" />
+        <property name="shortName" column="shortName" />
+        <property name="description" column="description" />
+        <property name="buildDate" column="buildDate" />
     </class>
 
 </hibernate-mapping>

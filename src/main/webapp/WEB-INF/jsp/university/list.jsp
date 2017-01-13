@@ -24,13 +24,31 @@
     <form id="addUniversity_form" method="post">
         <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
+                <td>学校编号:</td>
+                <td><input name="university.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>学校名称:</td>
-                <td><input id="university_name_add" name="university.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td><input name="university.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学校简称:</td>
+                <td><input name="university.shortName" class="easyui-textbox" style="width:172px;"></td>
             </tr>
             <tr>
                 <td>学校地址:</td>
                 <td>
-                    <textarea id="university_address_add" name="university.address" data-options="required:true" class="easyui-textbox" style="width:172px;"></textarea>
+                    <input name="university.address" data-options="required:true" class="easyui-textbox" style="width:172px;">
+                </td>
+            </tr>
+            <tr>
+                <td>学校建立日期:</td>
+                <td><input class="easyui-datebox" name="university.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学校简介:</td>
+                <td>
+                    <textarea name="university.description" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
                 </td>
             </tr>
         </table>
@@ -42,7 +60,10 @@
     <form id="updateUniversity_form" method="post">
         <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
+                <td>学校编号:</td>
+                <td><input id="university_code_update" name="university.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>学校名称:</td>
                 <td>
                     <input id="university_name_update" name="university.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
@@ -50,8 +71,22 @@
                 </td>
             </tr>
             <tr>
+                <td>学校简称:</td>
+                <td><input id="university_shortName_update" name="university.shortName" class="easyui-textbox" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>学校地址:</td>
                 <td><textarea id="university_address_update" name="university.address"  class="easyui-textbox" data-options="required:true" style="width:172px;"></textarea></td>
+            </tr>
+            <tr>
+                <td>学校建立日期:</td>
+                <td><input id="university_buildDate_update" class="easyui-datebox" name="university.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学校简介:</td>
+                <td>
+                    <textarea id="university_description_update" name="university.description" rows="10" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
             </tr>
         </table>
     </form>
@@ -189,8 +224,12 @@
                     }],
                 });
                 //给各字段赋值
+                $("#university_code_update").textbox('setValue',row.code);
                 $("#university_name_update").textbox('setValue',row.name);
+                $("#university_shortName_update").textbox('setValue',row.shortName);
                 $("#university_address_update").textbox('setValue', row.address);
+                $("#university_buildDate_update").datebox('setValue',row.buildDate);
+                $("#university_description_update").textbox('setValue',row.description);
             }
         });
 
@@ -241,8 +280,20 @@
             toolbar:'#university_search',
             url:'<%=path%>/json/universityAction!list',
             columns: [[
+                {field: 'code', title: '学校编号'},
                 {field: 'name', title: '学校名称'},
+                {field: 'shortName', title: '学校简称'},
                 {field: 'address', title: '学校地址'},
+                {
+                    field: 'buildDate', title: '学校室建立时间',
+                    formatter : function (value, row, index) {
+                        if(value){
+                            var date = new Date(value);
+                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                        }
+                    }
+                },
+                {field: 'description', title: '学校简介'},
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'university.name': '',
