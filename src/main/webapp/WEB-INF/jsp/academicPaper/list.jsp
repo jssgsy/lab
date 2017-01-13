@@ -449,7 +449,7 @@
                         }
                     }
                 },
-                {field: 'remark', title: '备注', width: '80px'},
+                {field: 'remark', title: '备注'},
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'paper.name': '',

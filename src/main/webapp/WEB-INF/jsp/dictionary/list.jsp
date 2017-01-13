@@ -20,7 +20,7 @@
                         <td>名称:</td>
                         <td>
                             <input id="dic_name_update" name="dictionary.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
-                            <input type="hidden" id="id_update" name="dictionary.id">
+                            <input type="hidden" id="dictionary_id_update" name="dictionary.id">
                         </td>
                     </tr>
 
@@ -94,7 +94,7 @@
             onClick:function(node){
                 $("#dic_name_update").textbox('setValue',node.text);
                 $("#dic_code_update").numberspinner('setValue',node.attributes.code);
-                $("#id_update").val(node.id);//便于传递到后台作为更新的id
+                $("#dictionary_id_update").val(node.id);//便于传递到后台作为更新的id
                 $("#description_update").val(node.attributes.description);
                 if( node.attributes.parent){//点击的是非顶结点
                     $("#dic_parent_update").combobox('enable');//非顶层结点的父结点可修改

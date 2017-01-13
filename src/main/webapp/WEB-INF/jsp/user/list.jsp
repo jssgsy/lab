@@ -60,7 +60,7 @@
                 <td>用户名:</td>
                 <td>
                     <input id="name_update" name="user.username" class="easyui-textbox" data-options="required:true" style="width:172px;">
-                    <input type="hidden" id="id_update" name="user.id">
+                    <input type="hidden" id="user_id_update" name="user.id">
                 </td>
             </tr>
             <tr>
@@ -163,7 +163,7 @@
                 }
 
                 //给id赋值便于传递到后台
-                $("#id_update").val(row.id);
+                $("#user_id_update").val(row.id);
 
                 $("#updateUser_dialog").css("display","block");
 

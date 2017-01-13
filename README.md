@@ -1,11 +1,14 @@
-# 待解决
+# TODO
 
 * 注册失败后不应该跳转到另一个页面而是利用类似弹窗的形式告之注册失败；
 * 在后期需要配置一个登录过滤器；
 * 在一些关联关系的查询上，看是否只需要按需取部分字段的值，而不是整个对象？
     * 如LabRoom与User；
 
-* 利用hibernate的拦截器实现分页与不分布的统一；
+* 实验室和User应该建立联系，应该双向一对多。
+    实验室和负责人的单向多对一已经完成，也就是说实验室即和user是双向的一对多关系，还与User(负责人)是单向多对一关系！
+    
+* 用户的角色需要完善，角色放在数据字典中；
 
 # 备查
 
@@ -29,7 +32,6 @@
     更重要的是，所有tab中的方法名不要一致，id不要一致，使用href形式的tabs对编码能力要求很大(多利用匿名函数)。
 
 
-
 ## 实体关系
 * 单个实体：University,User;
 * 单向多对一：LabRoom-User、College-University
@@ -44,46 +46,6 @@
 
 # 设计
 
-AcademicPaper中的level字段虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
+* 数据字典的使用：AcademicPaper中的level字段虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
 重点在于将combobox中valueField设为字典项的code，而不是id！
 
-
-# 代码复制模板
-## 表格功能区linkbutton
-
-<a id="university_search_btn">搜索</a><br/>
-<a id="university_add_btn">新增</a>
-<a id="university_update_btn">修改</a>
-<a id="university_remove_btn">删除</a>
-
- //查询按钮
-        $("#").linkbutton({
-            iconCls : 'icon-search',
-            onClick : function(){
-
-            }
-        })
-
-        //新增按钮
-        $("#").linkbutton({
-            iconCls : 'icon-add',
-            onClick : function(){
-
-            }
-        })
-
-        //更新按钮
-        $("#").linkbutton({
-            iconCls : 'icon-edit',
-            onClick : function(){
-
-            }
-        })
-
-        //删除按钮
-        $("#").linkbutton({
-            iconCls : 'icon-remove',
-            onClick : function(){
-
-            }
-        })
