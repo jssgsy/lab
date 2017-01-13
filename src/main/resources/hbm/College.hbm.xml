@@ -12,6 +12,10 @@
 
         <property name="name" column="name" />
 
+        <property name="code" column="code" />
+        <property name="shortName" column="shortName" />
+        <property name="description" column="description" />
+        <property name="buildDate" column="buildDate" />
 
         <!--配置与院长的单向一对一关系-->
         <many-to-one name="dean" column="userId" class="com.univ.entity.User" unique="true"/>

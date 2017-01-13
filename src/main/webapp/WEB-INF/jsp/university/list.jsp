@@ -283,7 +283,6 @@
                 {field: 'code', title: '学校编号'},
                 {field: 'name', title: '学校名称'},
                 {field: 'shortName', title: '学校简称'},
-                {field: 'address', title: '学校地址'},
                 {
                     field: 'buildDate', title: '学校室建立时间',
                     formatter : function (value, row, index) {

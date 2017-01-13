@@ -5,6 +5,8 @@ package com.univ.entity;
  * 2017/1/10 18:44
  */
 
+import java.util.Date;
+
 /**
  * 学院实体
  *
@@ -14,7 +16,17 @@ package com.univ.entity;
 public class College {
 
     private Long id;
+
     private String name;
+
+    private String code;//编号
+
+    private String shortName;//简称
+
+    private Date buildDate;//建立时间
+
+    private String description;//简单介绍
+
     private User dean;//院长，一对一关系
 
     private University university;
@@ -49,5 +61,37 @@ public class College {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public Date getBuildDate() {
+        return buildDate;
+    }
+
+    public void setBuildDate(Date buildDate) {
+        this.buildDate = buildDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

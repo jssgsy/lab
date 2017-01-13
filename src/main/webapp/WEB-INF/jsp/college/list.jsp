@@ -24,9 +24,17 @@
     <form id="addCollge_form" method="post">
         <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
+                <td>学院编号:</td>
+                <td><input name="college.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
-                <td>名称:</td>
-                <td><input id="college_name_add" name="college.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td>学院名称:</td>
+                <td><input  name="college.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学院简称:</td>
+                <td><input name="college.shortName" class="easyui-textbox" style="width:172px;"></td>
             </tr>
 
             <tr>
@@ -38,6 +46,16 @@
                 <td>所属学校:</td>
                 <td><input id="college_university_add" name="college.university.id" style="width:172px;"></td>
             </tr>
+            <tr>
+                <td>学院建立日期:</td>
+                <td><input class="easyui-datebox" name="college.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学院简介:</td>
+                <td>
+                    <textarea name="college.description" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
+            </tr>
         </table>
     </form>
 </div>
@@ -46,11 +64,19 @@
     <form id="updateCollege_form" method="post">
         <table cellspacing="10px" style="text-align: right;padding: 5px 5px;">
             <tr>
+                <td>学院编号:</td>
+                <td><input id="college_code_update" name="college.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>学院名称:</td>
                 <td>
                     <input id="college_name_update" name="college.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
                     <input type="hidden" id="college_id_update" name="college.id">
                 </td>
+            </tr>
+            <tr>
+                <td>学院简称:</td>
+                <td><input id="college_shortName_update" name="college.shortName" class="easyui-textbox" style="width:172px;"></td>
             </tr>
 
             <tr>
@@ -61,6 +87,16 @@
             <tr>
                 <td>所属学校:</td>
                 <td><input id="college_university_update" name="college.university.id" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学院建立日期:</td>
+                <td><input id="college_buildDate_update" class="easyui-datebox" name="college.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>学院简介:</td>
+                <td>
+                    <textarea id="college_description_update" name="college.description" rows="10" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
             </tr>
         </table>
 
@@ -239,9 +275,13 @@
                     }],
                 });
                 //给各字段赋值
+                $("#college_code_update").textbox('setValue',row.code);
                 $("#college_name_update").textbox('setValue',row.name);
+                $("#college_shortName_update").textbox('setValue',row.shortName);
                 $("#college_dean_update").textbox('setValue', row.dean.id);
                 $("#college_university_update").combobox('setValue', row.university.id);
+                $("#college_buildDate_update").datebox('setValue',row.buildDate);
+                $("#college_description_update").textbox('setValue',row.description);
 
             }
         })
@@ -293,7 +333,9 @@
             toolbar:'#college_search',
             url:'<%=path%>/json/collegeAction!list',
             columns: [[
+                {field: 'code', title: '学校编号'},
                 {field: 'name', title: '学院名称'},
+                {field: 'shortName', title: '学院简称'},
                 {
                     field: 'dean', title: '院长',
                     formatter: function (value, row, index) {
@@ -314,7 +356,17 @@
                             return value;
                         }
                     }
-                }
+                },
+                {
+                    field: 'buildDate', title: '学院建立时间',
+                    formatter : function (value, row, index) {
+                        if(value){
+                            var date = new Date(value);
+                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                        }
+                    }
+                },
+                {field: 'description', title: '学院简介'},
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'college.name': '',
