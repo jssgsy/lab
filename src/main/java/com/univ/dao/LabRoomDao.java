@@ -18,4 +18,6 @@ public interface LabRoomDao {
     void update(LabRoom labRoom);
 
     void delete(LabRoom labRoom);
+
+    List<LabRoom> getAll();
 }

@@ -10,7 +10,7 @@ package com.univ.entity;
  *
  * todo:实验室用户应该和实验室关联
  * todo:考虑只能使用邮箱登录，用户名只用于显示
- * todo: 新增字段 用户编号、性别、出生年月，入学年月、学制、所学专业、文化程序、所属实验室、备注
+ * todo: 新增字段 用户编号、性别、出生年月，入学年月、学制、所学专业、文化程序、、备注
  */
 public class User {
 
@@ -20,6 +20,8 @@ public class User {
 
     private String telephone;
     private String email;
+
+    private LabRoom labRoom;//所属实验室,单向多对一
 
     /*
      * 1：学生；
@@ -75,5 +77,13 @@ public class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public LabRoom getLabRoom() {
+        return labRoom;
+    }
+
+    public void setLabRoom(LabRoom labRoom) {
+        this.labRoom = labRoom;
     }
 }

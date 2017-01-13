@@ -16,6 +16,9 @@
         <property name="email" column="email"/>
         <property name="role" column="role"/>
 
+        <!--配置与LabRoom的多对一关系-->
+        <many-to-one name="labRoom" column="labRoomId" class="com.univ.entity.LabRoom"/>
+
     </class>
 
 

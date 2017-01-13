@@ -77,8 +77,12 @@
             <result type="json" name="dml">
                 <param name="root">jsonMap</param>
             </result>
+            <!--todo:这里似乎应该移到userAction中-->
             <result type="json" name="getUser">
                 <param name="root">directorList</param>
+            </result>
+            <result type="json" name="getAll">
+                <param name="root">labRoomList</param>
             </result>
         </action>
 

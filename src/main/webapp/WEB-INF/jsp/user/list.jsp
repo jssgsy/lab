@@ -25,27 +25,31 @@
             <tr>
                 <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
                 <td>用户名:</td>
-                <td><input id="name_add" name="user.username" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td><input name="user.username" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
             <tr>
                 <td>密码:</td>
                 <td>
-                    <textarea id="password_add" name="user.password" data-options="required:true" class="easyui-textbox" style="width:172px;"></textarea>
+                    <input  name="user.password" data-options="required:true" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
             <tr>
                 <td>电子邮箱:</td>
                 <td>
-                    <textarea id="email_add" name="user.email" data-options="required:true" class="easyui-textbox" style="width:172px;"></textarea>
+                    <input name="user.email" data-options="required:true" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
             <tr>
                 <td>手机号码:</td>
                 <td>
-                    <textarea id="telephone_add" name="user.telephone" class="easyui-textbox" style="width:172px;"></textarea>
+                    <input name="user.telephone" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
 
+            <tr>
+                <td>所属实验室:</td>
+                <td><input id="user_labRoom_add" name="user.labRoom.id" style="width:172px;"></td>
+            </tr>
 
         </table>
 
@@ -76,6 +80,11 @@
             <tr>
                 <td>手机号码:</td>
                 <td><textarea id="telephone_update" name="user.telephone"  class="easyui-textbox"  style="width:172px;"></textarea></td>
+            </tr>
+
+            <tr>
+                <td>所属实验室:</td>
+                <td><input id="user_labRoom_update" name="user.labRoom.id" style="width:172px;"></td>
             </tr>
         </table>
 
@@ -114,6 +123,21 @@
 
                 $("#addUser_form").form('clear');
 
+                //所属实验室
+                $("#user_labRoom_add").combobox({
+                    url:'<%=path%>/json/labRoomAction!getAll',
+                    valueField:'id',
+                    textField:'name',
+                    editable:false,
+                    panelHeight:'auto',
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
                 $("#addUser_dialog").dialog({
                     title:'新增用户项',
                     modal:true,
@@ -132,7 +156,7 @@
                                             msg : '新增成功!',
                                             timeout : 2000
                                         });
-                                        $("#User_datagrid").datagrid('reload');
+                                        $("#userGrid").datagrid('reload');
                                     }else{
                                         $.messager.alert('新增用户','新增失败。');
                                     }
@@ -166,6 +190,21 @@
                 $("#user_id_update").val(row.id);
 
                 $("#updateUser_dialog").css("display","block");
+
+                //所属实验室user_labRoom_add
+                $("#user_labRoom_update").combobox({
+                    url:'<%=path%>/json/labRoomAction!getAll',
+                    valueField:'id',
+                    textField:'name',
+                    editable:false,
+                    panelHeight:'auto',
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
 
                 $("#updateUser_dialog").dialog({
                     title:'修改用户信息',
@@ -260,7 +299,15 @@
                 {field: 'username', title: '用户名'},
                 {field: 'password', title: '密码'},
                 {field: 'telephone', title: '电话'},
-                {field: 'email', title: '邮箱'}
+                {field: 'email', title: '邮箱'},
+                {
+                    field: 'labRoom', title: '所属实验室',
+                    formatter : function (value, row, index) {
+                        if (row.labRoom){
+                           return row.labRoom.name;
+                        }
+                    }
+                },
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'user.username': '',

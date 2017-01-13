@@ -37,4 +37,8 @@ public class LabRoomServiceImpl implements LabRoomService {
     public void delete(LabRoom labRoom) {
         labRoomDao.delete(labRoom);
     }
+
+    public List<LabRoom> getAll() {
+        return labRoomDao.getAll();
+    }
 }

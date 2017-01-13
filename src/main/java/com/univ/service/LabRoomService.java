@@ -24,4 +24,6 @@ public interface LabRoomService {
     void update(LabRoom labRoom);
 
     void delete(LabRoom labRoom);
+
+    List<LabRoom> getAll();
 }

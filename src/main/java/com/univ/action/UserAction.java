@@ -1,5 +1,6 @@
 package com.univ.action;
 
+import com.univ.entity.LabRoom;
 import com.univ.entity.User;
 import com.univ.service.IUserService;
 import org.apache.struts2.ServletActionContext;
@@ -25,12 +26,18 @@ public class UserAction {
     private IUserService userService;
 
     public String save(){
+        if (null == user.getLabRoom().getId()) {
+            user.setLabRoom(null);
+        }
         userService.save(user);
         jsonMap.put("result", "success");
         return "dml";
     }
 
     public String update() {
+        if (null == user.getLabRoom().getId()) {
+            user.setLabRoom(null);
+        }
         userService.update(user);
         jsonMap.put("result", "success");
         return "dml";

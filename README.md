@@ -34,10 +34,13 @@
 
 ## 实体关系
 * 单个实体：University,User;
-* 单向多对一：LabRoom-User、College-University
+* 单向多对一：User-LabRoom、College-University
+`重点：User和LabRoom既是单向的多对一(多个用户可以是同一个实验室),同时，LabRoom和User也是单向的多对一(多个实验室可以有同一个负责人)，interesting.`
+
 * 自身多对一：Menu、Parent;
 * 单向一对一：College-User(一个学院只能有一个院长)
 * 单向多对多：AcademicPaper-User(一篇论文可以有多个作者)
+
 
 
 # hibernate常见异常

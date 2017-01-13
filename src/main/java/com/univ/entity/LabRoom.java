@@ -17,7 +17,7 @@ public class LabRoom {
     //todo:可考虑将此字段细分
     private String address;
 
-    private User director;//实验室负责人
+    private User director;//实验室负责人，单向多对一
 
     public Long getId() {
         return id;

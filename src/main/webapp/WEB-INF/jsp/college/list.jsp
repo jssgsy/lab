@@ -307,6 +307,7 @@
                 {
                     field: 'university', title: '所属学校',
                     formatter: function (value, row, index) {
+                        //重点：如果所属学校为空，则value.university便未定义
                         if (row.university) {
                             return row.university.name;
                         } else {

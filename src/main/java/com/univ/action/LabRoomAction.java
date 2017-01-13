@@ -86,6 +86,11 @@ public class LabRoomAction extends ActionSupport {
         return "dataGrid";
     }
 
+    public String getAll(){
+        labRoomList = labRoomService.getAll();
+        return "getAll";
+    }
+
     public LabRoom getLabRoom() {
         return labRoom;
     }

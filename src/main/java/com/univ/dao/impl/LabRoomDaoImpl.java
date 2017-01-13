@@ -40,4 +40,8 @@ public class LabRoomDaoImpl extends AbstractBaseDao implements LabRoomDao {
     public void delete(LabRoom labRoom) {
         getCurrentSession().delete(labRoom);
     }
+
+    public List<LabRoom> getAll() {
+        return getCurrentSession().createQuery("from com.univ.entity.LabRoom").list();
+    }
 }
