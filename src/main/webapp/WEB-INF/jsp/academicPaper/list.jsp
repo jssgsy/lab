@@ -32,7 +32,7 @@
                 <td>
                     <input id="paper_author_add" name="authorIds" class="easyui-textbox" data-options="required:true" style="width:172px;">
                 </td>
-                <td>可以多选</td>
+                <td>支持多选</td>
             </tr>
 
             <tr>
@@ -83,9 +83,9 @@
             <tr>
                 <td>论文作者:</td>
                 <td>
-                    <input id="paper_author_update" name="authorIds" class="easyui-textbox" data-options="required:true" style="width:172px;">
+                    <input id="paper_authorList_update" name="authorIds" class="easyui-textbox" data-options="required:true" style="width:172px;">
                 </td>
-                <td>可以多选</td>
+                <td>支持多选</td>
             </tr>
 
             <tr>
@@ -127,7 +127,7 @@
 
     $(function () {
 
-        //根据科研论文名称查询
+        //根据科研论文名称查询,todo:还需要增加一个根据作者名查
         $("#paper_search_name").textbox({
             icons: [{
                 iconCls:'icon-clear',
@@ -237,11 +237,12 @@
         $("#paper_update_btn").linkbutton({
             iconCls : 'icon-edit',
             onClick : function(){
-                $("#paper_author_update").combobox({
+                $("#paper_authorList_update").combobox({
                     url:'<%=path%>/json/userAction!getAll',
                     valueField:'id',
                     textField:'username',
                     editable:false,
+                    multiple : true,
                     icons:[{
                         iconCls:'icon-clear',
                         handler:function(e){
@@ -316,7 +317,17 @@
                 //给各字段赋值
                 $("#paper_name_update").textbox('setValue',row.name);
 
-                $("#paper_author_update").combobox('setValue', row.author.id);
+                var authorList = row.authorList;
+                console.log(authorList);
+                var authorIds = "";
+                for(var i = 0; i < authorList.length; i++){
+                    if (authorIds == ""){
+                        authorIds += authorList[i].id;
+                    }else {
+                        authorIds += "," + authorList[i].id;
+                    }
+                }
+                $("#paper_authorList_update").combobox('setValues', authorIds.split(","));
 
                 $("#paper_hiredInstitution_update").textbox('setValue', row.hiredInstitution);
                 $("#paper_level_update").combobox('setValue', row.level);
@@ -329,8 +340,6 @@
 
                 $("#paper_publishDate_update").datebox('setValue', row.publishDate);
                 $("#paper_remark_update").val(row.remark);
-
-
             }
         })
 
@@ -384,13 +393,17 @@
             columns: [[
                 {field: 'name', title: '论文名称'},
                 {
-                    field: 'author', title: '第一作者',
+                    field: 'authorList', title: '论文作者',
                     formatter: function (value, row, index) {
-                        if (row.author) {
-                            return row.author.username;
-                        } else {
-                            return value;
+                        var authorStr = "";
+                        for(var i = 0; i < value.length; i++){
+                            if (authorStr == ""){
+                                authorStr += value[i].username;
+                            }else {
+                                authorStr += " , " + value[i].username;
+                            }
                         }
+                        return authorStr;
                     }
                 },
                 {field: 'hiredInstitution', title: '录用机构'},
