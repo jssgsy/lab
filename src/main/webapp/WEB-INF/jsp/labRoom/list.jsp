@@ -24,19 +24,36 @@
     <form id="addLabRoom_form" method="post">
         <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
-                <td>名称:</td>
-                <td><input id="labRoom_name_add" name="labRoom.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td>实验室编号:</td>
+                <td><input name="labRoom.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
             <tr>
-                <td>地址:</td>
+                <td>实验室名称:</td>
+                <td><input name="labRoom.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>实验室简称:</td>
+                <td><input name="labRoom.shortName" class="easyui-textbox" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>实验室负责人:</td>
+                <td><input id="labRoom_director_add" name="labRoom.director.id" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>实验室地址:</td>
                 <td>
-                    <textarea id="labRoom_address_add" name="labRoom.address" data-options="required:true" class="easyui-textbox" style="width:172px;"></textarea>
+                    <input name="labRoom.address" data-options="required:true" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
             <tr>
-                <td>负责人:</td>
-                <td><input id="labRoom_director_add" name="labRoom.director.id" style="width:172px;"></td>
+                <td>实验室建立日期:</td>
+                <td><input class="easyui-datebox" name="labRoom.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>实验室简介:</td>
+                <td>
+                    <textarea name="labRoom.description" rows="10" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
             </tr>
         </table>
 
@@ -47,7 +64,10 @@
     <form id="updateLabRoom_form" method="post">
         <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
-                <!-- 将文本和input标签放在不同的td中，有助于施加样式，如上面设置将文本向右对齐 -->
+                <td>实验室编号:</td>
+                <td><input id="labRoom_code_update" name="labRoom.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>实验室名称:</td>
                 <td>
                     <input id="labRoom_name_update" name="labRoom.name" class="easyui-textbox" data-options="required:true" style="width:172px;">
@@ -55,13 +75,28 @@
                 </td>
             </tr>
             <tr>
+                <td>实验室简称:</td>
+                <td><input id="labRoom_shortName_update" name="labRoom.shortName" class="easyui-textbox" style="width:172px;"></td>
+            </tr>
+            <tr>
                 <td>实验室地址:</td>
                 <td><textarea id="labRoom_address_update" name="labRoom.address"  class="easyui-textbox" data-options="required:true" style="width:172px;"></textarea></td>
             </tr>
 
             <tr>
-                <td>负责人:</td>
+                <td>实验室负责人:</td>
                 <td><input id="labRoom_director_update" name="labRoom.director.id" style="width:172px;"></td>
+            </tr>
+
+            <tr>
+                <td>实验室建立日期:</td>
+                <td><input id="labRoom_buildDate_update" class="easyui-datebox" name="labRoom.buildDate" style="width:172px;"></td>
+            </tr>
+            <tr>
+                <td>实验室简介:</td>
+                <td>
+                    <textarea id="labRoom_description_update" name="labRoom.description" rows="10" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                </td>
             </tr>
         </table>
 
@@ -213,9 +248,13 @@
                     }],
                 });
                 //给各字段赋值
+                $("#labRoom_code_update").textbox('setValue',row.code);
                 $("#labRoom_name_update").textbox('setValue',row.name);
+                $("#labRoom_shortName_update").textbox('setValue',row.shortName);
                 $("#labRoom_address_update").textbox('setValue', row.address);
                 $("#labRoom_director_update").combobox('setValue', row.director.id);
+                $("#labRoom_buildDate_update").datebox('setValue',row.buildDate);
+                $("#labRoom_description_update").textbox('setValue',row.description);
 
             }
         })
@@ -269,10 +308,11 @@
         toolbar:'#labRoom_search',
         url:'<%=path%>/json/labRoomAction!list',
         columns: [[
+            {field: 'code', title: '实验室编号'},
             {field: 'name', title: '实验室名称'},
-            {field: 'address', title: '实验室地址'},
+            {field: 'shortName', title: '实验室简称'},
             {
-                field: 'director', title: '负责人',
+                field: 'director', title: '实验室负责人',
                 formatter: function (value, row, index) {
                     if (row.director) {
                         return row.director.username;
@@ -280,7 +320,18 @@
                         return value;
                     }
                 }
-            }
+            },
+            {field: 'address', title: '实验室地址'},
+            {
+                field: 'buildDate', title: '实验室建立时间',
+                formatter : function (value, row, index) {
+                    if(value){
+                        var date = new Date(value);
+                        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                    }
+                }
+            },
+            {field: 'description', title: '实验室简介'},
         ]],
         queryParams: {//和查询时发送的请求保持一致
             'labRoom.name': '',
