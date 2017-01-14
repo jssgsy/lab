@@ -1,5 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%--引入spring的异常包--%>
+<%@ page language="java" import="org.springframework.dao.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,25 +9,18 @@
 </head>
 
 <body>
-<h3>
-    <a href="<%=path%>/login.jsp">回到首页</a>
-</h3>
 
-<h3>Error Message</h3>
-<s:actionerror/>
-<p>
-    <s:property value="%{exception.message}"/>
-</p>
-<hr/>
 
-<h3>Technical Details</h3>
-<p>
-    <s:property value="%{exceptionStack}"/>
-</p>
+<%
+    Object ex = request.getAttribute("exception");
+    if(ex instanceof DataIntegrityViolationException){
+        request.setAttribute("msg", "您的操作违反了数据之间的约束，请注意查看您操作的数据，或者稍后再试。");
+    }else {
+        request.setAttribute("msg", "未知错误，请联系此邮箱:fcsnwu@163.com，或者稍后再试。");
+    }
+%>
 
+${msg}
 
 </body>
-
-
-
 </html>

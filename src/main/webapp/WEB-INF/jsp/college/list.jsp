@@ -250,19 +250,21 @@
                             $("#updateCollege_form").form('submit',{
                                 url:'<%=path%>/json/collegeAction!update',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if (data.result == 'success') {
-                                        $.messager.show({
-                                            title : '修改学院',
-                                            msg : '修改成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#collegeGrid").datagrid('reload');
-                                    } else {
-                                        $.messager.alert('修改学院','修改失败。');
+                                    try{
+                                        var da = eval('(' + data + ')');
+                                        //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                        if (da.result == 'success') {
+                                            $.messager.show({
+                                                title : '修改学院',
+                                                msg : '修改成功!',
+                                                timeout : 2000,
+                                            });
+                                            $("#collegeGrid").datagrid('reload');
+                                            $("#updateCollege_dialog").dialog('close');
+                                        }
+                                    }catch (err){
+                                        $.messager.alert('修改学院',data, 'error');
                                     }
-                                    $("#updateCollege_dialog").dialog('close');
                                 }
                             })
                         }
