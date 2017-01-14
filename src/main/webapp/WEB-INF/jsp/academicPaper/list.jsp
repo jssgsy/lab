@@ -456,10 +456,7 @@
                 {
                     field: 'publishDate', title: '发表日期',
                     formatter : function (value, row, index) {
-                        if(value){
-                            var date = new Date(value);
-                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-                        }
+                        return getDate(value);
                     }
                 },
                 {field: 'remark', title: '备注'},

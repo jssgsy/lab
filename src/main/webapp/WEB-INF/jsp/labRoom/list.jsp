@@ -325,10 +325,7 @@
             {
                 field: 'buildDate', title: '实验室建立时间',
                 formatter : function (value, row, index) {
-                    if(value){
-                        var date = new Date(value);
-                        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-                    }
+                    return getDate(value);
                 }
             },
             {field: 'description', title: '实验室简介'},

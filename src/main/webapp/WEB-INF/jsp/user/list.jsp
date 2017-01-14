@@ -501,10 +501,7 @@
                 {
                     field: 'birthday', title: '出生年月',
                     formatter : function (value, row, index) {
-                        if(value){
-                            var date = new Date(value);
-                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-                        }
+                        return getDate(value);
                     }
                 },
                 {
@@ -536,10 +533,7 @@
                 {
                     field: 'enrolDate', title: '入学日期',
                     formatter : function (value, row, index) {
-                        if(value){
-                            var date = new Date(value);
-                            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-                        }
+                        return getDate(value);
                     }
                 },
                 {
