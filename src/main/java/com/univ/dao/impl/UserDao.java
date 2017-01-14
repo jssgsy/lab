@@ -44,8 +44,9 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
     }
 
     public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
-        Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username");
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username and labRoom.name like :labRoomName");
         query.setString("username", "%" + user.getUsername() + "%");
+        query.setString("labRoomName", "%" + user.getLabRoom().getName() + "%");
         query.setFirstResult(whichPage);
         query.setMaxResults(pageSize);
         return query.list();

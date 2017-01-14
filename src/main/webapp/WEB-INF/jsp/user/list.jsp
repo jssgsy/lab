@@ -12,7 +12,8 @@
 
 <!-- 查询工具条 -->
 <div id="search">
-    用户名: <input id="username" name="name" style="width:100px;">
+    用户名: <input id="username" style="width:100px;">
+    实验室: <input id="user_labRoom" style="width:100px;">
     <a id="user_search_btn">搜索</a><br/>
     <a id="user_add_btn">新增</a>
     <a id="user_update_btn">修改</a>
@@ -179,12 +180,23 @@
             }]
         });
 
+        //根据实验室查询
+        $("#user_labRoom").textbox({
+            icons: [{
+                iconCls:'icon-clear',
+                handler: function(e){
+                    $(e.data.target).textbox('clear');
+                }
+            }]
+        });
+
         //查询按钮
         $("#user_search_btn").linkbutton({
             iconCls : 'icon-search',
             onClick : function(){
                 $("#userGrid").datagrid('load',{
                     'user.username':$("#username").textbox('getValue'),
+                    'user.labRoom.name':$("#user_labRoom").textbox('getValue'),
                 });
             }
         })
@@ -544,6 +556,7 @@
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'user.username': '',
+                'user.labRoom.name': '',
             }
 
         });
