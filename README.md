@@ -21,7 +21,12 @@
 * textarea  dictionary/list.jsp
     备注之类的设置为不超过 120个字符，简介之类的可以适当增大；
     
-* combobox  menu/list.jsp
+* combobox  academicPaper/list
+    * valueField使用默认值id，
+    * valueField使用非默认值，academicPaper/list
+
+* combotree menu/list.jsp
+
 * datagrid  user/list.jsp
 * show  university/list.jsp
 * dialog    university/list.jsp
@@ -41,6 +46,9 @@
 * 单向一对一：College-User(一个学院只能有一个院长)
 * 单向多对多：AcademicPaper-User(一篇论文可以有多个作者)
 
+
+## 代码
+* academicPaper根据作者名查询,在datagrid初始化时也传递查询参数，和点击搜索按钮保持一致，也可以防止后台有的对象可能为null;
 
 
 # hibernate常见异常

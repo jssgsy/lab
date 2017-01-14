@@ -35,7 +35,7 @@ public class AcademicPaper {
 
     private String remark;//备注
 
-    //论文的作者，允许多个
+    //论文的作者，允许多个，todo:或许可以改成list，作者区分顺序;这里命名有问题,实体类中最好不要定义成Set类型，不好取值
     private Set<User> authorList = new HashSet<User>();
 
     public Long getId() {

@@ -12,7 +12,8 @@
 
 <!-- 查询工具条 -->
 <div id="paper_search">
-    论文名称: <input id="paper_search_name" name="labRoom.name" style="width:100px;">
+    论文名称: <input id="paper_search_name" style="width:100px;">
+    论文作者: <input id="paper_author_name" style="width:100px;">
     <a id="paper_search_btn">搜索</a><br/>
     <a id="paper_add_btn">新增</a>
     <a id="paper_update_btn">修改</a>
@@ -127,7 +128,7 @@
 
     $(function () {
 
-        //根据科研论文名称查询,todo:还需要增加一个根据作者名查
+        //根据科研论文名称查询
         $("#paper_search_name").textbox({
             icons: [{
                 iconCls:'icon-clear',
@@ -137,12 +138,24 @@
             }]
         });
 
+        //根据作者名查询
+        $("#paper_author_name").textbox({
+            icons: [{
+                iconCls:'icon-clear',
+                handler: function(e){
+                    $(e.data.target).textbox('clear');
+                }
+            }]
+        });
+
+
         //查询按钮
         $("#paper_search_btn").linkbutton({
             iconCls : 'icon-search',
             onClick : function(){
                 $("#paperGrid").datagrid('load',{
                     'paper.name':$("#paper_search_name").textbox('getValue'),
+                    'paperAuthorName':$("#paper_author_name").textbox('getValue'),
                 });
             }
         })
@@ -453,6 +466,7 @@
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'paper.name': '',
+                'paperAuthorName' : '',
             }
         });
     });
