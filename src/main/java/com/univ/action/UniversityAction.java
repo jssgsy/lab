@@ -1,9 +1,8 @@
 package com.univ.action;
 
-import com.opensymphony.xwork2.ActionSupport;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.University;
 import com.univ.service.UniversityService;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
  * Univ
  * 2017/1/10 16:57
  */
-public class UniversityAction extends ActionSupport {
+public class UniversityAction extends BaseAction {
 
     @Autowired
     private UniversityService universityService;
@@ -49,12 +48,8 @@ public class UniversityAction extends ActionSupport {
     }
 
     public String list(){
-        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
-        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        int whichPage = (page-1)*rows;
-        int pageSize = rows;
-
-        universityList = universityService.getPaginationWithQuery(university, whichPage, pageSize);
+        EasyUIPage easyUIPage = getEasyUIPage();
+        universityList = universityService.getPaginationWithQuery(university,easyUIPage);
 
         //将数据转换成带有分页功能的datagrid所需的格式
         long total = universityService.totalSize();

@@ -1,6 +1,7 @@
 package com.univ.dao.impl;
 
 import com.univ.dao.UniversityDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.University;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -27,11 +28,11 @@ public class UniversityDaoImpl extends AbstractBaseDao implements UniversityDao 
         getCurrentSession().update(university);
     }
 
-    public List<University> getPaginationWithQuery(University university, int whichPage, int pageSize) {
+    public List<University> getPaginationWithQuery(University university, EasyUIPage easyUIPage) {
         Query query = getCurrentSession().createQuery("from com.univ.entity.University where name like :name");
         query.setString("name", "%" + university.getName() + "%");
-        query.setFirstResult(whichPage);
-        query.setMaxResults(pageSize);
+        query.setFirstResult(easyUIPage.getWhichPage());
+        query.setMaxResults(easyUIPage.getPageSize());
         return query.list();
     }
 

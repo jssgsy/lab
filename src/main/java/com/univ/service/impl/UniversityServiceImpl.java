@@ -1,6 +1,7 @@
 package com.univ.service.impl;
 
 import com.univ.dao.UniversityDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.University;
 import com.univ.service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class UniversityServiceImpl implements UniversityService {
         universityDao.update(university);
     }
 
-    public List<University> getPaginationWithQuery(University university, int whichPage, int pageSize) {
-        return universityDao.getPaginationWithQuery(university,whichPage,pageSize);
+    public List<University> getPaginationWithQuery(University university, EasyUIPage easyUIPage) {
+        return universityDao.getPaginationWithQuery(university, easyUIPage);
     }
 
     public long totalSize() {

@@ -61,3 +61,8 @@
 * 数据字典的使用：AcademicPaper中的level字段与User中的speciality和education虽然取自数据字典，但并没有与这关联，注意这里academicPaper/list.jsp的显示逻辑；
 重点在于将combobox中valueField设为字典项的code，而不是id！
 
+# 心得
+
+* 不论是什么关联关系，每个实体都是一个独立的模块；
+    * 多对一(包括双向)关联中，应该在多方的搜索框中设置根据多方(名称)查找；
+

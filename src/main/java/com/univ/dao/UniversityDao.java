@@ -1,5 +1,6 @@
 package com.univ.dao;
 
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.University;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface UniversityDao {
 
     void update(University university);
 
-    List<University> getPaginationWithQuery(University university, int whichPage, int pageSize);
+    List<University> getPaginationWithQuery(University university,  EasyUIPage easyUIPage);
 
     long totalSize();
 
