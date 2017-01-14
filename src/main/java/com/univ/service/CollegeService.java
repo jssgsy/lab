@@ -1,6 +1,7 @@
 package com.univ.service;
 
 import com.univ.entity.College;
+import com.univ.entity.EasyUIPage;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface CollegeService {
 
     void save(College college);
 
-    List<College> getPaginationWithQuery(College college, int whichPage, int pageSize);
+    List<College> getPaginationWithQuery(College college, EasyUIPage easyUIPage);
 
     /**
      * 总记录数

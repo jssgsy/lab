@@ -1,6 +1,7 @@
 package com.univ.dao;
 
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.EasyUIPage;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface AcademicPaperDao {
     void delete(AcademicPaper paper);
 
 
-    List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, int whichPage, int pageSize);
+    List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, EasyUIPage easyUIPage);
 
     long totalSize();
 }

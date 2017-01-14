@@ -1,6 +1,7 @@
 package com.univ.service.impl;
 
 import com.univ.dao.LabRoomDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.LabRoom;
 import com.univ.service.LabRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class LabRoomServiceImpl implements LabRoomService {
         labRoomDao.save(labRoom);
     }
 
-    public List<LabRoom> getPaginationWithQuery(LabRoom labRoom, int whichPage, int pageSize) {
-        return labRoomDao.getPaginationWithQuery(labRoom,whichPage,pageSize);
+    public List<LabRoom> getPaginationWithQuery(LabRoom labRoom, EasyUIPage easyUIPage) {
+        return labRoomDao.getPaginationWithQuery(labRoom,easyUIPage);
     }
 
     public long totalSize() {

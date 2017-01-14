@@ -2,6 +2,7 @@ package com.univ.dao.impl;
 
 import com.univ.dao.CollegeDao;
 import com.univ.entity.College;
+import com.univ.entity.EasyUIPage;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +20,11 @@ public class CollegeDaoImpl extends AbstractBaseDao implements CollegeDao {
         getCurrentSession().save(college);
     }
 
-    public List<College> getPaginationWithQuery(College college, int whichPage, int pageSize) {
+    public List<College> getPaginationWithQuery(College college, EasyUIPage easyUIPage) {
         Query query = getCurrentSession().createQuery("select lab from com.univ.entity.College as lab  where name like :name");
         query.setString("name", "%" + college.getName() + "%");
-        query.setFirstResult(whichPage);
-        query.setMaxResults(pageSize);
+        query.setFirstResult(easyUIPage.getWhichPage());
+        query.setMaxResults(easyUIPage.getPageSize());
         return query.list();
     }
 

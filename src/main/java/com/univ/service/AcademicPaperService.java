@@ -1,6 +1,7 @@
 package com.univ.service;
 
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.EasyUIPage;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface AcademicPaperService {
 
     void delete(AcademicPaper paper);
 
-    List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, int whichPage, int pageSize);
+    List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, EasyUIPage easyUIPage);
 
     /**
      * 总记录数

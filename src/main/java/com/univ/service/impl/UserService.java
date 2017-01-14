@@ -1,6 +1,7 @@
 package com.univ.service.impl;
 
 import com.univ.dao.IUserDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import com.univ.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class UserService implements IUserService {
         userDao.save(user);
     }
 
-    public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
-        return userDao.getPaginationWithQuery(user, whichPage, pageSize);
+    public List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage) {
+        return userDao.getPaginationWithQuery(user, easyUIPage);
     }
 
     public long totalSize() {

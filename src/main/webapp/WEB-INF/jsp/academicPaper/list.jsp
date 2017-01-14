@@ -466,7 +466,6 @@
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'paper.name': '',
-//                'paperAuthorName' : '',
                 'paper.authorList[0].username' : '',
             }
         });

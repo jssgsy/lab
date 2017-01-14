@@ -1,5 +1,6 @@
 package com.univ.dao;
 
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface IUserDao {
      */
     boolean contains(User user);
 
-    List<User> getPaginationWithQuery(User user, int whichPage, int pageSize);
+    List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage);
 
     long totalSize();
 

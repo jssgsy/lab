@@ -1,5 +1,6 @@
 package com.univ.dao;
 
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.LabRoom;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface LabRoomDao {
 
     void save(LabRoom labRoom);
 
-    List<LabRoom> getPaginationWithQuery(LabRoom labRoom, int whichPage, int pageSize);
+    List<LabRoom> getPaginationWithQuery(LabRoom labRoom, EasyUIPage easyUIPage);
 
     long totalSize();
 

@@ -2,6 +2,7 @@ package com.univ.service.impl;
 
 import com.univ.dao.AcademicPaperDao;
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.EasyUIPage;
 import com.univ.service.AcademicPaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class AcademicPaperServiceImpl implements AcademicPaperService {
         academicPaperDao.delete(paper);
     }
 
-    public List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, int whichPage, int pageSize) {
-        return academicPaperDao.getPaginationWithQuery(paper, whichPage, pageSize);
+    public List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, EasyUIPage easyUIPage) {
+        return academicPaperDao.getPaginationWithQuery(paper,easyUIPage);
     }
 
     public long totalSize() {

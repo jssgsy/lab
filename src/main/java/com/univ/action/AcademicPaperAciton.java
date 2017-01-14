@@ -1,7 +1,7 @@
 package com.univ.action;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import com.univ.service.AcademicPaperService;
 import org.apache.struts2.ServletActionContext;
@@ -15,7 +15,7 @@ import java.util.Map;
  * Univ
  * 2017/1/11 21:02
  */
-public class AcademicPaperAciton extends ActionSupport {
+public class AcademicPaperAciton extends BaseAction {
     
     private AcademicPaper paper;
 
@@ -63,18 +63,12 @@ public class AcademicPaperAciton extends ActionSupport {
     }
 
     public String list(){
-        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
-        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        int whichPage = (page-1)*rows;
-        int pageSize = rows;
-
-        paperList = academicPaperService.getPaginationWithQuery(paper, whichPage, pageSize);
-
+        EasyUIPage easyUIPage = getEasyUIPage();
+        paperList = academicPaperService.getPaginationWithQuery(paper, easyUIPage);
         long total = academicPaperService.totalSize();
         jsonMap = new HashMap();
         jsonMap.put("total", total);
         jsonMap.put("rows", paperList);
-
         return "dataGrid";
     }
 

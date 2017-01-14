@@ -1,5 +1,6 @@
 package com.univ.service;
 
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface IUserService {
 
     void save(User user);
 
-    List<User> getPaginationWithQuery(User user, int whichPage, int pageSize);
+    List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage);
 
     /**
      * 总记录数

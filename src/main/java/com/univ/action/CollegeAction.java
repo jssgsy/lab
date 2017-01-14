@@ -2,6 +2,7 @@ package com.univ.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.College;
+import com.univ.entity.EasyUIPage;
 import com.univ.service.CollegeService;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Map;
  * Univ
  * 2017/1/10 20:45
  */
-public class CollegeAction extends ActionSupport {
+public class CollegeAction extends BaseAction {
 
     @Autowired
     private CollegeService collegeService;
@@ -61,14 +62,9 @@ public class CollegeAction extends ActionSupport {
         return "toList";
     }
 
-    //todo：可以考虑将分页优化一下
     public String list(){
-        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
-        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        int whichPage = (page-1)*rows;
-        int pageSize = rows;
-
-        collegeList = collegeService.getPaginationWithQuery(college, whichPage, pageSize);
+        EasyUIPage easyUIPage = getEasyUIPage();
+        collegeList = collegeService.getPaginationWithQuery(college, easyUIPage);
         //将数据转换成带有分页功能的datagrid所需的格式
 
         long total = collegeService.totalSize();

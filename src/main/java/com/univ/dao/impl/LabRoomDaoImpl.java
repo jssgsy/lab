@@ -1,6 +1,7 @@
 package com.univ.dao.impl;
 
 import com.univ.dao.LabRoomDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.LabRoom;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -19,11 +20,11 @@ public class LabRoomDaoImpl extends AbstractBaseDao implements LabRoomDao {
     }
 
     //todo:在关联关系方面，list()方法忽始终采取延迟加载，这里为何可以找出labRoom关联的user？
-    public List<LabRoom> getPaginationWithQuery(LabRoom labRoom, int whichPage, int pageSize) {
+    public List<LabRoom> getPaginationWithQuery(LabRoom labRoom, EasyUIPage easyUIPage) {
         Query query = getCurrentSession().createQuery("select lab from com.univ.entity.LabRoom as lab  where name like :name");
         query.setString("name", "%" + labRoom.getName() + "%");
-        query.setFirstResult(whichPage);
-        query.setMaxResults(pageSize);
+        query.setFirstResult(easyUIPage.getWhichPage());
+        query.setMaxResults(easyUIPage.getPageSize());
         List<LabRoom> list = query.list();
         return list;
     }

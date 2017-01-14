@@ -1,6 +1,6 @@
 package com.univ.action;
 
-import com.univ.entity.LabRoom;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import com.univ.service.IUserService;
 import org.apache.struts2.ServletActionContext;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Univ
  * 2017/1/4 19:44
  */
-public class UserAction {
+public class UserAction extends BaseAction{
 
     private User user;
 
@@ -72,18 +72,14 @@ public class UserAction {
      * @return
      */
     public String list(){
-        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
-        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        int whichPage = (page-1)*rows;
-        int pageSize = rows;
+        EasyUIPage easyUIPage = getEasyUIPage();
+        userList = userService.getPaginationWithQuery(user, easyUIPage);
 
-        userList = userService.getPaginationWithQuery(user, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
         long total = userService.totalSize();
         jsonMap = new HashMap();
         jsonMap.put("total", total);
         jsonMap.put("rows", userList);
-
         return "dataGrid";
     }
 

@@ -1,6 +1,7 @@
 package com.univ.dao.impl;
 
 import com.univ.dao.IUserDao;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -43,12 +44,12 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
         return true;
     }
 
-    public List<User> getPaginationWithQuery(User user, int whichPage, int pageSize) {
+    public List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage) {
         Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username and labRoom.name like :labRoomName");
         query.setString("username", "%" + user.getUsername() + "%");
         query.setString("labRoomName", "%" + user.getLabRoom().getName() + "%");
-        query.setFirstResult(whichPage);
-        query.setMaxResults(pageSize);
+        query.setFirstResult(easyUIPage.getWhichPage());
+        query.setMaxResults(easyUIPage.getPageSize());
         return query.list();
     }
 

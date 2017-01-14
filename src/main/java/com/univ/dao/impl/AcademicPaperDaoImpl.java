@@ -2,6 +2,7 @@ package com.univ.dao.impl;
 
 import com.univ.dao.AcademicPaperDao;
 import com.univ.entity.AcademicPaper;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -29,12 +30,12 @@ public class AcademicPaperDaoImpl extends AbstractBaseDao implements AcademicPap
         getCurrentSession().delete(paper);
     }
 
-    public List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, int whichPage, int pageSize) {
+    public List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, EasyUIPage easyUIPage) {
         String authorName = paper.getAuthorList().get(0).getUsername();
         Query query = getCurrentSession().createQuery("from com.univ.entity.AcademicPaper  where name like :name");
         query.setString("name", "%" + paper.getName() + "%");
-        query.setFirstResult(whichPage);
-        query.setMaxResults(pageSize);
+        query.setFirstResult(easyUIPage.getWhichPage());
+        query.setMaxResults(easyUIPage.getPageSize());
         List<AcademicPaper> list = query.list();
 
         //根据作者名查询，这里实现的不够优雅，不过应该配置的是单向的多对多，似乎也别无他法。

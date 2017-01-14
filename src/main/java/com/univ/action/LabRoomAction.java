@@ -1,6 +1,7 @@
 package com.univ.action;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.univ.entity.EasyUIPage;
 import com.univ.entity.LabRoom;
 import com.univ.entity.User;
 import com.univ.service.LabRoomService;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Univ
  * 2017/1/9 21:41
  */
-public class LabRoomAction extends ActionSupport {
+public class LabRoomAction extends BaseAction {
 
     private LabRoom labRoom;
 
@@ -69,15 +70,10 @@ public class LabRoomAction extends ActionSupport {
     }
 
     public String list(){
-        int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
-        int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        int whichPage = (page-1)*rows;
-        int pageSize = rows;
+        EasyUIPage easyUIPage = getEasyUIPage();
+        labRoomList = labRoomService.getPaginationWithQuery(labRoom, easyUIPage);
 
-
-        labRoomList = labRoomService.getPaginationWithQuery(labRoom, whichPage, pageSize);
         //将数据转换成带有分页功能的datagrid所需的格式
-
         long total = labRoomService.totalSize();
         jsonMap = new HashMap();
         jsonMap.put("total", total);

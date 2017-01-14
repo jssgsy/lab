@@ -2,6 +2,7 @@ package com.univ.service.impl;
 
 import com.univ.dao.CollegeDao;
 import com.univ.entity.College;
+import com.univ.entity.EasyUIPage;
 import com.univ.service.CollegeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class CollegeServiceImpl implements CollegeService {
         collegeDao.save(college);
     }
 
-    public List<College> getPaginationWithQuery(College college, int whichPage, int pageSize) {
-        return collegeDao.getPaginationWithQuery(college,whichPage,pageSize);
+    public List<College> getPaginationWithQuery(College college,EasyUIPage easyUIPage) {
+        return collegeDao.getPaginationWithQuery(college,easyUIPage);
     }
 
     public long totalSize() {
