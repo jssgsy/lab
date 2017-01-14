@@ -8,12 +8,21 @@
 </head>
 
 <body>
+<h3>
+    <a href="<%=path%>/login.jsp">回到首页</a>
+</h3>
 
-<h1>${errorMsg}</h1>
+<h3>Error Message</h3>
+<s:actionerror/>
+<p>
+    <s:property value="%{exception.message}"/>
+</p>
+<hr/>
 
-
-
-<a href="<%=path%>/login.jsp">回到首页</a>
+<h3>Technical Details</h3>
+<p>
+    <s:property value="%{exceptionStack}"/>
+</p>
 
 
 </body>
