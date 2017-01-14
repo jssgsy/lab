@@ -44,7 +44,7 @@
 
 * 自身多对一：Menu、Parent;
 * 单向一对一：College-User(一个学院只能有一个院长)
-* 单向多对多：AcademicPaper-User(一篇论文可以有多个作者)
+* 单向多对多：AcademicPaper-User(一篇论文可以有多个作者),注意，这里使用了list而不是来配置多对多(一对多也应该类似，注意借鉴)
 
 
 ## 代码

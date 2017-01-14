@@ -5,7 +5,9 @@ package com.univ.entity;
  * 2017/1/11 20:15
  */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 实验室人员发表论文实体
@@ -35,8 +37,8 @@ public class AcademicPaper {
 
     private String remark;//备注
 
-    //论文的作者，允许多个，todo:或许可以改成list，作者区分顺序;这里命名有问题,实体类中最好不要定义成Set类型，不好取值
-    private Set<User> authorList = new HashSet<User>();
+    //论文的作者，允许多个，且允许作者的顺序之分，因此使用list
+    private List<User> authorList = new ArrayList<User>();
 
     public Long getId() {
         return id;
@@ -94,11 +96,11 @@ public class AcademicPaper {
         this.remark = remark;
     }
 
-    public Set<User> getAuthorList() {
+    public List<User> getAuthorList() {
         return authorList;
     }
 
-    public void setAuthorList(Set<User> authorList) {
+    public void setAuthorList(List<User> authorList) {
         this.authorList = authorList;
     }
 }
