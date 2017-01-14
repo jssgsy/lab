@@ -155,7 +155,7 @@
             onClick : function(){
                 $("#paperGrid").datagrid('load',{
                     'paper.name':$("#paper_search_name").textbox('getValue'),
-                    'paperAuthorName':$("#paper_author_name").textbox('getValue'),
+                    'paper.authorList[0].username':$("#paper_author_name").textbox('getValue'),
                 });
             }
         })
@@ -466,7 +466,8 @@
             ]],
             queryParams: {//和查询时发送的请求保持一致
                 'paper.name': '',
-                'paperAuthorName' : '',
+//                'paperAuthorName' : '',
+                'paper.authorList[0].username' : '',
             }
         });
     });

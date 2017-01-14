@@ -65,15 +65,8 @@ public class AcademicPaperAciton extends ActionSupport {
     public String list(){
         int page = Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
         int rows = Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-        //根据作者名查询,todo:dao中尚不能查出
-        String authorName = ServletActionContext.getRequest().getParameter("paperAuthorName");
-        User author = new User();
-        author.setUsername(authorName);
-        paper.getAuthorList().add(author);
-
         int whichPage = (page-1)*rows;
         int pageSize = rows;
-
 
         paperList = academicPaperService.getPaginationWithQuery(paper, whichPage, pageSize);
 
