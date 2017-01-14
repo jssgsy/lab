@@ -157,19 +157,20 @@
                             $("#addLabRoom_form").form('submit',{
                                 url:'<%=path%>/json/labRoomAction!save',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if(data.result == 'success'){
-                                        $.messager.show({
-                                            title : '新增实验室',
-                                            msg : '新增成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#labRoomGrid").datagrid('reload');
-                                    }else{
-                                        $.messager.alert('新增实验室','新增失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        if(res.result == 'success') {
+                                            $.messager.show({
+                                                title: '新增实验室',
+                                                msg: '新增成功!',
+                                                timeout: 2000,
+                                            });
+                                            $("#labRoomGrid").datagrid('reload');
+                                            $("#addLabRoom_dialog").dialog('close');
+                                        }
+                                    }catch(err){
+                                        $.messager.alert('新增实验室',data, 'error');
                                     }
-                                    $("#addLabRoom_dialog").dialog('close');
                                 }
                             });
                         }
@@ -223,19 +224,22 @@
                             $("#updateLabRoom_form").form('submit',{
                                 url:'<%=path%>/json/labRoomAction!update',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if (data.result == 'success') {
-                                        $.messager.show({
-                                            title : '修改实验室',
-                                            msg : '修改成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#labRoomGrid").datagrid('reload');
-                                    } else {
-                                        $.messager.alert('修改实验室','修改失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                        if (res.result == 'success') {
+                                            $.messager.show({
+                                                title : '修改实验室',
+                                                msg : '修改成功!',
+                                                timeout : 2000,
+                                            });
+                                            $("#labRoomGrid").datagrid('reload');
+                                            $("#updateLabRoom_dialog").dialog('close');
+                                        }
+                                    }catch (err){
+                                        $.messager.alert('修改实验室',data, 'error');
                                     }
-                                    $("#updateLabRoom_dialog").dialog('close');
+
                                 }
                             })
                         }

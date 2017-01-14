@@ -218,19 +218,20 @@
                             $("#addPaper_form").form('submit',{
                                 url:'<%=path%>/json/paperAction!save',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if(data.result == 'success'){
-                                        $.messager.show({
-                                            title : '新增科研论文',
-                                            msg : '新增成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#paperGrid").datagrid('reload');
-                                    }else{
-                                        $.messager.alert('新增科研论文','新增失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        if(res.result == 'success') {
+                                            $.messager.show({
+                                                title: '新增科研论文',
+                                                msg: '新增成功!',
+                                                timeout: 2000,
+                                            });
+                                            $("#paperGrid").datagrid('reload');
+                                            $("#addPaper_dialog").dialog('close');
+                                        }
+                                    }catch(err){
+                                        $.messager.alert('新增科研论文',data, 'error');
                                     }
-                                    $("#addPaper_dialog").dialog('close');
                                 }
                             })
                         }
@@ -303,19 +304,25 @@
                             $("#updatepaper_form").form('submit',{
                                 url:'<%=path%>/json/paperAction!update',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if (data.result == 'success') {
-                                        $.messager.show({
-                                            title : '修改科研论文',
-                                            msg : '修改成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#paperGrid").datagrid('reload');
-                                    } else {
-                                        $.messager.alert('修改科研论文','修改失败。');
-                                    }
                                     $("#updatepaper_dialog").dialog('close');
+
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                        if (res.result == 'success') {
+                                            $.messager.show({
+                                                title : '修改科研论文',
+                                                msg : '修改成功!',
+                                                timeout : 2000,
+                                            });
+                                            $("#paperGrid").datagrid('reload');
+                                            $("#updatepaper_dialog").dialog('close');
+                                        }
+                                    }catch (err){
+                                        $.messager.alert('修改科研论文',data, 'error');
+                                    }
+
+
                                 }
                             })
                         }

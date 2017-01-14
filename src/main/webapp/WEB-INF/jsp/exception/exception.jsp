@@ -16,7 +16,9 @@
     if(ex instanceof DataIntegrityViolationException){
         request.setAttribute("msg", "您的操作违反了数据之间的约束，请注意查看您操作的数据，或者稍后再试。");
     }else {
-        request.setAttribute("msg", "未知错误，请联系此邮箱:fcsnwu@163.com，或者稍后再试。");
+        //todo:仅供开发模式使用，便于跟踪异常
+        request.setAttribute("msg", ex);
+        //request.setAttribute("msg", "未知错误，请联系此邮箱:fcsnwu@163.com，或者稍后再试。");
     }
 %>
 

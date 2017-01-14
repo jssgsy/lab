@@ -172,19 +172,20 @@
                             $("#addCollge_form").form('submit',{
                                 url:'<%=path%>/json/collegeAction!save',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if(data.result == 'success'){
-                                        $.messager.show({
-                                            title : '新增学院',
-                                            msg : '新增成功!',
-                                            timeout : 2000,
-                                        });
-                                        $("#collegeGrid").datagrid('reload');
-                                    }else{
-                                        $.messager.alert('新增学院','新增失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        if(res.result == 'success') {
+                                            $.messager.show({
+                                                title: '新增学院',
+                                                msg: '新增成功!',
+                                                timeout: 2000,
+                                            });
+                                            $("#collegeGrid").datagrid('reload');
+                                            $("#addCollege_dialog").dialog('close');
+                                        }
+                                    }catch(err){
+                                        $.messager.alert('新增学院',data, 'error');
                                     }
-                                    $("#addCollege_dialog").dialog('close');
                                 }
                             })
                         }
@@ -251,9 +252,9 @@
                                 url:'<%=path%>/json/collegeAction!update',
                                 success:function(data){
                                     try{
-                                        var da = eval('(' + data + ')');
+                                        var res = eval('(' + data + ')');
                                         //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                        if (da.result == 'success') {
+                                        if (res.result == 'success') {
                                             $.messager.show({
                                                 title : '修改学院',
                                                 msg : '修改成功!',

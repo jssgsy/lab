@@ -282,20 +282,22 @@
                             $("#addUser_form").form('submit',{
                                 url:'<%=path%>/json/userAction!save',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if(data.result == 'success'){
-                                        $.messager.show({
-                                            title : '新增用户',
-                                            msg : '新增成功!',
-                                            timeout : 2000
-                                        });
-                                        $("#userGrid").datagrid('reload');
-                                    }else{
-                                        $.messager.alert('新增用户','新增失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        if(res.result == 'success') {
+                                            $.messager.show({
+                                                title: '新增用户',
+                                                msg: '新增成功!',
+                                                timeout: 2000,
+                                            });
+                                            $("#userGrid").datagrid('reload');
+                                            $("#addUser_dialog").dialog('close');
+                                        }
+                                    }catch(err){
+                                        $.messager.alert('新增用户',data, 'error');
                                     }
-                                    $("#addUser_dialog").dialog('close');
                                 }
+
                             });
 
                         }
@@ -385,19 +387,23 @@
                             $("#updateUser_form").form('submit',{
                                 url:'<%=path%>/json/userAction!update',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if (data.result == 'success') {
-                                        $.messager.show({
-                                            title : '修改用户',
-                                            msg : '修改成功!',
-                                            timeout : 2000
-                                        });
-                                        $("#userGrid").datagrid('reload');
-                                    } else {
-                                        $.messager.alert('修改用户','修改失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                        if (res.result == 'success') {
+                                            $.messager.show({
+                                                title : '修改用户',
+                                                msg : '修改成功!',
+                                                timeout : 2000,
+                                            });
+                                            $("#userGrid").datagrid('reload');
+                                            $("#updateUser_dialog").dialog('close');
+                                        }
+                                    }catch (err){
+                                        $.messager.alert('修改用户',data, 'error');
                                     }
-                                    $("#updateUser_dialog").dialog('close');
+
+
                                 }
                             })
                         }

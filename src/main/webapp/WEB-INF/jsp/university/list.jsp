@@ -147,19 +147,20 @@
                             $("#addUniversity_form").form('submit',{
                                 url:'<%=path%>/json/universityAction!save',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果新增成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if(data.result == 'success'){
-                                        $.messager.show({
-                                            title : '新增学校',
-                                            msg : '新增成功!',
-                                            timeout : 2000
-                                        });
-                                        $("#universityGrid").datagrid('reload');
-                                    }else{
-                                        $.messager.alert('新增学校','新增失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        if(res.result == 'success') {
+                                            $.messager.show({
+                                                title: '新增学校',
+                                                msg: '新增成功!',
+                                                timeout: 2000,
+                                            });
+                                            $("#universityGrid").datagrid('reload');
+                                            $("#addUniversity_dialog").dialog('close');
+                                        }
+                                    }catch(err){
+                                        $.messager.alert('新增学校',data, 'error');
                                     }
-                                    $("#addUniversity_dialog").dialog('close');
                                 }
                             });
                         }
@@ -199,19 +200,21 @@
                             $("#updateUniversity_form").form('submit',{
                                 url:'<%=path%>/json/universityAction!update',
                                 success:function(data){
-                                    var data = eval('(' + data + ')');
-                                    //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
-                                    if (data.result == 'success') {
-                                        $.messager.show({
-                                            title : '修改学校',
-                                            msg : '修改成功!',
-                                            timeout : 2000,//停留2秒，默认为4秒
-                                        });
-                                        $("#universityGrid").datagrid('reload');
-                                    } else {
-                                        $.messager.alert('修改学校','修改失败。');
+                                    try{
+                                        var res = eval('(' + data + ')');
+                                        //如果更新成功，做三件事：1.刷新链表，2.提示新增操作成功,3.关闭新增窗口
+                                        if (res.result == 'success') {
+                                            $.messager.show({
+                                                title : '修改学校',
+                                                msg : '修改成功!',
+                                                timeout : 2000,
+                                            });
+                                            $("#universityGrid").datagrid('reload');
+                                            $("#updateUniversity_dialog").dialog('close');
+                                        }
+                                    }catch (err){
+                                        $.messager.alert('修改学校',data, 'error');
                                     }
-                                    $("#updateUniversity_dialog").dialog('close');
                                 }
                             });
                         }
