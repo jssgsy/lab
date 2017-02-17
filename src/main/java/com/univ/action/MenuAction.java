@@ -1,26 +1,26 @@
 package com.univ.action;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.univ.entity.EasyUITreeNode;
 import com.univ.entity.Menu;
 import com.univ.service.MenuService;
-import org.apache.struts2.ServletActionContext;
+import com.univ.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Univ
  * 2017/1/6 15:52
  */
-public class MenuAction extends ActionSupport{
+public class MenuAction extends BaseAction{
 
 
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private RoleService roleService;
+
     private List<Menu> menuList;
     private  List<EasyUITreeNode> tree; //序列化成json传给EasyUI tree
     private Map jsonMsg = new HashMap();//序列化成json传给前台
@@ -62,6 +62,58 @@ public class MenuAction extends ActionSupport{
 
         return "easyUiTree";
     }
+
+    //使用一次性加载，这里可以让已经关联的角色被选中，todo:注意只能处理两级的层级关系
+    public String getMenuTree1(){
+        Long roleId = Long.parseLong(request.getParameter("roleId"));
+        Set<Menu> linkedMenus = roleService.getLinkedMenus(roleId);//和id为roleId的角色已经关联的菜单menu
+        Set<Long> linkedMenuIds = new HashSet<Long>();
+        for(Menu temp : linkedMenus){
+            linkedMenuIds.add(temp.getId());
+        }
+
+        tree = new ArrayList<EasyUITreeNode>();
+        menuList = menuService.getTopMenus();
+        for (Menu menu : menuList) {
+            EasyUITreeNode node = new EasyUITreeNode();
+            //2.映射根节点
+            node.setId(menu.getId());
+            node.setText(menu.getName());
+            Map<String, Object> attributes = node.getAttributes();
+            attributes.put("px", menu.getPx());
+            attributes.put("url", menu.getUrl());
+            attributes.put("parent", menu.getParent());
+            node.setAttributes(attributes);
+
+            if (menuService.hasChildren(menu.getId())) {
+                List<Menu> children = menuService.getChildrenById(menu.getId());
+                for (Menu child : children) {
+                    EasyUITreeNode childNode = new EasyUITreeNode();
+                    //2.映射子节点
+                    childNode.setId(child.getId());
+                    childNode.setText(child.getName());
+
+                    //设置此结点是否需要被选中
+                    if (linkedMenuIds.contains(child.getId())) {
+                        childNode.setChecked(true);
+                    }
+
+                    Map<String, Object> attributes1 = childNode.getAttributes();
+                    attributes1.put("px", child.getPx());
+                    attributes1.put("url", child.getUrl());
+                    attributes1.put("parent", child.getParent());
+                    childNode.setAttributes(attributes1);
+
+                    node.getChildren().add(childNode);
+                }
+            }
+            tree.add(node);
+        }
+
+        return "easyUiTree";
+    }
+
+
 
     public String getAll(){
         menuList =  menuService.getAll();

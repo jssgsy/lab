@@ -155,6 +155,11 @@
             </tr>
 
             <tr>
+                <td>用户角色:</td>
+                <td><input id="user_role_update" name="user.role.id" style="width:172px;"></td>
+            </tr>
+
+            <tr>
                 <td>备注:</td>
                 <td>
                     <textarea id="user_remark_update" name="user.remark" placeholder="不超过120个字符" rows="5" maxlength="120" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
@@ -330,6 +335,21 @@
                 //所属实验室
                 $("#user_labRoom_update").combobox({
                     url:'<%=path%>/json/labRoomAction!getAll',
+                    valueField:'id',
+                    textField:'name',
+                    editable:false,
+                    panelHeight:'auto',
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }]
+                });
+
+                //用户角色
+                $("#user_role_update").combobox({
+                    url:'<%=path%>/json/roleAction!getAll',
                     valueField:'id',
                     textField:'name',
                     editable:false,
@@ -552,6 +572,14 @@
                 },
                 {field: 'telephone', title: '电话'},
                 {field: 'email', title: '邮箱'},
+                {
+                    field: 'role', title: '所属角色',
+                    formatter : function (value, row, index) {
+                        if (row.role){
+                            return row.role.name;
+                        }
+                    }
+                },
                 {field: 'remark', title: '备注'},
             ]],
             queryParams: {//和查询时发送的请求保持一致

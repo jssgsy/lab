@@ -33,12 +33,9 @@ public class User {
     private LabRoom labRoom;//所属实验室,单向多对一
 
     /*
-     * 1：学生；
-     * 2：老师；
-     * 3：管理员；
-     * todo:为何将角色设置成1，2，3，考虑枚举？
+    这里设计成每个用户只有有一个角色而不是多个角色，所以用户与角色是多对一的关系
      */
-    private int role;
+    private Role role;//实验室人员，学校管理员，超级管理员
 
     public Long getId() {
         return id;
@@ -78,14 +75,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 
     public LabRoom getLabRoom() {
@@ -142,5 +131,13 @@ public class User {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

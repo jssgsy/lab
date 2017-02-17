@@ -17,12 +17,6 @@
         <!--配置自身多对一单向关联-->
         <many-to-one name="parent" column="pId" class="com.univ.entity.Menu"/>
 
-        <!--配置自身一对多单向关联-->
-       <!-- <set name="children" >
-            <key column="pId"></key>
-            <one-to-many class="com.univ.entity.Menu" />
-        </set>-->
-
     </class>
 
 

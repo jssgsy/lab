@@ -30,6 +30,7 @@ public class AcademicPaperDaoImpl extends AbstractBaseDao implements AcademicPap
         getCurrentSession().delete(paper);
     }
 
+    //todo:或许可以参考RoleDaoImpl的getLinkedMenus方法
     public List<AcademicPaper> getPaginationWithQuery(AcademicPaper paper, EasyUIPage easyUIPage) {
         String authorName = paper.getAuthorList().get(0).getUsername();
         Query query = getCurrentSession().createQuery("from com.univ.entity.AcademicPaper  where name like :name");

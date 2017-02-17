@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.Role" table="role">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name" />
+        <property name="remark" column="remark" />
+
+        <!--
+            配置与Menu的单向多对一关联,指定中间表为role_menu，
+            不要指定cascade="save-update"，否则关联menu时会使得menu的所有字段为null
+        -->
+        <set name="menuSet" table="role_menu" >
+            <!--
+                指定role在中间表中对应的外键；
+            -->
+            <key column="role_id"></key>
+            <!--column用来指定menu表在中间表中对应的外键-->
+            <many-to-many class="com.univ.entity.Menu" column="menu_id"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

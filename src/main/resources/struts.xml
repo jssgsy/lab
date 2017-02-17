@@ -140,6 +140,20 @@
             </result>
         </action>
 
+        <action name="roleAction" class="com.univ.action.RoleAction">
+            <result name="toList">/WEB-INF/jsp/role/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+            <result type="json" name="getAll">
+                <param name="root">roleList</param>
+            </result>
+        </action>
+
 
     </package>
 

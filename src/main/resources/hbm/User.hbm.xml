@@ -14,7 +14,6 @@
         <property name="password" column="password" />
         <property name="telephone" column="telephone"/>
         <property name="email" column="email"/>
-        <property name="role" column="role"/>
         <property name="sex" column="sex"/>
         <property name="birthday" column="birthday"/>
         <property name="enrolDate" column="enrolDate"/>
@@ -25,6 +24,9 @@
 
         <!--配置与LabRoom的多对一关系-->
         <many-to-one name="labRoom" column="labRoomId" class="com.univ.entity.LabRoom"/>
+
+        <!--配置与Role角色的多对一关系-->
+        <many-to-one name="role" column="roleId" class="com.univ.entity.Role"/>
 
     </class>
 
