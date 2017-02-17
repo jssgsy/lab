@@ -129,6 +129,17 @@
             </result>
         </action>
 
+        <action name="userRewardAction" class="com.univ.action.UserRewardAction">
+            <result name="toList">/WEB-INF/jsp/userReward/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+        </action>
+
 
     </package>
 

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.UserReward" table="userReward">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name" />
+        <property name="rewardDate" column="rewardDate" />
+        <property name="level" column="level" />
+        <property name="patented" column="patented" />
+        <property name="verified" column="verified" />
+        <property name="remark" column="remark" />
+
+        <!--
+            配置和User(获奖者)的单向多对一关联.
+        -->
+        <many-to-one name="user" column="userId" class="com.univ.entity.User"/>
+
+    </class>
+
+</hibernate-mapping>
