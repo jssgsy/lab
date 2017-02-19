@@ -18,7 +18,17 @@
 <div data-options="region:'north', title:'实验室管理系统', split:true" style="height: 100px;width: 100%;">
     <div style="margin: 3px 5px; ">
         <img src="<%=path%>/frontWeb/image/logo.jpg" alt="" height="60px" width="60px" align="top">
-        欢迎你 <%= ((User)session.getAttribute("currentUser")).getUsername() %> 当前日期：<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>
+        欢迎你 <%= ((User)session.getAttribute("currentUser")).getUsername() %>,
+        当前日期：
+        <div id="time" style="display: inline">
+            <script>
+                document.getElementById('time').innerHTML = new Date().toLocaleString()
+                    + ' 星期' + '日一二三四五六'.charAt(new Date().getDay());
+                setInterval(
+                    "document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",
+                    1000);
+            </script>
+        </div>
     </div>
 
     <div style="margin-bottom: 0px;margin-right: 3px;position: absolute;right:15px;bottom:10px">
