@@ -21,7 +21,7 @@
         欢迎你 <%= ((User)session.getAttribute("currentUser")).getUsername() %> 当前日期：<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>
     </div>
 
-    <div style="margin-bottom: 0px;margin-right: 3px;position: absolute;right:0;bottom:0">
+    <div style="margin-bottom: 0px;margin-right: 3px;position: absolute;right:15px;bottom:10px">
         <a href="<%=path%>/json/userAction!logout"  >退出登录</a>
     </div>
 
