@@ -33,4 +33,12 @@ public interface IUserService {
      * @return
      */
     List<User> getAll();
+
+    /**
+     * 通过用户名和密码查找相应的用户
+     * @param username
+     * @param password
+     * @return
+     */
+    User find(String username, String password);
 }

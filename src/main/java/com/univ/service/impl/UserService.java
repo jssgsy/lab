@@ -20,7 +20,7 @@ public class UserService implements IUserService {
     private IUserDao userDao;
 
     public boolean verified(User user) {
-        return userDao.contains(user);
+        return userDao.verified(user);
     }
 
     public boolean registered(String username) {
@@ -49,5 +49,9 @@ public class UserService implements IUserService {
 
     public List<User> getAll() {
         return userDao.getAll();
+    }
+
+    public User find(String username, String password) {
+        return userDao.find(username, password);
     }
 }

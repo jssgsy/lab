@@ -21,11 +21,11 @@ public interface IUserDao {
     void save(User user);
 
     /**
-     * 登录时查询此用户是否存在
+     * 登录时查询此用户是否存在,存在则返回此用户，否则返回null
      * @param user
      * @return
      */
-    boolean contains(User user);
+    boolean verified(User user);
 
     List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage);
 
@@ -36,4 +36,6 @@ public interface IUserDao {
     void delete(User user);
 
     List<User> getAll();
+
+    User find(String username, String password);
 }

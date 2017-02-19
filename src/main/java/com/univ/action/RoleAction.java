@@ -3,14 +3,12 @@ package com.univ.action;
 import com.univ.entity.EasyUIPage;
 import com.univ.entity.Menu;
 import com.univ.entity.Role;
-import com.univ.entity.User;
 import com.univ.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Univ

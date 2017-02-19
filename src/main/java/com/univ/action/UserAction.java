@@ -1,5 +1,6 @@
 package com.univ.action;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.univ.entity.EasyUIPage;
 import com.univ.entity.User;
 import com.univ.service.IUserService;
@@ -99,14 +100,23 @@ public class UserAction extends BaseAction{
      */
     public String login() {
         //todo:开发阶段跳过登录,需要时放开下面的注释即可
-       /* if (userService.verified(user)) {
-            //加入session
-            ActionContext.getContext().getSession().put(user.getUsername(), user);
+        if (userService.verified(user)) {//说明此用户已存在，需要注意，这里是将查找到的user放入session中，而不是原生的user,todo:这里其实只需要放入原生user即可，其它需要使用时再去查找数据库
+            //将当前用户加入session,注意存入的是硬编码的“currentUser”，便于在前台进行获取
+            ActionContext.getContext().getSession().put("currentUser", user);
             return "home";
         }
-        return "login";*/
 
-        return "home";
+        return "login";//全局视图
+    }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    public String logout(){
+        //在session中删除当前用户
+        ActionContext.getContext().getSession().remove("currentUser");
+        return "login";
     }
 
     public User getUser() {

@@ -16,7 +16,6 @@ import java.util.List;
 public class UserDao extends AbstractBaseDao implements IUserDao {
 
     public boolean registered(String username) {
-        //重要：:=后不能有空格。
         Query query = getCurrentSession().createQuery("from com.univ.entity.User as u where u.username =:username");
         query.setString("username", username);
         List list = query.list();
@@ -32,7 +31,8 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
         getCurrentSession().save(user);
     }
 
-    public boolean contains(User user) {
+
+    public boolean verified(User user) {
         Query query = getCurrentSession().createQuery("from com.univ.entity.User as u where u.username =:username " +
                 " and u.password =:password");
         query.setString("username", user.getUsername());
@@ -45,9 +45,15 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
     }
 
     public List<User> getPaginationWithQuery(User user, EasyUIPage easyUIPage) {
-        Query query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username and labRoom.name like :labRoomName");
-        query.setString("username", "%" + user.getUsername() + "%");
-        query.setString("labRoomName", "%" + user.getLabRoom().getName() + "%");
+        Query query = null;
+        if (user.getLabRoom().getName().equals("")) {//若是没有此条件，则不属于任何实验室的用户将查找不出来，todo：复查其它模块是否也有此问题
+            query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username");
+            query.setString("username", "%" + user.getUsername() + "%");
+        }else {
+            query = getCurrentSession().createQuery("from com.univ.entity.User where username like :username and labRoom.name like :labRoomName");
+            query.setString("username", "%" + user.getUsername() + "%");
+            query.setString("labRoomName", "%" + user.getLabRoom().getName() + "%");
+        }
         query.setFirstResult(easyUIPage.getWhichPage());
         query.setMaxResults(easyUIPage.getPageSize());
         return query.list();
@@ -71,6 +77,14 @@ public class UserDao extends AbstractBaseDao implements IUserDao {
 
     public List<User> getAll() {
         return getCurrentSession().createQuery("from com.univ.entity.User").list();
+    }
+
+    public User find(String username, String password) {
+        Query query = getCurrentSession().createQuery("from com.univ.entity.User as u where u.username =:username " +
+                " and u.password =:password");
+        query.setString("username", username);
+        query.setString("password", password);
+        return (User) query.uniqueResult();
     }
 
 }
