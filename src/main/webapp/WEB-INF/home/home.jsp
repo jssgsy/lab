@@ -16,8 +16,14 @@
 <body class="easyui-layout">
 
 <div data-options="region:'north', title:'实验室管理系统', split:true" style="height: 100px;width: 100%;">
-    欢迎你，<%= ((User)session.getAttribute("currentUser")).getUsername() %>，当前日期：<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>
-    <a href="<%=path%>/json/userAction!logout" class="easyui-linkbutton" >退出登录</a>
+    <div style="margin: 3px 5px; ">
+        <img src="<%=path%>/frontWeb/image/logo.jpg" alt="" height="60px" width="60px" align="top">
+        欢迎你 <%= ((User)session.getAttribute("currentUser")).getUsername() %> 当前日期：<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>
+    </div>
+
+    <div style="margin-bottom: 0px;margin-right: 3px;position: absolute;right:0;bottom:0">
+        <a href="<%=path%>/json/userAction!logout"  >退出登录</a>
+    </div>
 
 </div>
 
@@ -27,13 +33,15 @@
 
 <div  data-options="region:'center', showHeader:false " style="width: 80%;">
     <div id="globle_tabs" class="easyui-tabs" data-options="fit:true"><!-- 在最外层设置fit属性 -->
-        <div data-options="title:'欢迎页',border:false,closable:true" style="padding:10px;">
-            welcome。
+        <div data-options="title:'欢迎页面',border:false,closable:true" style="padding:10px;">
+            欢迎来到浙江工业大学实验室管理系统。
         </div>
     </div>
 </div>
 <div data-options="region:'south', title:'' " style="height: 10%;text-align: center;padding-top: 10px">
-    浙江工业大学屏峰校区计算机学院
+        浙江工业大学屏峰校区计算机学院<br>
+        地址：浙江省杭州市西湖区留下街道留和路288号<br>
+        电话：(0571)85290114
 </div>
 
 
