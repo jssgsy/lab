@@ -39,9 +39,6 @@ public class MenuAction extends BaseAction{
         User currentUser = userService.find(tempUser.getUsername(),tempUser.getPassword());
 
         //获取当前用户对应角色拥有的权限(即功能菜单menu)
-        System.out.println();
-        System.out.println(currentUser.getRole().getName()+ " --------------------");
-        System.out.println();
         Set<Menu> menuSet = currentUser.getRole().getMenuSet();
         Set<Long> menuSetIds = new HashSet<Long>();
         for (Menu m : menuSet) {
