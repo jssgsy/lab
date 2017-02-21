@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.Conference" table="conference">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="code" column="code" />
+        <property name="name" column="name" />
+        <property name="content" column="content" />
+        <property name="address" column="address" />
+        <property name="conferenceDate" column="conferenceDate" />
+        <property name="shouldArrivalNum" column="shouldArrivalNum" />
+        <property name="actualArrivalNum" column="actualArrivalNum" />
+        <property name="remark" column="remark" />
+
+        <!--配置和User(到会者)的单向多对多关联.-->
+        <set name="participatorSet" table="conference_user">
+            <key column="conferenceId"></key>
+            <many-to-many column="participatorId" class="com.univ.entity.User"></many-to-many>
+        </set>
+
+        <!--配置和会议主持人的单向多对一关联-->
+        <many-to-one name="host" column="hostId" class="com.univ.entity.User"/>
+
+    </class>
+
+</hibernate-mapping>
