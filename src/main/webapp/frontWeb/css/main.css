@@ -1,5 +1,10 @@
 
-/*覆写EasyUI的样式*/
+/*覆写EasyUI dialog的样式*/
 .dialog-button{
     text-align: center;
+}
+
+/*覆写EasyUI tree的样式*/
+.tree-node{
+    height: 23px;
 }

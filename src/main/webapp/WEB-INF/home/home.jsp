@@ -1,7 +1,4 @@
-<%@ page import="java.util.Date" %>
 <%@ page import="com.univ.entity.User" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -60,6 +57,8 @@
         $("#menu_nav_tree").tree({
             //-1：初次加载树
             url:'<%=path%>/json/menuAction!getMenuTree',
+            lines : true,
+            animate:true,
             onClick:function(node){
                 var url = '<%=path%>/json' + node.attributes.url;
                 if(node.attributes.url){//说明不是根节点

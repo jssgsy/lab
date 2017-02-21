@@ -82,6 +82,8 @@
 
         $("#menu_tree").tree({
             url:'<%=path%>/json/menuAction!getMenuTree',
+            lines: true,
+            animate:true,
             onClick:function(node){
                 $("#menu_name_update").textbox('setValue',node.text);
                 $("#menu_id_update").val(node.id);//便于传递到后台作为更新的id

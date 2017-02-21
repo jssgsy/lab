@@ -91,6 +91,8 @@
 
         $("#dictionary_tree").tree({
             url:'<%=path%>/json/dictionaryAction!getDictionaryTree',
+            lines: true,
+            animate:true,
             onClick:function(node){
                 $("#dic_name_update").textbox('setValue',node.text);
                 $("#dic_code_update").numberspinner('setValue',node.attributes.code);
