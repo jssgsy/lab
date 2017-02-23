@@ -183,6 +183,16 @@
             </result>
         </action>
 
+        <action name="monographAction" class="com.univ.action.MonographAction">
+            <result name="toList">/WEB-INF/jsp/monograph/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+        </action>
 
 
 

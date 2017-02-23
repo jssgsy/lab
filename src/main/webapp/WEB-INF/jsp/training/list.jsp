@@ -134,6 +134,7 @@
                 <td>备注:</td>
                 <td>
                     <textarea id="training_remark_update" name="training.remark" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+
                 </td>
             </tr>
         </table>
@@ -456,11 +457,39 @@
                     }
                 }
             },
+            {
+                field : '#',title : '操作',
+                formatter : function (value, row, index) {
+//                    return '<a id="training_a" href="javascript:verify(' + row.id + ')" >通过审核</a>';
+
+                    return '<a href="javascript:void(0);" onclick="verify(' + row.id + ')">通过审核</a>';
+                }
+            }
         ]],
         queryParams: {//和查询时发送的请求保持一致
             'training.name': '',
         }
     });
+
+    function verify(id) {
+
+        $.ajax({
+            url:'<%=path%>/json/trainingAction!verify',
+            type:'post',
+            dataType:'json',
+            data:{
+                'training.id' : id
+            },
+            success:function(data){
+                $.messager.show({
+                    title : '培训记录',
+                    msg : '审核通过!',
+                    timeout : 2000,
+                });
+                $("#trainingGrid").datagrid('reload');
+            }
+        });
+    }
 
 </script>
 

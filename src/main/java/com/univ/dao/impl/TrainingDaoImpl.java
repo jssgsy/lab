@@ -46,4 +46,8 @@ public class TrainingDaoImpl extends AbstractBaseDao implements TrainingDao {
     public List<Training> getAll() {
         return getCurrentSession().createQuery("from com.univ.entity.Training").list();
     }
+
+    public Training getById(Long id) {
+        return (Training) getCurrentSession().get(Training.class, id);
+    }
 }

@@ -43,4 +43,8 @@ public class TrainingServiceImpl implements TrainingService {
     public List<Training> getAll() {
         return trainingDao.getAll();
     }
+
+    public Training getById(Long id) {
+        return trainingDao.getById(id);
+    }
 }

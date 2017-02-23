@@ -21,4 +21,6 @@ public interface TrainingDao {
     void delete(Training training);
 
     List<Training> getAll();
+
+    Training getById(Long id);
 }

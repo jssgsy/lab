@@ -85,6 +85,13 @@ public class TrainingAction extends BaseAction {
         return "getAll";
     }
 
+    public String verify(){
+        training = trainingService.getById(training.getId());
+        training.setWasVerified(true);//审核通过
+        trainingService.update(training);
+        return "dml";
+    }
+
     public Training getTraining() {
         return training;
     }

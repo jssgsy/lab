@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.Monograph" table="monograph">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="code" column="code" />
+        <property name="name" column="name" />
+        <property name="hiredInstitution" column="hiredInstitution" />
+        <property name="publishDate" column="publishDate" />
+        <property name="level" column="level" />
+        <property name="wasVerified" column="wasVerified" />
+        <property name="remark" column="remark" />
+
+        <!--配置和User(作者)的单向多对多关联.-->
+        <set name="authorSet" table="monograph_user">
+            <key column="monographId"></key>
+            <many-to-many column="authorId" class="com.univ.entity.User"></many-to-many>
+        </set>
+
+    </class>
+
+</hibernate-mapping>
