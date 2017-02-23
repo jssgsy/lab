@@ -26,9 +26,9 @@ public class Training {
 
     private Date trainingDate;//培训日期
 
-    private User user;//
+    private User user;//培训人
 
-    private Boolean wasVerified;//是否通过审核
+    private Boolean wasVerified = false;//默认为需要审核
 
     private String remark;
 

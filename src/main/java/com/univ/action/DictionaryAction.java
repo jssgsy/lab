@@ -106,6 +106,15 @@ public class DictionaryAction extends ActionSupport{
     }
 
     /**
+     * 其它模块某项引用数据字典中的内容时，调用此方法以显示对应项的名称
+     * @return
+     */
+    public String getById(){
+        dictionary = dictionaryService.getById(dictionary.getId());
+        jsonMsg.put("result", dictionary.getName());
+        return "dml";
+    }
+    /**
      * 作页面跳转使用
      * @return
      */

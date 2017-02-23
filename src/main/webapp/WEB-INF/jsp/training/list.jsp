@@ -38,7 +38,7 @@
 
             <tr>
                 <td>培训类别:</td>
-                <td><input id="training_trainingType_add" name="training.trainingType.id" style="width:172px;"></td>
+                <td><input id="training_trainingType_add" name="training.trainingType" style="width:172px;"></td>
             </tr>
 
             <tr>
@@ -64,13 +64,14 @@
                 <td><input class="easyui-datebox" name="training.trainingDate" style="width:172px;"></td>
             </tr>
 
-            <tr>
+            <%--todo:默认新增应为待审核，且不允许更新，在管理员页面提供审核通过按钮--%>
+            <%--<tr>
                 <td>审核状态:</td>
                 <td>
                     <input type="radio" name="training.wasVerified" value="true">审核通过
                     <input type="radio" name="training.wasVerified" value="false">待审核
                 </td>
-            </tr>
+            </tr>--%>
 
             <tr>
                 <td>备注:</td>
@@ -88,20 +89,22 @@
         <table cellspacing="15px" style="text-align: right;padding: 5px 5px;">
             <tr>
                 <td>培训编号:</td>
-                <td><input id="train_code_update" name="training.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td><input id="training_code_update" name="training.code" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
             </tr>
             <tr>
                 <td>培训名称:</td>
-                <td><input id="train_name_update" name="training.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <td><input id="training_name_update" name="training.name" class="easyui-textbox" data-options="required:true" style="width:172px;"></td>
+                <input type="hidden" id="training_id_update" name="training.id">
+
             </tr>
             <tr>
                 <td>培训内容:</td>
-                <td><input id="train_content_update" name="training.content" class="easyui-textbox" style="width:172px;"></td>
+                <td><input id="training_content_update" name="training.content" class="easyui-textbox" style="width:172px;"></td>
             </tr>
 
             <tr>
                 <td>培训类别:</td>
-                <td><input id="training_trainingType_update" name="training.trainingType.id" style="width:172px;"></td>
+                <td><input id="training_trainingType_update" name="training.trainingType" style="width:172px;"></td>
             </tr>
 
             <tr>
@@ -111,34 +114,26 @@
             <tr>
                 <td>培训地址:</td>
                 <td>
-                    <input id="train_address_update" name="training.address" class="easyui-textbox" style="width:172px;">
+                    <input id="training_address_update" name="training.address" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
 
             <tr>
                 <td>培训小结:</td>
                 <td>
-                    <input id="train_summary_update" name="training.summary" class="easyui-textbox" style="width:172px;">
+                    <input id="training_summary_update" name="training.summary" class="easyui-textbox" style="width:172px;">
                 </td>
             </tr>
 
             <tr>
                 <td>培训日期:</td>
-                <td><input id="train_trainingDate_update" class="easyui-datebox" name="training.trainingDate" style="width:172px;"></td>
-            </tr>
-
-            <tr>
-                <td>审核状态:</td>
-                <td>
-                    <input type="radio" id="train_wasVerified_yes_update" name="training.wasVerified" value="true">审核通过
-                    <input type="radio" id="train_wasVerified_no_update" name="training.wasVerified" value="false">待审核
-                </td>
+                <td><input id="training_trainingDate_update" class="easyui-datebox" name="training.trainingDate" style="width:172px;"></td>
             </tr>
 
             <tr>
                 <td>备注:</td>
                 <td>
-                    <textarea id="train_remark_update" name="training.remark" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
+                    <textarea id="training_remark_update" name="training.remark" rows="10" class="textbox" style="resize:none;width:160px;white-space:pre-wrap;padding: 5px"></textarea>
                 </td>
             </tr>
         </table>
@@ -176,6 +171,30 @@
             onClick : function(){
                 $("#add_training_dialog").css("display","block");
                 $("#add_training_form").form('clear');
+
+                //培训类别
+                $("#training_trainingType_add").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '培训类别',
+                    },
+                    valueField:'id',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }],
+                    onLoadSuccess : function () {//默认选中第一项
+                        var data = $("#training_trainingType_add").combobox('getData');
+                        if(data.length > 0){
+                            $("#training_trainingType_add").combobox('setValue', data[0].code);
+                        }
+                    }
+                });
 
                 //培训人
                 $("#training_user_add").combobox({
@@ -234,7 +253,8 @@
         $("#training_update_btn").linkbutton({
             iconCls : 'icon-edit',
             onClick : function(){
-                $("#training_director_update").combobox({
+                //培训人
+                $("#training_user_update").combobox({
                     url:'<%=path%>/json/userAction!getAll',
                     valueField:'id',
                     textField:'username',
@@ -245,6 +265,24 @@
                             $(e.data.target).combobox('clear');
                         }
                     }]
+                });
+
+                //培训类别
+                $("#training_trainingType_update").combobox({
+                    url:'<%=path%>/json/dictionaryAction!getTopX',
+                    queryParams : {
+                        topX : '培训类别',
+                    },
+                    valueField:'id',
+                    textField:'name',
+                    panelHeight : true,
+                    editable:false,
+                    icons:[{
+                        iconCls:'icon-clear',
+                        handler:function(e){
+                            $(e.data.target).combobox('clear');
+                        }
+                    }],
                 });
 
                 var row = $("#trainingGrid").datagrid('getSelected');
@@ -298,19 +336,23 @@
                 //给各字段赋值
                 $("#training_code_update").textbox('setValue',row.code);
                 $("#training_name_update").textbox('setValue',row.name);
-                $("#train_content_update").textbox('setValue',row.content);
+                $("#training_content_update").textbox('setValue',row.content);
                 $("#training_address_update").textbox('setValue', row.address);
-//                需要完善
-                $("#training_trainingType_update").combobox('setValue', row.trainingType);
-                $("#training_user_update").combobox('setValue', row.user.username);
-                $("#train_trainingDate_update").datebox('setValue',row.trainingDate);
-                $("#train_summary_update").textbox('setValue',row.summary);
-                if(row.wasVerified){
-                    $("#train_wasVerified_yes_update").attr("checked",true);
-                }else{
-                    $("#train_wasVerified_no_update").attr("checked",true);
+
+                //培训类别
+                if(row.trainingType){//只有有值时才赋值，否则使用默认值
+                    $("#training_trainingType_update").combobox('setValue', row.trainingType);
+                }else {
+                    var data = $("#training_trainingType_update").combobox('getData');
+                    if(data.length > 0){
+                        $("#training_trainingType_update").combobox('setValue', data[0].code);
+                    }
                 }
-                $("#train_remark_update").val(row.summary);
+
+                $("#training_user_update").combobox('setValue', row.user.id);
+                $("#training_trainingDate_update").datebox('setValue',row.trainingDate);
+                $("#training_summary_update").textbox('setValue',row.summary);
+                $("#training_remark_update").val(row.remark);
 
             }
         })
@@ -368,13 +410,21 @@
             {field: 'name', title: '培训名称'},
             {field: 'content', title: '培训内容'},
             {
-                field: 'director', title: '培训类别',
+                field: 'trainingType', title: '培训类别',
                 formatter: function (value, row, index) {
-                    if (row.director) {
-                        return row.director.username;
-                    } else {
-                        return value;
-                    }
+                     $.ajax({
+                        url:'<%=path%>/json/dictionaryAction!getById',
+                        type:'post',
+                        async: false,
+                        dataType:'json',
+                        data:{
+                            'dictionary.id':value
+                        },
+                        success:function(data){
+                            value =  data.result;
+                        }
+                    });
+                    return value;
                 }
             },
             {
@@ -395,6 +445,7 @@
                     return getDate(value);
                 }
             },
+            {field: 'remark', title: '备注'},
             {
                 field: 'wasVerified', title: '审核状态',
                 formatter : function (value, row, index) {
@@ -405,7 +456,6 @@
                     }
                 }
             },
-            {field: 'remark', title: '备注'},
         ]],
         queryParams: {//和查询时发送的请求保持一致
             'training.name': '',

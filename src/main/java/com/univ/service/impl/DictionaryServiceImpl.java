@@ -46,4 +46,8 @@ public class DictionaryServiceImpl implements DictionaryService {
     public void delete(Dictionary Dictionary) {
         dictionaryDao.delete(Dictionary);
     }
+
+    public Dictionary getById(Long id) {
+        return dictionaryDao.getById(id);
+    }
 }

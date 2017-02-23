@@ -22,4 +22,6 @@ public interface DictionaryDao {
     void save(Dictionary dictionary);
 
     void delete(Dictionary dictionary);
+
+    Dictionary getById(Long id);
 }

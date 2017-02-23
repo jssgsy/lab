@@ -62,4 +62,8 @@ public class DictionaryDaoImpl extends AbstractBaseDao implements DictionaryDao 
     public void delete(Dictionary Dictionary) {
         getCurrentSession().delete(Dictionary);
     }
+
+    public Dictionary getById(Long id) {
+        return (Dictionary) getCurrentSession().get(Dictionary.class, id);
+    }
 }

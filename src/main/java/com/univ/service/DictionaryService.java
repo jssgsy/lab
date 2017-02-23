@@ -52,4 +52,6 @@ public interface DictionaryService {
      * @param dictionary
      */
     void delete(Dictionary dictionary);
+
+    Dictionary getById(Long id);
 }

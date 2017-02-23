@@ -8,3 +8,4 @@ function getDate(value){
         return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
     }
 }
+
