@@ -48,34 +48,37 @@ public class MenuAction extends BaseAction{
         tree = new ArrayList<EasyUITreeNode>();
         menuList = menuService.getTopMenus();
         for (Menu menu : menuList) {
-            EasyUITreeNode node = new EasyUITreeNode();
-            //2.映射根节点
-            node.setId(menu.getId());
-            node.setText(menu.getName());
-            Map<String, Object> attributes = node.getAttributes();
-            attributes.put("px", menu.getPx());
-            attributes.put("url", menu.getUrl());
-            attributes.put("parent", menu.getParent());
-            node.setAttributes(attributes);
 
-            if (menuService.hasChildren(menu.getId())) {
-                List<Menu> children = menuService.getChildrenById(menu.getId());
-                for (Menu child : children) {
-                    if (menuSetIds.contains(child.getId())) {//此权限(menu)在当前用户所属角色拥有的权限
-                        EasyUITreeNode childNode = new EasyUITreeNode();
-                        //2.映射子节点
-                        childNode.setId(child.getId());
-                        childNode.setText(child.getName());
-                        Map<String, Object> attributes1 = childNode.getAttributes();
-                        attributes1.put("px", child.getPx());
-                        attributes1.put("url", child.getUrl());
-                        attributes1.put("parent", child.getParent());
-                        childNode.setAttributes(attributes1);
-                        node.getChildren().add(childNode);
+            if( menuSetIds.contains(menu.getId()) ){
+                EasyUITreeNode node = new EasyUITreeNode();
+                //2.映射根节点
+                node.setId(menu.getId());
+                node.setText(menu.getName());
+                Map<String, Object> attributes = node.getAttributes();
+                attributes.put("px", menu.getPx());
+                attributes.put("url", menu.getUrl());
+                attributes.put("parent", menu.getParent());
+                node.setAttributes(attributes);
+                if (menuService.hasChildren(menu.getId())) {
+                    List<Menu> children = menuService.getChildrenById(menu.getId());
+                    for (Menu child : children) {
+                        if (menuSetIds.contains(child.getId())) {//此权限(menu)在当前用户所属角色拥有的权限
+                            EasyUITreeNode childNode = new EasyUITreeNode();
+                            //2.映射子节点
+                            childNode.setId(child.getId());
+                            childNode.setText(child.getName());
+                            Map<String, Object> attributes1 = childNode.getAttributes();
+                            attributes1.put("px", child.getPx());
+                            attributes1.put("url", child.getUrl());
+                            attributes1.put("parent", child.getParent());
+                            childNode.setAttributes(attributes1);
+                            node.getChildren().add(childNode);
+                        }
                     }
                 }
+                tree.add(node);
             }
-            tree.add(node);
+
         }
 
         return "easyUiTree";
@@ -102,6 +105,10 @@ public class MenuAction extends BaseAction{
             attributes.put("url", menu.getUrl());
             attributes.put("parent", menu.getParent());
             node.setAttributes(attributes);
+
+            if (linkedMenuIds.contains(menu.getId())) {
+                node.setChecked(true);
+            }
 
             if (menuService.hasChildren(menu.getId())) {
                 List<Menu> children = menuService.getChildrenById(menu.getId());

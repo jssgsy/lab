@@ -194,6 +194,20 @@
             </result>
         </action>
 
+        <action name="labFundAction" class="com.univ.action.LabFundAction">
+            <result name="toList">/WEB-INF/jsp/labFund/list.jsp</result>
+            <result type="json" name="dataGrid">
+                <param name="root">jsonMap</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result type="json" name="dml">
+                <param name="root">jsonMap</param>
+            </result>
+            <result type="json" name="getAll">
+                <param name="root">labFundList</param>
+            </result>
+        </action>
+
 
 
     </package>

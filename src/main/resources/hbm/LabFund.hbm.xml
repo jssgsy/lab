@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+
+    <class name="com.univ.entity.LabFund" table="labFund">
+        <id name ="id" column="id">
+            <generator class="increment"/>
+        </id>
+
+        <property name="code" column="code" />
+        <property name="content" column="content" />
+        <property name="totalPrice" column="totalPrice" />
+        <property name="fundType" column="fundType" />
+        <property name="applyDate" column="applyDate" />
+        <property name="remark" column="remark" />
+
+        <!--
+            配置与User(经手人)的多对一关系.
+        -->
+        <many-to-one name="keeper" column="userId" class="com.univ.entity.User"/>
+
+        <!--
+            配置与LabRoom(实验室)的多对一关系.
+        -->
+        <many-to-one name="labRoom" column="labRoomId" class="com.univ.entity.LabRoom"/>
+
+
+
+    </class>
+
+
+</hibernate-mapping>
